@@ -43,4 +43,5 @@ public class Product {
     public int getDiscontinued() {
         return discontinued;
     }
+
 }
