@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ProductController {
-    @GetMapping("/product")
-    public String showProduct(Model model){
+    @GetMapping("/product/{id}")
+    public String showProduct(int id,Model model){
         Product p = new Product(1,"pippo", 1,1,1.00,1);
+
         model.addAttribute("product", p);
         return "show-product";
     }
