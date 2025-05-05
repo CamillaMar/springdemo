@@ -31,6 +31,5 @@ public class ProductController {
         } catch (DataException e) {
             throw new RuntimeException(e);
         }
-
     }
 }
