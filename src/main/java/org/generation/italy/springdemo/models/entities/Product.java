@@ -1,21 +1,36 @@
 package org.generation.italy.springdemo.models.entities;
 
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
+
+@Entity
+@Table(name="products")
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "productid")
     private int productId;
+    @Column(name = "productname")
     private String productName;
-    private int supplierId;
-    private int categoryId;
-    private double unitPrice;
+    @ManyToOne
+    @JoinColumn (name = "supplierid")
+    private Supplier supplier;
+    @ManyToOne
+    @JoinColumn (name = "categoryid")
+    private Category category;
+    @Column(name = "unitprice")
+    private BigDecimal unitPrice;
     private int discontinued;
 
     public Product(){
     }
 
-    public Product(int productId, String productName, int supplierId, int categoryId, double unitPrice, int discontinued) {
+    public Product(int productId, String productName, Supplier supplierId, Category categoryId, BigDecimal unitPrice, int discontinued) {
         this.productId = productId;
         this.productName = productName;
-        this.supplierId = supplierId;
-        this.categoryId = categoryId;
+        this.supplier = supplierId;
+        this.category = categoryId;
         this.discontinued = discontinued;
         this.unitPrice = unitPrice;
     }
@@ -28,15 +43,7 @@ public class Product {
         return productName;
     }
 
-    public int getSupplierId() {
-        return supplierId;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public double getUnitPrice() {
+    public BigDecimal getUnitPrice() {
         return unitPrice;
     }
 
