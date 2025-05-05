@@ -12,6 +12,6 @@ public class JpaProductRepository implements ProductRepository{
     private EntityManager em;
     @Override
     public Optional<Product> findById(int id) {
-        return Optional.ofNullable(em.find(Product.class, id));
+        return Optional.ofNullable(em.find(Product.class,id));
     }
 }

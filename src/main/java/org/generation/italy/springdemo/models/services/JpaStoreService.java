@@ -18,6 +18,6 @@ public class JpaStoreService implements StoreService{
 
     @Override
     public Optional<Product> findProductById(int id) throws DataException {
-        return Optional.empty();
+        return productRepo.findById(id);
     }
 }

@@ -5,28 +5,22 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "products")
+@Table(name="products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "productid")
     private int productId;
-
     @Column(name = "productname")
     private String productName;
-
     @ManyToOne
-    @JoinColumn(name = "supplierid")
+    @JoinColumn (name = "supplierid")
     private Supplier supplier;
-
     @ManyToOne
-    @JoinColumn(name = "categoryid")
+    @JoinColumn (name = "categoryid")
     private Category category;
-
     @Column(name = "unitprice")
     private BigDecimal unitPrice;
-
-    //si chiama esattamente come nel database quindi non mettiamo niente
     private int discontinued;
 
     public Product(){
@@ -56,5 +50,4 @@ public class Product {
     public int getDiscontinued() {
         return discontinued;
     }
-
 }

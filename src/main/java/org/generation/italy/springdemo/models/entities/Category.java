@@ -10,24 +10,20 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "categoryid")
     private int categoryId;
-
-    @Column(name = "categoryname")
+    @Column (name = "categoryname")
     private String categoryName;
     private String description;
 
     @OneToMany(mappedBy = "category")
-    private List<Product> category;
+    private List<Product> products;
 
-    public Category(){
+    public Category() {
     }
 
     public Category(String categoryName, String description) {
         this.categoryName = categoryName;
         this.description = description;
     }
-
-    @OneToMany(mappedBy = "supplier")
-    private List<Product> products;
 
     public int getCategoryId() {
         return categoryId;
@@ -49,5 +45,4 @@ public class Category {
     public void setDescription(String description) {
         this.description = description;
     }
-
 }
