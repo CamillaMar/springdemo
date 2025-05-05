@@ -1,19 +1,14 @@
 package org.generation.italy.springdemo.models.repositories;
 
-import jakarta.persistence.EntityManager;
 import org.generation.italy.springdemo.models.entities.Product;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import java.util.Optional;
+import java.util.List;
 
-@Repository
-public class JpaProductRepository implements ProductRepository{
-    @Autowired
-    private EntityManager em;
-
-    @Override
-    public Optional<Product> findById(int id) {
-        return Optional.ofNullable(em.find(Product.class, id));
-    }
+public interface JpaProductRepository extends JpaRepository<Product, Integer> {
+    List<Product> findByProductNameContains(String name);
+    @Query("SELECT p FROM Product p WHERE discontinued = :discontinued")
+    List<Product> findByDiscontinued(@Param("discontinued") int discontinued);
 }

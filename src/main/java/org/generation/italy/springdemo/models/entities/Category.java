@@ -17,7 +17,7 @@ public class Category {
 
     private String description;
 
-    @OneToMany (mappedBy = "category")
+    @OneToMany (mappedBy = "category", fetch = FetchType.EAGER)
     private List<Product> products;
 
     public Category() {
@@ -47,5 +47,9 @@ public class Category {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Product> getProducts() {
+        return products;
     }
 }
