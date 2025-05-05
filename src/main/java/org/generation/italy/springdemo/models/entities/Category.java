@@ -1,0 +1,48 @@
+package org.generation.italy.springdemo.models.entities;
+
+import jakarta.persistence.*;
+import java.util.List;
+
+@Entity
+@Table (name = "categories")
+public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "categoryid")
+    private int categoryId;
+    @Column(name = "categoryname")
+    private String categoryName;
+    private int description;
+
+    @OneToMany(mappedBy = "category") // category non è la classe ma l'attributo category in Product
+    private List<Product> products;
+
+    public Category() {
+    }
+
+    public Category(String categoryName, int description) {
+        this.categoryName = categoryName;
+        this.description = description;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public int getDescription() {
+        return description;
+    }
+    public void setDescription(int description) {
+        this.description = description;
+    }
+}
