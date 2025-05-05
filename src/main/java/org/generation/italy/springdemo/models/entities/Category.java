@@ -14,7 +14,8 @@ public class Category {
     private String categoryName;
     private String description;
 
-    @OneToMany(mappedBy = "category")
+    //quando carichiamo una lista di categorie vogliamo sempre vedere tutti i prodotti per tutte le categorie
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     private List<Product> products;
 
     public Category() {
