@@ -12,7 +12,7 @@ public class Category {
     private int categoryId;
     @Column(name = "categoryname")
     private String categoryName;
-    private int description;
+    private String description;
 
     @OneToMany(mappedBy = "category") // category non è la classe ma l'attributo category in Product
     private List<Product> products;
@@ -20,7 +20,7 @@ public class Category {
     public Category() {
     }
 
-    public Category(String categoryName, int description) {
+    public Category(String categoryName, String description) {
         this.categoryName = categoryName;
         this.description = description;
     }
@@ -39,10 +39,17 @@ public class Category {
         this.categoryName = categoryName;
     }
 
-    public int getDescription() {
+    public String getDescription() {
         return description;
     }
-    public void setDescription(int description) {
+    public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

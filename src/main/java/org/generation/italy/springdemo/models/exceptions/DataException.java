@@ -1,6 +1,6 @@
 package org.generation.italy.springdemo.models.exceptions;
 
-public class DataException extends RuntimeException {
+public class DataException extends Exception {
     public DataException(String message, Throwable cause) {
         super(message, cause);
     }
