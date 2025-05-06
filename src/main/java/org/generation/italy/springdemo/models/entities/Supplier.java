@@ -5,34 +5,34 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table (name = "suppliers")
+@Table(name = "suppliers")
 public class Supplier {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    @Column (name = "supplierid")
+    @Column(name = "supplierid")
     private int supplierId;
 
-    @Column (name = "companyname")
+    @Column(name = "companyname")
     private String companyName;
 
-    @Column (name = "contactname")
+    @Column(name = "contactname")
     private String contactName;
 
-    @Column (name = "contacttitle")
+    @Column(name = "contacttitle")
     private String contactTitle;
 
     private String address;
     private String city;
     private String region;
 
-    @Column (name = "postalcode")
+    @Column(name = "postalcode")
     private String postalCode;
 
     private String country;
     private String phone;
     private String fax;
 
-    @OneToMany (mappedBy = "supplier")
+    @OneToMany(mappedBy = "supplier")
     private List<Product> products;
 
     public Supplier() {

@@ -5,25 +5,25 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table (name = "products")
+@Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    @Column (name = "productid")
+    @Column(name = "productid")
     private int productId;
 
-    @Column (name = "productname")
+    @Column(name = "productname")
     private String productName;
 
     @ManyToOne
-    @JoinColumn (name = "supplierid")
+    @JoinColumn(name = "supplierid")
     private Supplier supplier;
 
     @ManyToOne
-    @JoinColumn (name = "categoryid")
+    @JoinColumn(name = "categoryid")
     private Category category;
 
-    @Column (name = "unitprice")
+    @Column(name = "unitprice")
     private BigDecimal unitPrice;
 
     private int discontinued;
