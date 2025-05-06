@@ -1,6 +1,7 @@
 package org.generation.italy.springdemo.models.entities;
 
 import jakarta.persistence.*;
+
 import java.util.List;
 
 @Entity
@@ -10,7 +11,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "categoryid")
     private int categoryId;
-    @Column (name = "categoryname")
+    @Column(name = "categoryname")
     private String categoryName;
     private String description;
 
@@ -20,25 +21,24 @@ public class Category {
     public Category() {
     }
 
-    public Category(String categoryName, String description) {
+    public Category(int categoryid, String categoryName, String description){
         this.categoryName = categoryName;
         this.description = description;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
 
-    public int getCategoryId() {
+    public int getCategoryid() {
         return categoryId;
     }
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+
+    public void setCategoryid(int categoryid) {
+        this.categoryId = categoryid;
     }
 
     public String getCategoryName() {
         return categoryName;
     }
+
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
@@ -46,6 +46,7 @@ public class Category {
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }

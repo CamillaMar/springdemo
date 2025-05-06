@@ -9,15 +9,14 @@ import java.math.BigDecimal;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "productid")
     private int productId;
     @Column(name = "productname")
     private String productName;
     @ManyToOne
-    @JoinColumn (name = "supplierid")
+    @JoinColumn(name = "supplierid")
     private Supplier supplier;
     @ManyToOne
-    @JoinColumn (name = "categoryid")
+    @JoinColumn(name = "categoryid")
     private Category category;
     @Column(name = "unitprice")
     private BigDecimal unitPrice;
@@ -41,6 +40,14 @@ public class Product {
 
     public String getProductName() {
         return productName;
+    }
+
+    public Supplier getSupplierId() {
+        return supplier;
+    }
+
+    public Category getCategoryId() {
+        return category;
     }
 
     public BigDecimal getUnitPrice() {
