@@ -50,7 +50,7 @@ public class ProductController {
             if(op.isPresent()) {
                 model.addAttribute("product", op.get());
                 return "show-product";
-            }else{
+            } else {
                 return "missing-product";
             }
         } catch (DataException e) {
