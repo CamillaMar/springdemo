@@ -18,9 +18,9 @@ public class ProductController {
     private StoreService storeService;
     public ProductController(StoreService storeService) {
         this.storeService = storeService;
-    }
+    } // dipendenza di injection con spring
 
-    @GetMapping("/product")
+    @GetMapping("/product") //
     public String searchProducts(@RequestParam(required = false) String name,@RequestParam(required = false) Integer discontinued, Model model){
         try{
             List<Product> result = null;

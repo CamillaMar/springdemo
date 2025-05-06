@@ -20,7 +20,7 @@ public class JpaStoreService implements StoreService{
     private JpaCategoryRepository categoryRepo;
 
 
-    @Autowired
+    @Autowired // iniezione dei due repository
     public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;

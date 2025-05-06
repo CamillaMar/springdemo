@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
-@Entity
-@Table(name="products")
+@Entity    // Entity rappresenta ogni riga di quella tabella
+@Table(name="products") // riferimento alla tabella di interesse
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
