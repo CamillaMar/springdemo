@@ -22,4 +22,3 @@ public class OrderDetailsId {
         return Objects.hash(orderId, productId);
     }
 }
-

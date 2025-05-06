@@ -1,6 +1,8 @@
 package org.generation.italy.springdemo.models.entities;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,9 +16,8 @@ public class Category {
     private String categoryName;
     private String description;
 
-    //quando carichiamo una lista di categorie vogliamo sempre vedere tutti i prodotti per tutte le categorie
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
-    private List<Product> products;
+    @OneToMany(mappedBy = "category")
+    private List<Product> products = new ArrayList<>();
 
     public Category() {
     }
