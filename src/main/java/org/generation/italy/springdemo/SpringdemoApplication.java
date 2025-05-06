@@ -12,37 +12,13 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootApplication
-public class SpringdemoApplication implements CustomProductRepository {
+public class SpringdemoApplication {
 	@Autowired
 	private EntityManager em;
 
+	//aggiunto per testare DevTools
 	public static void main(String[] args) {
 		SpringApplication.run(SpringdemoApplication.class, args);
-	}
-
-	@Override
-	public Optional<Product> findById(int id){
-		return Optional.ofNullable(em.find(Product.class,id));
-	}
-
-	@Override
-	public List<Product> findAll() throws DataException {
-		return List.of();
-	}
-
-	@Override
-	public Product save(Product product) {
-		return null;
-	}
-
-	@Override
-	public boolean deleteById(int id) {
-		return false;
-	}
-
-	@Override
-	public boolean update(Product newProduct) {
-		return false;
 	}
 
 }
