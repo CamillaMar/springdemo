@@ -11,7 +11,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "custid")
-    private int customerId;
+    private int custId;
     @Column(name = "companyname")
     private String companyName;
     @Column(name = "contactname")
@@ -33,8 +33,8 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(int customerId, String companyName, String contactName, String contactTitle, String address, String city, String region, String postalCode, String country, String phone, String fax) {
-        this.customerId = customerId;
+    public Customer(int custId, String companyName, String contactName, String contactTitle, String address, String city, String region, String postalCode, String country, String phone, String fax) {
+        this.custId = custId;
         this.companyName = companyName;
         this.contactName = contactName;
         this.contactTitle = contactTitle;
@@ -47,12 +47,12 @@ public class Customer {
         this.fax = fax;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public int getCustId() {
+        return custId;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustId(int custId) {
+        this.custId = custId;
     }
 
     public String getCompanyName() {

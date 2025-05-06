@@ -2,7 +2,6 @@ package org.generation.italy.springdemo.models.entities;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,7 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "empid")
-    private int employeeId;
+    private int empId;
     @Column(name = "lastname")
     private String lastName;
     @Column(name = "firstname")
@@ -42,8 +41,8 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(int employeeId, String lastName, String firstName, String title, String titleOfCourtesy, LocalDateTime birthDate, LocalDateTime hireDate, String address, String city, String region, String postalCode, String country, String phone, Employee manager) {
-        this.employeeId = employeeId;
+    public Employee(int empId, String lastName, String firstName, String title, String titleOfCourtesy, LocalDateTime birthDate, LocalDateTime hireDate, String address, String city, String region, String postalCode, String country, String phone, Employee manager) {
+        this.empId = empId;
         this.lastName = lastName;
         this.firstName = firstName;
         this.title = title;
@@ -59,12 +58,12 @@ public class Employee {
         this.manager = manager;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
+    public int getEmpId() {
+        return empId;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setEmpId(int empId) {
+        this.empId = empId;
     }
 
     public String getLastName() {
