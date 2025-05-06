@@ -6,6 +6,7 @@ import org.generation.italy.springdemo.models.services.StoreService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
@@ -17,7 +18,7 @@ public class ProductController {
         this.storeService = storeService;
     }
 
-    @GetMapping("/product/{id}")
+    @GetMapping("/product/")
     public String showProduct(int id,Model model){
         //Product p = new Product(1,"pippo", 1,1,1.00,1);
         try {
@@ -32,5 +33,20 @@ public class ProductController {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @GetMapping("/product/{id}")
+    public String showProduct(@PathVariable Integer id, Model model){
+        try{
+            Optional<Product> op = storeService.findProductById(id);
+            if(op.isPresent()){
+                model.addAttribute("product", op.get());
+                return "show-product";
+            } else {
+                return "missing-product";
+            }
+        } catch (DataException e){
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,11 +1,16 @@
 package org.generation.italy.springdemo.models.repositories;
 
 import org.generation.italy.springdemo.models.entities.Product;
-import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-public class JpaProductRepository implements ProductRepository{
-    @Override
-    public Optional<Product> findById(int id) {
-        return Optional.empty();
-    }
+import java.util.List;
+
+@Repository
+public interface JpaProductRepository extends JpaRepository<Product,Integer> {
+    List<Product> findByProductNameContains(String name);
+    @Query("SELECT p FROM Product p WHERE discontinued = :discontinued")
+    List<Product> findByDiscontinued(@Param("discontinued") int discontinued);
 }
