@@ -1,7 +1,6 @@
 package org.generation.italy.springdemo.controllers;
 
 import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.services.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;

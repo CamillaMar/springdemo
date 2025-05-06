@@ -25,9 +25,9 @@ public class ProductController {
         try {
             List<Product> result = null;
             if(name != null) {
-                result = storeService.findByNameContains(name);
+                result = storeService.findByProductNameContains(name);
             } else if(discontinued != null){
-                result = storeService.findProductByDiscontinued(discontinued);
+                result = storeService.findProductsByDiscontinued(discontinued);
             } else {
                 result = storeService.findAllProducts();
             }

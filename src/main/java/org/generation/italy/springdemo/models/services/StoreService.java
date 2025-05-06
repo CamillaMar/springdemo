@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface StoreService {
     Optional<Product> findProductById(int id) throws DataException;
     Optional<Category> findCategoryById(int id) throws DataException;
-    List<Product> findByNameContains(String name) throws DataException;
-    List<Product> findProductByDiscontinued(int discontinued) throws DataException;
+    List<Product> findByProductNameContains(String name) throws DataException;
+    List<Product> findProductsByDiscontinued(int discontinued) throws DataException;
     List<Product> findAllProducts() throws DataException;
 }

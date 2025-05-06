@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table( name = "suppliers")
-public class Supplier {
+@Table( name = "customers")
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "supplierid")
-    private int supplierId;
+    @Column(name = "custid")
+    private int customerId;
     @Column(name = "companyname")
     private String companyName;
     @Column(name = "contactname")
@@ -27,14 +27,14 @@ public class Supplier {
     private String phone;
     private String fax;
 
-    @OneToMany(mappedBy = "supplier")
-    private List<Product> products;
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders = new ArrayList<>();
 
-    public Supplier() {
-        this.products = new ArrayList<>();
+    public Customer() {
     }
 
-    public Supplier(String companyName, String contactName, String contactTitle, String address, String city, String region, String postalCode, String country, String phone, String fax, List<Product> products) {
+    public Customer(int customerId, String companyName, String contactName, String contactTitle, String address, String city, String region, String postalCode, String country, String phone, String fax) {
+        this.customerId = customerId;
         this.companyName = companyName;
         this.contactName = contactName;
         this.contactTitle = contactTitle;
@@ -45,19 +45,20 @@ public class Supplier {
         this.country = country;
         this.phone = phone;
         this.fax = fax;
-        this.products = products;
     }
 
-    public int getSupplierId() {
-        return supplierId;
+    public int getCustomerId() {
+        return customerId;
     }
-    public void setSupplierId(int supplierId) {
-        this.supplierId = supplierId;
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public String getCompanyName() {
         return companyName;
     }
+
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
@@ -65,6 +66,7 @@ public class Supplier {
     public String getContactName() {
         return contactName;
     }
+
     public void setContactName(String contactName) {
         this.contactName = contactName;
     }
@@ -72,6 +74,7 @@ public class Supplier {
     public String getContactTitle() {
         return contactTitle;
     }
+
     public void setContactTitle(String contactTitle) {
         this.contactTitle = contactTitle;
     }
@@ -79,6 +82,7 @@ public class Supplier {
     public String getAddress() {
         return address;
     }
+
     public void setAddress(String address) {
         this.address = address;
     }
@@ -86,6 +90,7 @@ public class Supplier {
     public String getCity() {
         return city;
     }
+
     public void setCity(String city) {
         this.city = city;
     }
@@ -93,6 +98,7 @@ public class Supplier {
     public String getRegion() {
         return region;
     }
+
     public void setRegion(String region) {
         this.region = region;
     }
@@ -100,6 +106,7 @@ public class Supplier {
     public String getPostalCode() {
         return postalCode;
     }
+
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
@@ -107,6 +114,7 @@ public class Supplier {
     public String getCountry() {
         return country;
     }
+
     public void setCountry(String country) {
         this.country = country;
     }
@@ -114,6 +122,7 @@ public class Supplier {
     public String getPhone() {
         return phone;
     }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }
@@ -121,15 +130,16 @@ public class Supplier {
     public String getFax() {
         return fax;
     }
+
     public void setFax(String fax) {
         this.fax = fax;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public List<Order> getOrders() {
+        return orders;
     }
 
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
 }

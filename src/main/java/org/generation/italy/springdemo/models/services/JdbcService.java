@@ -23,12 +23,12 @@ public class JdbcService implements StoreService {
     }
 
     @Override
-    public List<Product> findByNameContains(String name) throws DataException {
+    public List<Product> findByProductNameContains(String name) throws DataException {
         return List.of();
     }
 
     @Override
-    public List<Product> findProductByDiscontinued(int discontinued) throws DataException {
+    public List<Product> findProductsByDiscontinued(int discontinued) throws DataException {
         return List.of();
     }
 

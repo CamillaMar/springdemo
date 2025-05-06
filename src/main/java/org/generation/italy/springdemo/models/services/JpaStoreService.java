@@ -37,7 +37,7 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    public List<Product> findByNameContains(String name) throws DataException {
+    public List<Product> findByProductNameContains(String name) throws DataException {
         try {
             return productRepo.findByProductNameContains(name);
         } catch (PersistenceException pe) {
@@ -46,7 +46,7 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    public List<Product> findProductByDiscontinued(int discontinued) throws DataException {
+    public List<Product> findProductsByDiscontinued(int discontinued) throws DataException {
         try {
             return productRepo.findByDiscontinued(discontinued);
         } catch (PersistenceException pe) {
