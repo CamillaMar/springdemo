@@ -8,7 +8,7 @@ import java.util.List;
 @Table(name = "suppliers")
 public class Supplier {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "supplierid")
     private int supplierId;
 
