@@ -35,4 +35,9 @@ public class JdbcService implements StoreService{
     public List<Product> findAllProducts() throws DataException {
         return List.of();
     }
+
+    @Override
+    public Product saveProduct(Product p, int supplierId, int categoryId) throws DataException {
+        return null;
+    }
 }

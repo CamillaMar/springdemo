@@ -1,12 +1,13 @@
 package org.generation.italy.springdemo.controllers;
 
-import org.generation.italy.springdemo.models.entities.Category;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.services.StoreService;
+import org.generation.italy.springdemo.viewmodels.ProductViewModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -19,21 +20,32 @@ public class ProductController {
         this.storeService = storeService;
     }
 
+    @GetMapping("/show-add-product-form")
+    public String showAddProductForm( Model model){
+        model.addAttribute("product", new ProductViewModel());
+        return "product/forms/add-product-form";
+    }
+    @PostMapping("/add-product")
+    public String addProduct(ProductViewModel pvm){
+        try {
+            Product p = pvm.toProduct();
+            storeService.saveProduct(p, pvm.getSupplierId(), pvm.getCategoryId());
+            return "redirect:/product";
+        } catch (DataException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     @GetMapping("/show-search-form")
     public String showSearchForm(){
-        return "show-search-form";
+        return "product/forms/show-search-form";
     }
-
-    @GetMapping("/show-byId-form")
-    public String showByIdForm(){
-        return "select-product-form";
-    }
-
     @GetMapping("/product")
     public String searchProducts(@RequestParam(required = false) String name,@RequestParam(required = false) Integer discontinued, Model model){
         try{
             List<Product> result = null;
-            if(name != null) {
+            if(name != null && !name.equals("") ) {
                 result = storeService.findByProductNameContains(name);
             }else if(discontinued != null && discontinued != -1){
                 result = storeService.findProductsByDiscontinued(discontinued);
@@ -42,7 +54,7 @@ public class ProductController {
             }
             model.addAttribute("products",result);
             System.out.println(result + "-------------------");
-            return "show-products";
+            return "product/show-products";
         }catch(DataException e){
             e.printStackTrace();
             model.addAttribute("errorMessage", e.getMessage());
@@ -50,6 +62,10 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/show-byId-form")
+    public String showByIdForm(){
+        return "product/forms/select-product-form";
+    }
     @GetMapping("/product/byId")
     public String showProduct(@RequestParam Integer idInput, Model model){
         System.out.println("show product ---------------------------");
@@ -57,9 +73,9 @@ public class ProductController {
             Optional<Product> op = storeService.findProductById(idInput);
             if(op.isPresent()) {
                 model.addAttribute("product", op.get());
-                return "show-product";
+                return "product/show-product";
             }else{
-                return "missing-product";
+                return "product/missing-product";
             }
         } catch (DataException e) {
             e.printStackTrace();
