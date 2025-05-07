@@ -16,6 +16,7 @@ public class SpringdemoApplication {
 	@Autowired
 	private EntityManager em;
 
+	//aggiunto per testare DevTools
 	public static void main(String[] args) {
 		SpringApplication.run(SpringdemoApplication.class, args);
 	}
