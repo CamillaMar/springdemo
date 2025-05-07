@@ -66,6 +66,5 @@ public class ProductController {
             model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
-
     }
 }

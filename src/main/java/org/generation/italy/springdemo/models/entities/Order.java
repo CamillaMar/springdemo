@@ -21,6 +21,8 @@ public class Order {
     @ManyToOne
     @JoinColumn (name = "empid")
     private Employee employee;
+    @Column(name = "orderdate")
+    private LocalDateTime orderDate;
     @Column(name = "requireddate")
     private LocalDateTime requiredDate;
     @Column(name = "shippeddate")

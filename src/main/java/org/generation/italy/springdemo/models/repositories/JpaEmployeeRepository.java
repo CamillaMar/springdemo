@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface JpaEmployeeRepository extends JpaRepository<Employee, Integer> {
@@ -27,5 +29,16 @@ public interface JpaEmployeeRepository extends JpaRepository<Employee, Integer> 
                 )
             """)
     List<Employee> findNoOrdersEmployees();
+
+    // Obiettivo: Seleziona tutti i dipendenti assunti dopo il 1° gennaio 2000.
+    // Output atteso: Tutte le colonne dei dipendenti filtrati.
+    List<Employee> findByHireDateAfter(LocalDateTime date);
+    @Query("SELECT e FROM Employee e WHERE e.hireDate >= : date")
+    List<Employee> findHireDate(@Param("date")LocalDateTime date);
+
+   // Obiettivo: Calcola l’anzianità media dei dipendenti per ogni paese.
+   // Output atteso: Colonne country, anzianità_media (in anni).
+    @Query("SELECT e.country, AVG(EXTRACT(YEAR FROM e.hireDate)) FROM Employee e GROUP BY e.country")
+    List<Object[]> findAgeByCountry();
 
 }
