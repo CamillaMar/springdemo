@@ -7,12 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class SpringdemoApplication {
-	@Autowired
-	private EntityManager em;
 
-	//aggiunto per testare DevTools
 	public static void main(String[] args) {
 		SpringApplication.run(SpringdemoApplication.class, args);
 	}
-//aggiunto per testare del tools
+
 }
