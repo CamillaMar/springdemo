@@ -7,7 +7,6 @@ import org.generation.italy.springdemo.models.services.StoreService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -18,6 +17,10 @@ public class ProductController {
     private StoreService storeService;
     public ProductController(StoreService storeService) {
         this.storeService = storeService;
+    }
+    @GetMapping("/show-byId-form")
+    public String showFindByIdForm() {
+        return "select-product";
     }
 
     @GetMapping("/product")
@@ -42,11 +45,11 @@ public class ProductController {
 
     }
 
-    @GetMapping("/product/{id}")
-    public String showProduct(@PathVariable Integer id, Model model){
+    @GetMapping("/product/byId")
+    public String showProduct(@RequestParam Integer idInput, Model model){
         //Product p = new Product(1,"pippo", 1,1,1.00,1);
         try {
-            Optional<Product> op = storeService.findProductById(id);
+            Optional<Product> op = storeService.findProductById(idInput);
             if(op.isPresent()) {
                 model.addAttribute("product", op.get());
                 return "show-product";
@@ -54,7 +57,9 @@ public class ProductController {
                 return "missing-product";
             }
         } catch (DataException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
         }
     }
 }
