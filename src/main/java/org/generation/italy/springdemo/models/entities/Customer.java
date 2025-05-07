@@ -3,7 +3,7 @@ package org.generation.italy.springdemo.models.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "customers")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,12 +13,12 @@ public class Customer {
     private String companyName;
     @Column(name = "contactname")
     private String contactName;
-    @Column(name = "contactTitle")
+    @Column(name = "contacttitle")
     private String contactTitle;
     private String address;
     private String city;
     private String region;
-    @Column(name = "postalCode")
+    @Column(name = "postalcode")
     private String postalCode;
     private String country;
     private String phone;

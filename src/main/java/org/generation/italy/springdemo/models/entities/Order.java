@@ -22,7 +22,7 @@ public class Order {
     private LocalDateTime orderDate;
     @Column(name = "requireddate")
     private LocalDateTime requiredDate;
-    @Column(name = "shippedate")
+    @Column(name = "shippeddate")
     private LocalDateTime shippedDate;
     @ManyToOne
     @JoinColumn(name = "shipperid")
@@ -32,7 +32,7 @@ public class Order {
     private String shipName;
     @Column(name = "shipaddress")
     private String shipAddress;
-    @Column(name = "shipCity")
+    @Column(name = "shipcity")
     private String shipCity;
     @Column(name = "shipregion")
     private String shipRegion;

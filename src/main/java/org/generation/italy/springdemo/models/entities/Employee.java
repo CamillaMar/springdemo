@@ -20,7 +20,7 @@ public class Employee {
     @Column(name = "titleofcourtesy")
     private String titleOfCourtesy;
     @Column(name = "birthdate")
-    private String birthdate;
+    private LocalDateTime birthdate;
     @Column(name = "hiredate")
     private LocalDateTime hireDate;
     private String address;
