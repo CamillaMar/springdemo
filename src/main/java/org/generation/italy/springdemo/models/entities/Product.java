@@ -14,10 +14,10 @@ public class Product {
     @Column(name = "productname")
     private String productName;
     @ManyToOne
-    @JoinColumn (name = "supplierid")
+    @JoinColumn(name = "supplierid")
     private Supplier supplier;
     @ManyToOne
-    @JoinColumn (name = "categoryid")
+    @JoinColumn(name = "categoryid")
     private Category category;
     @Column(name = "unitprice")
     private BigDecimal unitPrice;
@@ -26,11 +26,11 @@ public class Product {
     public Product(){
     }
 
-    public Product(int productId, String productName, Supplier supplierId, Category categoryId, BigDecimal unitPrice, int discontinued) {
+    public Product(int productId, String productName, Supplier supplier, Category category, BigDecimal unitPrice, int discontinued) {
         this.productId = productId;
         this.productName = productName;
-        this.supplier = supplierId;
-        this.category = categoryId;
+        this.supplier = supplier;
+        this.category = category;
         this.discontinued = discontinued;
         this.unitPrice = unitPrice;
     }
@@ -49,5 +49,20 @@ public class Product {
 
     public int getDiscontinued() {
         return discontinued;
+    }
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
