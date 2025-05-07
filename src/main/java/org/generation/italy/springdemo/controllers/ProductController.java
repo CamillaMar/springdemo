@@ -18,9 +18,15 @@ public class ProductController {
     public ProductController(StoreService storeService) {
         this.storeService = storeService;
     }
+
+    @GetMapping("/show-search-form")
+    public String showSearchForm(){
+        return "show-search-form";
+    }
+
     @GetMapping("/show-byId-form")
-    public String showFindByIdForm() {
-        return "select-product";
+    public String showByIdForm(){
+        return "select-product-form";
     }
 
     @GetMapping("/product")
@@ -29,31 +35,30 @@ public class ProductController {
             List<Product> result = null;
             if(name != null) {
                 result = storeService.findByProductNameContains(name);
-            }else if(discontinued != null){
+            }else if(discontinued != null && discontinued != -1){
                 result = storeService.findProductsByDiscontinued(discontinued);
             }else {
                 result = storeService.findAllProducts();
             }
             model.addAttribute("products",result);
-            System.out.println("-----------------------"+result);
+            System.out.println(result + "-------------------");
             return "show-products";
         }catch(DataException e){
             e.printStackTrace();
             model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
-
     }
 
     @GetMapping("/product/byId")
     public String showProduct(@RequestParam Integer idInput, Model model){
-        //Product p = new Product(1,"pippo", 1,1,1.00,1);
+        System.out.println("show product ---------------------------");
         try {
             Optional<Product> op = storeService.findProductById(idInput);
             if(op.isPresent()) {
                 model.addAttribute("product", op.get());
                 return "show-product";
-            } else {
+            }else{
                 return "missing-product";
             }
         } catch (DataException e) {
@@ -61,5 +66,6 @@ public class ProductController {
             model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
+
     }
 }
