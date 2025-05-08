@@ -3,7 +3,6 @@ package org.generation.italy.springdemo.models.services;
 import org.generation.italy.springdemo.models.entities.Category;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.exceptions.DataException;
-
 import java.util.List;
 import java.util.Optional;
 
