@@ -98,4 +98,14 @@ public class JpaStoreService implements StoreService{
     public List<Customer> findAllCustomers() {
         return customerRepo.findAll();
     }
+
+    @Override
+    public void deleteOrder(int orderId) {
+        orderRepo.deleteById(orderId);
+    }
+
+    @Override
+    public List<Order> findAllOrders() {
+        return orderRepo.findAll();
+    }
 }

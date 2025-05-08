@@ -14,6 +14,7 @@
                 <th>Nome compagnia cliente</th>
                 <th>ID impiegato</th>
                 <th>Data della richiesta</th>
+                <th></th>
             </tr>
         </thead>
         <tbody style="border: 1px solid black">
@@ -23,6 +24,13 @@
             <td th:text="${o.companyName}">Gio</td>
             <td th:text="${o.empId}"></td>
             <td th:text="${o.requiredDate}"></td>
+            <td>
+                <form th:action="@{/delete-order}" method="post">
+                    <label for="orderDelete"></label>
+                    <input id="orderDelete" type="hidden" th:value="${o.orderId}" name="orderId">
+                    <button>Elimina ordine</button>
+                </form>
+            </td>
         </tr>
     </table>
 </body>

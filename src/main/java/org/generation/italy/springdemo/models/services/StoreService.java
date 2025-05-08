@@ -17,4 +17,8 @@ public interface StoreService {
     List<Supplier> findAllSuppliers();
     List<Order> findOrdersByCustomerCustId(int customerId) throws DataException;
     List<Customer> findAllCustomers();
+
+    void deleteOrder(int orderId);
+
+    List<Order> findAllOrders();
 }
