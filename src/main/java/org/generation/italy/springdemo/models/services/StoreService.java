@@ -24,4 +24,6 @@ public interface StoreService {
     List<SelectListElement> getSelectListCustomers();
 
     List<Order> findOrdersByCustomer(Integer CustId);
+
+    void deleteOrder(Integer orderId);
 }

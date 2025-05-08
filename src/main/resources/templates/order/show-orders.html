@@ -21,24 +21,33 @@
     <th>Ship Region</th>
     <th>Ship CAP</th>
     <th>Ship Country</th>
+    <th>Delete</th>
   </tr>
   </thead>
-  <tbody style="border: 1px solid black">
-  <tr th:each="o : ${orders}" style="border: 1px solid black">
-    <td style="border: 1px solid black" th:text="${o.custContactName}"></td>
-    <td style="border: 1px solid black" th:text="${o.fullName}"></td>
-    <td style="border: 1px solid black" th:text="${o.requiredDate}"></td>
-    <td style="border: 1px solid black" th:text="${o.shipperDate}"></td>
-    <td style="border: 1px solid black" th:text="${o.shipperCompanyName}"></td>
-    <td style="border: 1px solid black" th:text="${o.freight}"></td>
-    <td style="border: 1px solid black" th:text="${o.shipName}"></td>
-    <td style="border: 1px solid black" th:text="${o.shipAddress}"></td>
-    <td style="border: 1px solid black" th:text="${o.shipCity}"></td>
-    <td style="border: 1px solid black" th:text="${o.shipRegion}"></td>
-    <td style="border: 1px solid black" th:text="${o.shipPostalCode}"></td>
-    <td style="border: 1px solid black" th:text="${o.shipCountry}"></td>
+  <form th:action="@{/delete-order}" method="post">
+    <tbody style="border: 1px solid black">
+    <tr th:each="o : ${orders}" style="border: 1px solid black">
+      <!--<td style="border: 1px solid black" th:text="${o.custContactName}"></td> -->
+      <td style="border: 1px solid black" th:text="${o.custContactName}"></td>
+      <td style="border: 1px solid black" th:text="${o.fullName}"></td>
+      <td style="border: 1px solid black" th:text="${o.requiredDate}"></td>
+      <td style="border: 1px solid black" th:text="${o.shipperDate}"></td>
+      <td style="border: 1px solid black" th:text="${o.shipperCompanyName}"></td>
+      <td style="border: 1px solid black" th:text="${o.freight}"></td>
+      <td style="border: 1px solid black" th:text="${o.shipName}"></td>
+      <td style="border: 1px solid black" th:text="${o.shipAddress}"></td>
+      <td style="border: 1px solid black" th:text="${o.shipCity}"></td>
+      <td style="border: 1px solid black" th:text="${o.shipRegion}"></td>
+      <td style="border: 1px solid black" th:text="${o.shipPostalCode}"></td>
+      <td style="border: 1px solid black" th:text="${o.shipCountry}"></td>
+      <td style="border: 1px solid black">
+
+        <button type="submit" th:field="*{o.orderId}">Delete</button>
+
+      </td>
   </tr>
   </tbody>
+  </form>
 </table>
 </body>
 </html>
