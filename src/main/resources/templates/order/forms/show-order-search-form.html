@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search by customer id</title>
+</head>
+<body>
+<h1>I nostri meravigliosi ordini</h1>
+<form th:action="@{/order}" method="get">
+    <div>
+        <label for="custId">customer Id</label>
+        <input type="number" id="custId" name="custId">
+    </div>
+    <button type="submit">Search</button>
+</form>
+</body>
+</html>
