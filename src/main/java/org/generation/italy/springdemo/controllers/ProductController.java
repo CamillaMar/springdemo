@@ -1,6 +1,8 @@
 package org.generation.italy.springdemo.controllers;
 
+import org.generation.italy.springdemo.models.entities.Category;
 import org.generation.italy.springdemo.models.entities.Product;
+import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.services.StoreService;
 import org.generation.italy.springdemo.viewmodels.ProductViewModel;
@@ -22,7 +24,12 @@ public class ProductController {
 
     @GetMapping("/show-add-product-form")
     public String showAddProductForm( Model model){
-        model.addAttribute("product", new ProductViewModel());
+        ProductViewModel pvm = new ProductViewModel();
+        List<Category> categories = storeService.findAllCategories();
+        List<Supplier> suppliers = storeService.findAllSuppliers();
+        pvm.setCategories(categories);
+        pvm.setSuppliers(suppliers);
+        model.addAttribute("product", pvm);
         return "product/forms/add-product-form";
     }
     @PostMapping("/add-product")

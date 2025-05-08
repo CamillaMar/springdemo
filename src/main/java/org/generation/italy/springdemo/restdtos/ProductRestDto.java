@@ -1,14 +1,10 @@
-package org.generation.italy.springdemo.viewmodels;
+package org.generation.italy.springdemo.restdtos;
 
-import org.generation.italy.springdemo.models.entities.Category;
 import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
 
 import java.math.BigDecimal;
-import java.util.List;
 
-
-public class ProductViewModel {
+public class ProductRestDto {
     private int productId;
     private String productName;
     private int supplierId;
@@ -16,13 +12,10 @@ public class ProductViewModel {
     private BigDecimal unitPrice;
     private boolean discontinued;
 
-    private List<Category> categories;
-    private List<Supplier> suppliers;
-
-    public ProductViewModel() {
+    public ProductRestDto(){
     }
 
-    public ProductViewModel(int productId, String productName, int supplierId, int categoryId, BigDecimal unitPrice, boolean discontinued) {
+    public ProductRestDto(int productId, String productName, int supplierId, int categoryId, BigDecimal unitPrice, boolean discontinued) {
         this.productId = productId;
         this.productName = productName;
         this.supplierId = supplierId;
@@ -31,25 +24,19 @@ public class ProductViewModel {
         this.discontinued = discontinued;
     }
 
-    @Override
-    public String toString() {
-        return "ProductViewModel{" +
-                "productId=" + productId +
-                ", productName='" + productName + '\'' +
-                ", supplierId=" + supplierId +
-                ", categoryId=" + categoryId +
-                ", unitPrice=" + unitPrice +
-                ", discontinued=" + discontinued +
-                '}';
-    }
-
     public Product toProduct(){
         return new Product(productId,productName,null,null,unitPrice,discontinued?1:0);
+    }
+
+    public static ProductRestDto toDto(Product p) {
+        return new ProductRestDto(p.getProductId(),p.getProductName(),p.getSupplier().getSupplierId(),p.getCategory().getCategoryId()
+                ,p.getCost(), p.getDiscontinued() == 1);
     }
 
     public int getProductId() {
         return productId;
     }
+
     public void setProductId(int productId) {
         this.productId = productId;
     }
@@ -57,6 +44,7 @@ public class ProductViewModel {
     public String getProductName() {
         return productName;
     }
+
     public void setProductName(String productName) {
         this.productName = productName;
     }
@@ -64,6 +52,7 @@ public class ProductViewModel {
     public int getSupplierId() {
         return supplierId;
     }
+
     public void setSupplierId(int supplierId) {
         this.supplierId = supplierId;
     }
@@ -71,6 +60,7 @@ public class ProductViewModel {
     public int getCategoryId() {
         return categoryId;
     }
+
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
@@ -78,22 +68,16 @@ public class ProductViewModel {
     public BigDecimal getUnitPrice() {
         return unitPrice;
     }
+
     public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
 
-    public boolean getDiscontinued() {
+    public boolean isDiscontinued() {
         return discontinued;
     }
+
     public void setDiscontinued(boolean discontinued) {
         this.discontinued = discontinued;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
-    public void setSuppliers(List<Supplier> suppliers) {
-        this.suppliers = suppliers;
     }
 }
