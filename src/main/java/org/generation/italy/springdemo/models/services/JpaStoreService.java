@@ -1,13 +1,14 @@
 package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
+import org.generation.italy.springdemo.models.dtos.SelectListElement;
 import org.generation.italy.springdemo.models.entities.Category;
+import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
-import org.generation.italy.springdemo.models.repositories.JpaCategoryRepository;
-import org.generation.italy.springdemo.models.repositories.JpaProductRepository;
-import org.generation.italy.springdemo.models.repositories.JpaSupplierRepository;
+import org.generation.italy.springdemo.models.repositories.*;
+import org.generation.italy.springdemo.viewmodels.OrderViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -21,13 +22,16 @@ public class JpaStoreService implements StoreService{
     private JpaProductRepository productRepo;
     private JpaCategoryRepository categoryRepo;
     private JpaSupplierRepository supplierRepo;
-
+    private JpaCustomerRepository customerRepo;
+    private JpaOrderRepository orderRepo;
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
+        this.customerRepo = customerRepo;
+        this.orderRepo = orderRepo;
     }
 
 
@@ -87,5 +91,16 @@ public class JpaStoreService implements StoreService{
     @Override
     public List<Supplier> findAllSuppliers() {
         return supplierRepo.findAll();
+    }
+
+    @Override
+    public List<SelectListElement> getSelectListCustomers() {
+        return customerRepo.getSelectListCustomers();
+    }
+
+    @Override
+    public List<Order> findOrdersByCustomer(Integer custId) {
+        List<Order> ordersBy = orderRepo.findByCustomerCustId(custId);
+        return ordersBy;
     }
 }

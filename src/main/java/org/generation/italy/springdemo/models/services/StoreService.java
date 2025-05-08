@@ -1,9 +1,12 @@
 package org.generation.italy.springdemo.models.services;
 
+import org.generation.italy.springdemo.models.dtos.SelectListElement;
 import org.generation.italy.springdemo.models.entities.Category;
+import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.viewmodels.OrderViewModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +20,8 @@ public interface StoreService {
     Product saveProduct(Product p, int supplierId, int categoryId) throws DataException;
     List<Category> findAllCategories();
     List<Supplier> findAllSuppliers();
+
+    List<SelectListElement> getSelectListCustomers();
+
+    List<Order> findOrdersByCustomer(Integer CustId);
 }
