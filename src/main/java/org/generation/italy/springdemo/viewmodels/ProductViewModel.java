@@ -44,7 +44,7 @@ public class ProductViewModel {
     }
 
     public Product toProduct(){
-        return new Product(productId,productName,null,null,unitPrice,discontinued?1:0);
+        return new Product(productId, productName,null,null,unitPrice,discontinued?1:0);
     }
 
     public int getProductId() {

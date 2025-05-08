@@ -12,6 +12,7 @@ import org.generation.italy.springdemo.viewmodels.OrderViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,14 +25,16 @@ public class JpaStoreService implements StoreService{
     private JpaSupplierRepository supplierRepo;
     private JpaCustomerRepository customerRepo;
     private JpaOrderRepository orderRepo;
+    private JpaOrderDetailsRepository orderDetailsRepo;
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
         this.customerRepo = customerRepo;
         this.orderRepo = orderRepo;
+        this.orderDetailsRepo = orderDetailsRepo;
     }
 
 
@@ -104,8 +107,10 @@ public class JpaStoreService implements StoreService{
         return ordersBy;
     }
 
+    @Transactional
     @Override
     public void deleteOrder(Integer orderId) {
+        orderDetailsRepo.deleteOrderDetailsByOrderId(orderId);
         orderRepo.deleteById(orderId);
     }
 }

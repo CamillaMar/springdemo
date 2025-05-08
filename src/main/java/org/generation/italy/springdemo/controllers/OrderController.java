@@ -17,7 +17,6 @@ import java.util.List;
 public class OrderController {
     private StoreService storeService;
 
-
     public OrderController(StoreService storeService) {
         this.storeService = storeService;
     }
@@ -58,7 +57,7 @@ public class OrderController {
         return "order/show-orders";
     }
 
-    @PostMapping("/delete-product")
+    @PostMapping("/delete-order")
     public String deleteOrder(@RequestParam(required = true) Integer custId, @RequestParam(required = true) Integer orderId, Model model) {
         storeService.deleteOrder(orderId);
         List<Order> orders = storeService.findOrdersByCustomer(custId);
