@@ -47,7 +47,6 @@ public class ProductController {
 
     @GetMapping("/show-search-form")
     public String showSearchForm(){
-        List<Customer> customers = storeService.findAllCustomers();
         return "product/forms/show-search-form";
     }
     @GetMapping("/product")

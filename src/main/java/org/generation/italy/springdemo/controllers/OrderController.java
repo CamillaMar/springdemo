@@ -1,5 +1,6 @@
 package org.generation.italy.springdemo.controllers;
 
+import org.generation.italy.springdemo.models.entities.Customer;
 import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.services.StoreService;
@@ -22,6 +23,7 @@ public class OrderController {
 
     @GetMapping("/show-by-customer-id-form")
     public String showByCustomerIdForm(){
+        List<Customer> customers = storeService.findAllCustomers();
         return "order/forms/select-order-by-customer-id";
     }
     @GetMapping("/order-by-custid")

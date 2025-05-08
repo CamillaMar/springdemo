@@ -12,7 +12,7 @@
         <div>
             <label for="custIdInput">Id Cliente</label>
             <select id="custIdInput" name="custId">
-                <option> </option>
+                <option  th:each="c : ${customers}" th:text="${c.custId}"> </option>
             </select>
             <button type="submit">
                 Ricerca Ordini
