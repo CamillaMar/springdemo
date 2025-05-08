@@ -78,4 +78,14 @@ public class JpaStoreService implements StoreService{
         productRepo.save(p);
         return p;
     }
+
+    @Override
+    public List<Category> findAllCategories() {
+        return categoryRepo.findAll();
+    }
+
+    @Override
+    public List<Supplier> findAllSuppliers() {
+        return supplierRepo.findAll();
+    }
 }
