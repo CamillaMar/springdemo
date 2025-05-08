@@ -28,5 +28,4 @@ public interface JpaOrderRepository extends JpaRepository<Order, Integer> {
 
     List<Order> findByCustomerCustId( int custId);
 
-
 }

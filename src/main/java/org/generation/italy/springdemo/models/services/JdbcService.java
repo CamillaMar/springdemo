@@ -63,6 +63,4 @@ public class JdbcService implements StoreService{
     @Override
     public void deleteOrderById(Integer id) {
     }
-
-
 }
