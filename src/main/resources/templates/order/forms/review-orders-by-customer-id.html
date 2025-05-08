@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
         <title>Title</title>
@@ -8,15 +8,16 @@
         <table>
             <thead>
                 <tr>
-                    <th>Order Id</th>
-                    <th>Customer Id</th>
-                    <th>Employee Id</th>
+                    <th>Order ID</th>
+                    <th>Customer ID</th>
+                    <th>Employee ID</th>
                     <th>Order Date</th>
                     <th>Required Date</th>
                     <th>Shipped Date</th>
+                    <th>Shipper ID</th>
                     <th>Freights</th>
                     <th>Shipper Name</th>
-                    <th>Shipper Address</th>
+                    <th>Ship Address</th>
                     <th>Ship City</th>
                     <th>Ship Region</th>
                     <th>Ship Postal Code</th>
@@ -24,9 +25,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="o : ${orderByCustId}">
+                <tr th:each="o : ${ordersByCustId}">
                     <td>
-                        <form th:action="@{}" method="Post">
+                        <form th:action="@{}" method="post">
                             <input type="hidden" th:value="${o.orderId}">
                             <button type="submit">
                                 Cancella
@@ -36,9 +37,9 @@
                     <td th:text="${o.orderId}"></td>
                     <td th:text="${o.customer.custId}"></td>
                     <td th:text="${o.employee.empId}"></td>
-                    <td th:text="${o.requireDate}"></td>
+                    <td th:text="${o.requiredDate}"></td>
                     <td th:text="${o.shippedDate}"></td>
-                    <td th:text="${o.shipper.shipperDate}"></td>
+                    <td th:text="${o.shipper.shipperId}"></td>
                     <td th:text="${o.freight}"></td>
                     <td th:text="${o.shipName}"></td>
                     <td th:text="${o.shipAddress}"></td>
@@ -49,8 +50,5 @@
                 </tr>
             </tbody>
         </table>
-        <form>
-
-        </form>
     </body>
 </html>

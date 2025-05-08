@@ -27,8 +27,9 @@ public class OrderController {
 
     @GetMapping("/orders/byId")
     public String showOrdersByCustomerId(@Param("customerId") int custId, Model model){
-        model.addAttribute("orderByCustId", storeService.findByCustId(custId));
-        return "order/forms/review-orders-by-customer-id";
+        model.addAttribute("ordersByCustId",storeService.findByCustId(custId)) ;
+
+        return "order/forms/review-orders-by-customer-id";//123
     }
 
 }

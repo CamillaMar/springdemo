@@ -22,9 +22,8 @@ public class JpaStoreService implements StoreService{
 
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo,
-                           JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo,
-                           JpaOrderRepository orderRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo,
+                           JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
@@ -100,5 +99,4 @@ public class JpaStoreService implements StoreService{
     public List<Order> findByCustId(int custId) {
         return orderRepo.findByCustomerCustId(custId);
     }
-
 }
