@@ -23,8 +23,6 @@ public interface JpaOrderRepository extends JpaRepository<Order, Integer> {
     @Query("SELECT o.customer , SUM(od.quantity * od.unitPrice) SumOrders FROM Order o JOIN o.orderDetails od GROUP BY o.customer ORDER BY SumOrders ")
     List<Object[]> findBestCustomers();
 
-    // Mostra per ogni dipendente quanti ordini ha gestito nel 2006.
-    // Fai attenzione a filtrare per anno e contare gli ordini raggruppati per employeeid.
 
 
 }

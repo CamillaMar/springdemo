@@ -29,4 +29,12 @@ public class ProductRestController {
         }
     }
 
+    @GetMapping("/api/product/name")
+    public List<ProductRestDto> getAllProducts(String name){
+        try {
+            return storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
+        } catch (DataException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
