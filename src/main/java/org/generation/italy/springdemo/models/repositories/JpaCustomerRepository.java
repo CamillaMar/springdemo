@@ -18,4 +18,14 @@ public interface JpaCustomerRepository extends JpaRepository<Customer, Integer> 
     @Modifying
     @Query("DELETE FROM Customer c WHERE c.region IS NULL OR c.region = :region")
     int deleteCustomerFromRegion(@Param("region") String region);
+
+    @Query("""
+            SELECT c
+            FROM Customer c
+            WHERE c.custId IN (
+                SELECT o.customer.custId
+                FROM Order o
+            )
+            """)
+    List<Customer> findAllCustomersWithOrders();
 }

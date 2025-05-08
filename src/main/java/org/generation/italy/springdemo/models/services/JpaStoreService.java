@@ -1,13 +1,9 @@
 package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
-import org.generation.italy.springdemo.models.repositories.JpaCategoryRepository;
-import org.generation.italy.springdemo.models.repositories.JpaProductRepository;
-import org.generation.italy.springdemo.models.repositories.JpaSupplierRepository;
+import org.generation.italy.springdemo.models.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -21,12 +17,17 @@ public class JpaStoreService implements StoreService{
     private JpaProductRepository productRepo;
     private JpaCategoryRepository categoryRepo;
     private JpaSupplierRepository supplierRepo;
+    private JpaCustomerRepository customerRepo;
+    private JpaOrderRepository orderRepo;
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo,
+                           JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
+        this.customerRepo = customerRepo;
+        this.orderRepo = orderRepo;
     }
 
     @Override
@@ -75,5 +76,15 @@ public class JpaStoreService implements StoreService{
         productRepo.save(p);
 
         return p;
+    }
+
+    @Override
+    public List<Customer> findAllCustomersWithOrders() throws DataException {
+        return customerRepo.findAllCustomersWithOrders();
+    }
+
+    @Override
+    public List<Order> findAllOrdersByCustomerId(int custId) throws DataException {
+        return orderRepo.findAllByCustomerCustId(custId);
     }
 }
