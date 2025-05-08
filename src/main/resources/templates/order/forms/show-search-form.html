@@ -5,13 +5,16 @@
         <title>Show by customer id</title>
         <style>
             body {
-                background-image: url("https://i.imgur.com/tlqCddV.png");
-                background-repeat: repeat;
-                padding: auto;
+                background-image: url('https://i.imgur.com/iUbLoGf.gif');
+                background-size:100%;
                 }
             form{
-                margin: auto;
+                position:absolute;
                 width: 50%;
+                top:50%;
+                left:25%;
+                margin-left:-100px;/* half width*/
+                margin-top:-300px;/* half height*/
                 border-radius: 5px;
                 border: 3px solid black;
                 padding: 5%;
@@ -37,7 +40,7 @@
         </style>
     </head>
     <body>
-        <form th:action="@{/orders/byId}" method="get">
+        <form th:action="@{/orders/byId}" method="get" >
             <div>
                 <label for="idInput">Customer id</label>
                 <select id="idInput" name="custId">
@@ -45,7 +48,7 @@
                 </select>
             </div>
             <button type="submit" >Cerca</button>
-
         </form>
+
     </body>
 </html>

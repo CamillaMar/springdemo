@@ -42,7 +42,7 @@ public class Order {
     @Column(name = "shipcountry")
     private String shipCountry;
 
-    @OneToMany (mappedBy = "order", cascade= CascadeType.REMOVE)
+    @OneToMany (mappedBy = "order")
     private List<OrderDetails> orderDetails;
 
     public Order() {
