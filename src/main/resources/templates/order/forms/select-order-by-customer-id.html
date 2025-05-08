@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cerca ordine</title>
+</head>
+<header>
+    Seleziona il cliente di cui vuoi vedere gli ordini
+</header>
+<body style="background-color: pink">
+    <form th:action="@{/order-by-custid}" method="get">
+        <div>
+            <label for="custIdInput">Id Cliente</label>
+            <select id="custIdInput" name="custId">
+                <option> </option>
+            </select>
+            <button type="submit">
+                Ricerca Ordini
+            </button>
+        </div>
+</form>
+</body>
+</html>

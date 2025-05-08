@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ordini</title>
+</head>
+<body style="background-color: pink">
+    <h1>Ordini</h1>
+    <table style="border: 1px solid black">
+        <thead style="border: 1px solid black">
+            <tr style="border: 1px solid black">
+                <th>ID Ordine</th>
+                <th>ID Cliente</th>
+                <th>Nome compagnia cliente</th>
+                <th>ID impiegato</th>
+                <th>Data della richiesta</th>
+            </tr>
+        </thead>
+        <tbody style="border: 1px solid black">
+        <tr th:each="o : ${orders}" style="border: 1px solid black">
+            <td th:text="${o.orderId}"></td>
+            <td th:text="${o.custId}"></td>
+            <td th:text="${o.companyName}">Gio</td>
+            <td th:text="${o.empId}"></td>
+            <td th:text="${o.requiredDate}"></td>
+        </tr>
+    </table>
+</body>
+</html>

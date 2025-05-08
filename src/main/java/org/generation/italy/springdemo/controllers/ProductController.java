@@ -1,6 +1,7 @@
 package org.generation.italy.springdemo.controllers;
 
 import org.generation.italy.springdemo.models.entities.Category;
+import org.generation.italy.springdemo.models.entities.Customer;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
@@ -46,6 +47,7 @@ public class ProductController {
 
     @GetMapping("/show-search-form")
     public String showSearchForm(){
+        List<Customer> customers = storeService.findAllCustomers();
         return "product/forms/show-search-form";
     }
     @GetMapping("/product")
