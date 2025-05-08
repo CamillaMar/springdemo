@@ -14,9 +14,26 @@
                 width: 50%;
                 border-radius: 5px;
                 border: 3px solid black;
-                padding: 10px;
+                padding: 5%;
                 background-color: grey;
             }
+            div{
+                border: 2px solid black;
+                border-radius:5px;
+                margin-bottom: 15px;
+                padding: 1%;
+            }
+            button{
+                margin: auto;
+            }
+            #idInput{
+                float: right;
+                width: 20%;
+                background-color: grey;
+                border: 1px solid black;
+                color: black;
+            }
+
         </style>
     </head>
     <body>
@@ -27,9 +44,7 @@
                     <option th:each="c : ${customers}" th:text="${c.custId}"></option>
                 </select>
             </div>
-            <div>
-                <button type="submit" >Cerca</button>
-            </div>
+            <button type="submit" >Cerca</button>
 
         </form>
     </body>
