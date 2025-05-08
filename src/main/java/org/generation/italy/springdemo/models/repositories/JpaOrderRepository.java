@@ -18,11 +18,5 @@ public interface JpaOrderRepository extends JpaRepository<Order, Integer> {
     @Query("SELECT o FROM Order o WHERE o.employee.manager.empId = :empid")
     List<Order> findByManagerId(@Param("empid") int empId);
 
-    // Trova i 5 clienti che hanno speso di più in totale.
-    // Calcola la somma degli ordini (qty × unitprice) per cliente.
-    @Query("SELECT o.customer , SUM(od.quantity * od.unitPrice) SumOrders FROM Order o JOIN o.orderDetails od GROUP BY o.customer ORDER BY SumOrders ")
-    List<Object[]> findBestCustomers();
-
-
-
+    List<Order> findByCustomerCustId(int custId);
 }

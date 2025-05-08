@@ -1,13 +1,9 @@
 package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
-import org.generation.italy.springdemo.models.repositories.JpaCategoryRepository;
-import org.generation.italy.springdemo.models.repositories.JpaProductRepository;
-import org.generation.italy.springdemo.models.repositories.JpaSupplierRepository;
+import org.generation.italy.springdemo.models.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -21,13 +17,16 @@ public class JpaStoreService implements StoreService{
     private JpaProductRepository productRepo;
     private JpaCategoryRepository categoryRepo;
     private JpaSupplierRepository supplierRepo;
-
+    private JpaOrderRepository orderRepo;
+    private JpaOrderDetailsRepository orderDetailsRepo;
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
+        this.orderRepo = orderRepo;
+        this.orderDetailsRepo = orderDetailsRepo;
     }
 
 
@@ -88,4 +87,37 @@ public class JpaStoreService implements StoreService{
     public List<Supplier> findAllSuppliers() {
         return supplierRepo.findAll();
     }
+
+    @Override
+    public List<Order> findOrdersByCustId(int custId) throws DataException{
+        return orderRepo.findByCustomerCustId(custId);
+    }
+
+    @Override
+    public List<Order> findAllOrders() {
+        return orderRepo.findAll();
+    }
+
+    @Override
+    public void deleteOrderById(int orderId) throws DataException {
+        Optional<Order> oo = orderRepo.findById(orderId);
+        Order o = oo.orElseThrow(()-> new DataException(String.format("L'ordine con Id %d non esiste!", orderId )));
+        orderRepo.deleteById(orderId);
+    }
+
+    @Override
+    public List<OrderDetails> findOrderDetailsByOrderId(int orderId) throws DataException {
+        return orderDetailsRepo.findByOrderOrderId(orderId);
+    }
+
+    @Override
+    public void deleteOrderOrderDetails(int orderId) throws DataException {
+        Optional<Order> oo = orderRepo.findById(orderId);
+        Order o = oo.orElseThrow(()-> new DataException(String.format("L'ordine con Id %d non esiste!", orderId )));
+        List<OrderDetails> orderDetails = o.getOrderDetails();
+        for(OrderDetails od : orderDetails){
+            orderDetailsRepo.delete(od);
+        }
+    }
+
 }

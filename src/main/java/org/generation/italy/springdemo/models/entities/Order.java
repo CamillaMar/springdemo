@@ -21,7 +21,7 @@ public class Order {
     @ManyToOne
     @JoinColumn (name = "empid")
     private Employee employee;
-    @Column(name = "orderdate")
+    @Column (name = "orderdate")
     private LocalDateTime orderDate;
     @Column(name = "requireddate")
     private LocalDateTime requiredDate;
@@ -54,7 +54,7 @@ public class Order {
     public Order(LocalDateTime shippedDate, Shipper shipper, BigDecimal freight, String shipName,
                  String shipAddress, String shipCity, String shipRegion, String shipPostalCode,
                  String shipCountry, List<OrderDetails> orderDetails, LocalDateTime requiredDate,
-                 Employee employee, Customer customer, int orderId) {
+                 Employee employee, Customer customer, int orderId, LocalDateTime orderDate) {
         this.shippedDate = shippedDate;
         this.shipper = shipper;
         this.freight = freight;
@@ -69,6 +69,7 @@ public class Order {
         this.employee = employee;
         this.customer = customer;
         this.orderId = orderId;
+        this.orderDate = orderDate;
     }
 
     public int getOrderId() {
@@ -126,4 +127,10 @@ public class Order {
     public List<OrderDetails> getOrderDetails() {
         return orderDetails;
     }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+
 }
