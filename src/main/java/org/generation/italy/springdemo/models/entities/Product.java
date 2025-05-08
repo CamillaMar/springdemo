@@ -5,64 +5,79 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name="products")
+@Table(name = "products")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "productid")
     private int productId;
+
     @Column(name = "productname")
     private String productName;
+
     @ManyToOne
     @JoinColumn(name = "supplierid")
     private Supplier supplier;
+
     @ManyToOne
     @JoinColumn(name = "categoryid")
     private Category category;
+
     @Column(name = "unitprice")
     private BigDecimal unitPrice;
+
     private int discontinued;
 
     public Product(){
     }
 
-    public Product(int productId, String productName, Supplier supplier, Category category, BigDecimal unitPrice, int discontinued) {
-        this.productId = productId;
+    public Product(String productName, Supplier supplier, Category category, BigDecimal unitPrice, int discontinued) {
         this.productName = productName;
         this.supplier = supplier;
         this.category = category;
-        this.discontinued = discontinued;
         this.unitPrice = unitPrice;
+        this.discontinued = discontinued;
     }
 
     public int getProductId() {
         return productId;
     }
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
 
     public String getProductName() {
         return productName;
     }
-
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public int getDiscontinued() {
-        return discontinued;
-    }
     public Supplier getSupplier() {
         return supplier;
+    }
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
     public Category getCategory() {
         return category;
     }
-
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
-
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public int getDiscontinued() {
+        return discontinued;
+    }
+    public void setDiscontinued(int discontinued) {
+        this.discontinued = discontinued;
     }
 }

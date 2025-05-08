@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
+
 @Controller
 public class CategoryController {
     private StoreService storeService;
+
     @Autowired
-    public CategoryController (StoreService storeService){
+    public CategoryController(StoreService storeService) {
         this.storeService = storeService;
     }
 
@@ -22,14 +24,15 @@ public class CategoryController {
     public String showCategory(@PathVariable Integer id, Model model){
         try {
             Optional<Category> oc = storeService.findCategoryById(id);
-            if(oc.isPresent()) {
+            if (oc.isPresent()) {
                 model.addAttribute("category", oc.get());
+//                System.out.println(oc.get().getProducts().getClass().getName());
                 return "show-category";
-            }else{
+            } else {
                 return "missing-category";
             }
         } catch (DataException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException();
         }
     }
 }

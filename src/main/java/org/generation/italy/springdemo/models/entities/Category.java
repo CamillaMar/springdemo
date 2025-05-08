@@ -2,22 +2,23 @@ package org.generation.italy.springdemo.models.entities;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "categories")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "categoryid")
     private int categoryId;
-    @Column (name = "categoryname")
+
+    @Column(name = "categoryname")
     private String categoryName;
+
     private String description;
 
-    @OneToMany(mappedBy = "category")
-    private List<Product> products = new ArrayList<>();
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    private List<Product> products;
 
     public Category() {
     }
@@ -25,10 +26,6 @@ public class Category {
     public Category(String categoryName, String description) {
         this.categoryName = categoryName;
         this.description = description;
-    }
-
-    public List<Product> getProducts() {
-        return products;
     }
 
     public int getCategoryId() {
@@ -50,5 +47,9 @@ public class Category {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Product> getProducts() {
+        return products;
     }
 }

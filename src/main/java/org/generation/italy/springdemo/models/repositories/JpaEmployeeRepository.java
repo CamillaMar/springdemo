@@ -10,22 +10,19 @@ import java.util.List;
 public interface JpaEmployeeRepository extends JpaRepository<Employee, Integer> {
     List<Employee> findByTitleIs(String title);
 
-    //tutti gli impiegati che hanno fatto più di 5 ordini
-    @Query("SELECT e FROM Employee e WHERE (SELECT COUNT(o) FROM Order o WHERE o.employee = e) > :num")
-    List<Employee> findByOrderGreaterThan(@Param("num") int num);
-    //versione 2, meno verbosa
-    @Query("SELECT e FROM Employee e WHERE SIZE(e.orders) > :num")
-    List<Employee> findByOrderGreaterThanVersionTwo(@Param("num") int num);
+//    @Query("SELECT e FROM Employee e WHERE (SELECT COUNT(o) FROM Order o WHERE o.employee = e) > :num")
+//    List<Employee> findByOrderGreaterThan(@Param("num") int num);
 
-    //tutti gli impiegati che non hanno gestito un ordine
+    @Query("SELECT e FROM Employee e WHERE SIZE(e.orders) > :num")
+    List<Employee> findByOrderGreaterThan(@Param("num") int num);
+
     @Query("""
-            SELECT e 
-            FROM Employee e 
-            WHERE e.empId NOT IN (
+             SELECT e
+             FROM Employee e
+             WHERE e.empId NOT IN (
                 SELECT o.employee.empId
                 FROM Order o
-                )
-            """)
+             )
+             """)
     List<Employee> findNoOrdersEmployees();
-
 }
