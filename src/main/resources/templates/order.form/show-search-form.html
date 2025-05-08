@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <title>Show by customer id</title>
+    </head>
+    <body>
+        <form th:action="@{/orders/byId}" method="get">
+          <div>
+              <labe> for="idInput"> Customer id</labe>
+              <select name="idInput" id="customerId"></select>
+                  <option th:each="c : ${customers}"
+                          th:text="${c.custId}">
+                  </option>
+          </div>
+    </body>
+</html>
