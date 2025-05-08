@@ -2,6 +2,7 @@ package org.generation.italy.springdemo.models.services;
 
 import org.generation.italy.springdemo.models.entities.Category;
 import org.generation.italy.springdemo.models.entities.Product;
+import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 
 import java.util.List;
@@ -13,4 +14,7 @@ public interface StoreService {
     List<Product> findByProductNameContains(String name) throws DataException;
     List<Product> findProductsByDiscontinued(int discontinued) throws DataException;
     List<Product> findAllProducts() throws DataException;
+    Product saveProduct(Product p, int supplierId, int categoryId) throws DataException;
+    List<Category> findAllCategories();
+    List<Supplier> findAllSuppliers();
 }

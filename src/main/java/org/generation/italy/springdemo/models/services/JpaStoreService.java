@@ -3,9 +3,11 @@ package org.generation.italy.springdemo.models.services;
 import jakarta.persistence.PersistenceException;
 import org.generation.italy.springdemo.models.entities.Category;
 import org.generation.italy.springdemo.models.entities.Product;
+import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.repositories.JpaCategoryRepository;
 import org.generation.italy.springdemo.models.repositories.JpaProductRepository;
+import org.generation.italy.springdemo.models.repositories.JpaSupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,14 @@ import java.util.Optional;
 public class JpaStoreService implements StoreService{
     private JpaProductRepository productRepo;
     private JpaCategoryRepository categoryRepo;
+    private JpaSupplierRepository supplierRepo;
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo) {
         System.out.println(productRepo.getClass().getName());
         System.out.println(categoryRepo.getClass().getName());
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
+        this.supplierRepo = supplierRepo;
     }
 
     @Override
@@ -59,5 +63,28 @@ public class JpaStoreService implements StoreService{
         return productRepo.findAll();
     }
 
+    @Override
+    public Product saveProduct(Product p, int supplierId, int categoryId) throws DataException {
+        Optional<Supplier> os = supplierRepo.findById(supplierId);
+        if(os.isEmpty()){
+            throw new DataException(String.format("Il supplier con ID %d non esiste", supplierId));
+        }
+        Supplier s = os.get();
+        Optional<Category> oc = categoryRepo.findById(categoryId);
+        Category c = oc.orElseThrow(()-> new DataException(String.format("la category con ID %d non esiste", categoryId)));
+        p.setSupplier(s);
+        p.setCategory(c);
+        productRepo.save(p);
+        return p;
+    }
 
+    @Override
+    public List<Category> findAllCategories() {
+        return categoryRepo.findAll();
+    }
+
+    @Override
+    public List<Supplier> findAllSuppliers() {
+        return supplierRepo.findAll();
+    }
 }

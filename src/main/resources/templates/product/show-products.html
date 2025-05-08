@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tutti i prodotti cercati</title>
+</head>
+<body>
+    <h1>Tanti bei prodotti</h1>
+    <table style="border: 1px solid black">
+        <thead>
+            <tr style="border: 1px solid black">
+                <th>Id</th>
+                <th>Name</th>
+                <th>Supplier id</th>
+                <th>Category id</th>
+                <th>Price</th>
+                <th>Dicontinued</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="p : ${products}" style="border: 1px solid black">
+                <td th:text="${p.productId}">0000</td>
+                <td th:text="${p.productName}">XXXX</td>
+                <td th:text="${p.supplier.supplierId}">0000</td>
+                <td th:text="${p.category.categoryId}">0000</td>
+                <td th:text="${p.unitPrice}">00.00</td>
+                <td th:text="${p.discontinued}">0</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

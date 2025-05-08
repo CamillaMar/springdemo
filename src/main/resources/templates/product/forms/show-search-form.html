@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show by name or by discountinued or all</title>
+</head>
+<body>
+<header>
+    <h1>Cerca il prodotto</h1>
+</header>
+<form th:action="@{/product}" method="get">
+    <div>
+        <label for="name">Name product</label>
+        <input type="text" id="name" name="name">
+    </div>
+    <div>
+        <label  for="discontinued">Is discontinued</label>
+        <select id="discontinued" name ="discontinued">
+            <option value="-1">Tutti i prodotti</option>
+            <option value="0">In stock</option>
+            <option value="1">Out of stock</option>
+        </select>
+    </div>
+    <button type="submit">Ricerca prodotto</button>
+</form>
+</body>
+</html>

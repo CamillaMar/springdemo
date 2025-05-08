@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface JpaEmployeeRepository extends JpaRepository<Employee, Integer> {
@@ -23,4 +24,11 @@ public interface JpaEmployeeRepository extends JpaRepository<Employee, Integer> 
             )
             """)
     List<Employee> findNoOrdersEmployees();
+
+    List<Employee> findByHireDateAfter(LocalDateTime hireDate);
+    @Query("SELECT e FROM Employee e WHERE e.hireDate >= :date")
+    List<Employee> findHiredAfter(@Param("date") LocalDateTime date);
+
+    @Query("SELECT AVG(EXTRACT(YEAR FROM e.hireDate)) FROM Employee e GROUP BY e.country")
+    List<Employee> findAgePerCountry();
 }

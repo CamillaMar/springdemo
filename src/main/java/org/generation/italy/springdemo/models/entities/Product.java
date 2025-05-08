@@ -28,11 +28,11 @@ public class Product {
     public Product(){
     }
 
-    public Product(int productId, String productName, Supplier supplierId, Category categoryId, BigDecimal unitPrice, int discontinued) {
+    public Product(int productId, String productName, Supplier supplier, Category category, BigDecimal unitPrice, int discontinued) {
         this.productId = productId;
         this.productName = productName;
-        this.supplier = supplierId;
-        this.category = categoryId;
+        this.supplier = supplier;
+        this.category = category;
         this.discontinued = discontinued;
         this.unitPrice = unitPrice;
     }
@@ -45,14 +45,6 @@ public class Product {
         return productName;
     }
 
-    public Supplier getSupplierId() {
-        return supplier;
-    }
-
-    public Category getCategoryId() {
-        return category;
-    }
-
     public BigDecimal getUnitPrice() {
         return unitPrice;
     }
@@ -61,4 +53,19 @@ public class Product {
         return discontinued;
     }
 
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
 }
