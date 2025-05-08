@@ -28,15 +28,15 @@ public class OrderController {
     }
 
     @GetMapping("/orders/byId")
-    public String showOrdersByCustomerId(@Param("customerId") int custId, Model model){
+    public String showOrdersByCustomerId(@RequestParam Integer custId, Model model){
         model.addAttribute("ordersByCustId",storeService.findByCustId(custId)) ;
-
         return "order/forms/review-orders-by-customer-id";
     }
 
-//    @PostMapping("/delete-order")
-//    public String deleteOrderByCustomerId(@Param("orderId") int orderId, Model model){
-//
-//    }
+    @PostMapping("/delete-order")
+    public String deleteOrderByCustomerId(@RequestParam("orderId") int orderId, Model model){
+        storeService.deleteOrderById(orderId);
+        return "redirect:/orders";
+    }
 
 }

@@ -27,4 +27,5 @@ public interface JpaOrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findByCompanyNameOfCustomer(@Param("name") String customerName);
 
     List<Order> findByCustomerCustId( int custId);
+
 }

@@ -27,7 +27,7 @@
             <tbody>
                 <tr th:each="o : ${ordersByCustId}">
                     <td>
-                        <form th:action="@{}" method="post">
+                        <form th:action="@{/delete-order}" method="post">
                             <input name="orderId" type="hidden" th:value="${o.orderId}">
                             <button type="submit">
                                 Cancella

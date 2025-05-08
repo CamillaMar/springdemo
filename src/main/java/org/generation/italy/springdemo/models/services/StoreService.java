@@ -15,7 +15,7 @@ public interface StoreService {
     Product saveProduct(Product p, int supplierId, int categoryId) throws DataException;
     List<Category> findAllCategories();
     List<Supplier> findAllSuppliers();
-
     List<Customer> findAllCustomers();
     List<Order> findByCustId(int custId);
+    void deleteOrderById(Integer id);
 }
