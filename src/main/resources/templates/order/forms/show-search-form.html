@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
         <title>Show by customer id</title>
@@ -23,11 +23,12 @@
         <form th:action="@{/orders/byId}" method="get">
             <div>
                 <label for="idInput">Customer id</label>
-                <select id="idInput" name="customerId">
+                <select id="idInput" name="custId">
                     <option th:each="c : ${customers}" th:text="${c.custId}"></option>
-
-
                 </select>
+            </div>
+            <div type="submit">
+                <button>Cerca</button>
             </div>
 
         </form>
