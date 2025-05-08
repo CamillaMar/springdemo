@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -44,6 +45,17 @@ public class OrderController {
             model.addAttribute("orders", orders);
             model.addAttribute("customerName", customerName);
             return "order/show-orders";
+        } catch (DataException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
+    }
+    @PostMapping("/delete-order")
+    public String deleteOrder(@RequestParam Integer orderId, Model model){
+        try {
+            Order o = storeService.findOrderById(orderId);
+            storeService.deleteOrderById(orderId);
+            return "redirect:/orders?customerId="+o.getCustomer().getCustId();
         } catch (DataException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "error";

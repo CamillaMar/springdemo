@@ -15,10 +15,24 @@
                 <th>Shipper name</th>
                 <th>Ship address</th>
                 <th>Freight</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-
+            <tr th:each="o : ${orders}">
+                <td th:text="${o.orderId}">1</td>
+                <td th:text="${o.employee.firstName}">Employee</td>
+                <td th:text="${o.shippedDate}">Shipped date</td>
+                <td th:text="${o.shipper.companyName}">Shipper name</td>
+                <td th:text="${o.shipAddress} + ', ' + ${o.shipCity}">Ship address</td>
+                <td th:text="${o.freight}">Freight</td>
+                <td>
+                    <form th:action="@{/delete-order}" method="post">
+                        <input type="hidden" th:value="${o.orderId}" name="orderId">
+                        <button type="submit">Cancella</button>
+                    </form>
+                </td>
+            </tr>
         </tbody>
     </table>
 </body>

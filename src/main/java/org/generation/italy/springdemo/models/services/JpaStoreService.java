@@ -19,15 +19,17 @@ public class JpaStoreService implements StoreService{
     private JpaSupplierRepository supplierRepo;
     private JpaCustomerRepository customerRepo;
     private JpaOrderRepository orderRepo;
+    private JpaOrderDetailsRepository orderDetailsRepo;
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo,
-                           JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo,
+                           JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
         this.customerRepo = customerRepo;
         this.orderRepo = orderRepo;
+        this.orderDetailsRepo = orderDetailsRepo;
     }
 
     @Override
@@ -86,5 +88,30 @@ public class JpaStoreService implements StoreService{
     @Override
     public List<Order> findAllOrdersByCustomerId(int custId) throws DataException {
         return orderRepo.findAllByCustomerCustId(custId);
+    }
+
+    public void deleteOrderById(int orderId) throws DataException {
+        Optional<Order> optionalOrder = orderRepo.findById(orderId);
+        if(optionalOrder.isEmpty()){
+            throw new DataException("Ordine con orderId: "+orderId+" non trovato");
+        }
+
+        deleteOrderDetailsByOrderId(orderId);
+        orderRepo.deleteById(orderId);
+    }
+
+    @Override
+    public void deleteOrderDetailsByOrderId(int orderId) throws DataException {
+        List<OrderDetails> odList = orderDetailsRepo.findAllByOrderOrderId(orderId);
+
+        for (OrderDetails od : odList){
+            orderDetailsRepo.delete(od);
+        }
+    }
+
+    @Override
+    public Order findOrderById(int id) throws DataException {
+        Optional<Order> optionalOrder = orderRepo.findById(id);
+        return optionalOrder.orElseThrow(() -> new DataException("Ordine con orderId: "+id+" non trovato"));
     }
 }
