@@ -14,7 +14,7 @@ public interface JpaProductRepository extends JpaRepository<Product,Integer> {
     List<Product> findByProductNameContains(String name);
     @Query("SELECT p FROM Product p WHERE discontinued = :discontinued")
     List<Product> findByDiscontinued(@Param("discontinued") int discontinued);
-    List<Product> findByUnitPriceGreaterThanEqual(BigDecimal price);
+    List<Product> findByCostGreaterThanEqual(BigDecimal price);
     List<Product> findByCategoryCategoryName(String name);
     //List<Product> findByProductNameLike(String name);
     @Query("SELECT p FROM Product p WHERE productName LIKE :name")
@@ -27,7 +27,7 @@ public interface JpaProductRepository extends JpaRepository<Product,Integer> {
     @Query("SELECT p.category.categoryName, COUNT(p) FROM Product p GROUP BY p.category.categoryName")
     List<Object[]> findByCategoryNameAndProductCount();
 
-    @Query("SELECT new org.generation.italy.springdemo.models.dtos.ProductSummary(p.productName, p.unitPrice) FROM Product p")
+    @Query("SELECT new org.generation.italy.springdemo.models.dtos.ProductSummary(p.productName, p.cost) FROM Product p")
     List<ProductSummary> getProductSummaries();
 
     //tutti i prodotti non ordinati
@@ -44,7 +44,7 @@ public interface JpaProductRepository extends JpaRepository<Product,Integer> {
 
     //cancellare i prodotti che costano meno di una certa quantità
     @Modifying
-    @Query("UPDATE Product p SET p.discontinued = 1 WHERE p.unitPrice < :amount")
+    @Query("UPDATE Product p SET p.discontinued = 1 WHERE p.cost < :amount")
     int discontinueProductsUnder(@Param("amount") BigDecimal amount);
 
 
