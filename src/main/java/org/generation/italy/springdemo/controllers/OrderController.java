@@ -29,7 +29,7 @@ public class OrderController {
     public String showOrdersByCustomerId(@Param("customerId") int custId, Model model){
         model.addAttribute("ordersByCustId",storeService.findByCustId(custId)) ;
 
-        return "order/forms/review-orders-by-customer-id";
+        return "order/forms/review-orders-by-customer-id";//123
     }
 
 }
