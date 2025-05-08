@@ -22,8 +22,9 @@ public class OrderController {
     }
 
     @GetMapping("/show-by-customer-id-form")
-    public String showByCustomerIdForm(){
+    public String showByCustomerIdForm(Model model){
         List<Customer> customers = storeService.findAllCustomers();
+        model.addAttribute("customers", customers);
         return "order/forms/select-order-by-customer-id";
     }
     @GetMapping("/order-by-custid")
