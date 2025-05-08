@@ -2,6 +2,7 @@ package org.generation.italy.springdemo.models.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,7 +11,6 @@ public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "supplierid")
-
     private int supplierId;
     @Column(name = "companyname")
     private String companyName;
@@ -31,9 +31,12 @@ public class Supplier {
     private List<Product> products;
 
     public Supplier() {
+        this.products = new ArrayList<>();
     }
 
-    public Supplier(String companyName, String contactName, String contactTitle, String address, String city, String region, String postalCode, String country, String phone, String fax, List<Product> products) {
+    public Supplier(String companyName, String contactName, String contactTitle, String address,
+                    String city, String region, String postalCode, String country, String phone,
+                    String fax, List<Product> products) {
         this.companyName = companyName;
         this.contactName = contactName;
         this.contactTitle = contactTitle;

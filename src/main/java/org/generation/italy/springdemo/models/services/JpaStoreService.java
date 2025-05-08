@@ -1,23 +1,81 @@
 package org.generation.italy.springdemo.models.services;
 
+import jakarta.persistence.PersistenceException;
+import org.generation.italy.springdemo.models.entities.Category;
 import org.generation.italy.springdemo.models.entities.Product;
+import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
-import org.generation.italy.springdemo.models.repositories.ProductRepository;
+import org.generation.italy.springdemo.models.repositories.JpaCategoryRepository;
+import org.generation.italy.springdemo.models.repositories.JpaProductRepository;
+import org.generation.italy.springdemo.models.repositories.JpaSupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
+@Profile("jpa")
 public class JpaStoreService implements StoreService{
-    private ProductRepository productRepo;
+    private JpaProductRepository productRepo;
+    private JpaCategoryRepository categoryRepo;
+    private JpaSupplierRepository supplierRepo;
+
 
     @Autowired
-    public JpaStoreService(ProductRepository productRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo) {
         this.productRepo = productRepo;
+        this.categoryRepo = categoryRepo;
+        this.supplierRepo = supplierRepo;
     }
+
 
     @Override
     public Optional<Product> findProductById(int id) throws DataException {
         return productRepo.findById(id);
+    }
+
+    @Override
+    public Optional<Category> findCategoryById(int id) throws DataException {
+        return categoryRepo.findById(id);
+    }
+
+    @Override
+    public List<Product> findByProductNameContains(String name) throws DataException {
+        try{
+            return  productRepo.findByProductNameContains(name);
+        }catch(PersistenceException pe) {
+            throw new DataException(pe.getMessage(), pe);
+        }
+    }
+
+    @Override
+    public List<Product> findProductsByDiscontinued(int discontinued) throws DataException {
+        try{
+            return  productRepo.findByDiscontinued(discontinued);
+        }catch(PersistenceException pe) {
+            throw new DataException(pe.getMessage(), pe);
+        }
+    }
+
+    @Override
+    public List<Product> findAllProducts() throws DataException {
+        return productRepo.findAll();
+    }
+
+    @Override
+    public Product saveProduct(Product p, int supplierId, int categoryId) throws DataException {
+        Optional<Supplier> os = supplierRepo.findById(supplierId);
+        if(os.isEmpty()){
+            throw new DataException(String.format("Il supplier con id %d non esiste", supplierId));
+        }
+        Supplier s = os.get();
+        Optional<Category> oc = categoryRepo.findById(categoryId);
+        Category c = oc.orElseThrow(()-> new DataException(String.format("la categoria con id %d non esiste", categoryId)));
+        p.setSupplier(s);
+        p.setCategory(c);
+        productRepo.save(p);
+        return p;
     }
 }

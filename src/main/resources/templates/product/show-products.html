@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Ecco tutti i prodotti belli</title>
+    </head>
+    <body>
+    <h1>Products</h1>
+        <table style="border: 1px solid black">
+            <thead style="border: 1px solid black">
+                <tr style="border: 1px solid black">
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Supplier ID</th>
+                    <th>Category ID</th>
+                    <th>Price</th>
+                    <th>Discontinued</th>
+                </tr>
+            </thead>
+            <tbody style="border: 1px solid black">
+                <tr th:each="p : ${products}" style="border: 1px solid black">
+                    <td th:text="${p.productId}">1000</td>
+                    <td th:text="${p.productName}">Giovanni</td>
+                    <td th:text="${p.supplier.supplierId}">2000</td>
+                    <td th:text="${p.category.categoryId}">2000</td>
+                    <td th:text="${p.unitPrice}">100.00</td>
+                    <td th:text="${p.discontinued}">0</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </body>
+</html>

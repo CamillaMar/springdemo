@@ -1,6 +1,8 @@
 package org.generation.italy.springdemo.models.entities;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +17,7 @@ public class Category {
     private String description;
 
     @OneToMany(mappedBy = "category")
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();
 
     public Category() {
     }
@@ -23,6 +25,10 @@ public class Category {
     public Category(String categoryName, String description) {
         this.categoryName = categoryName;
         this.description = description;
+    }
+
+    public List<Product> getProducts() {
+        return products;
     }
 
     public int getCategoryId() {
