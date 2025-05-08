@@ -2,6 +2,7 @@ package org.generation.italy.springdemo.models.repositories;
 
 import org.generation.italy.springdemo.models.entities.Customer;
 import org.generation.italy.springdemo.models.entities.Order;
+import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,4 +19,6 @@ public interface JpaOrderRepository extends JpaRepository<Order, Integer> {
 
     @Query("SELECT o.customer, SUM(od.quantity*od.unitPrice) sum FROM Order o JOIN o.orderDetails od GROUP BY o.customer ORDER BY sum")
     List<Customer> findBySumOrders();
+
+    List<Order> findByCustomerCustId(int custId) throws DataException;
 }

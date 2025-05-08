@@ -87,4 +87,6 @@ public class JpaStoreService implements StoreService{
     public List<Supplier> findAllSuppliers() {
         return supplierRepo.findAll();
     }
+
+
 }
