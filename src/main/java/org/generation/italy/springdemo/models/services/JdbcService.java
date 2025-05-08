@@ -59,4 +59,10 @@ public class JdbcService implements StoreService{
     public List<Order> findByCustId(int custId) {
         return List.of();
     }
+
+    @Override
+    public void deleteOrderById(Integer id) {
+    }
+
+
 }

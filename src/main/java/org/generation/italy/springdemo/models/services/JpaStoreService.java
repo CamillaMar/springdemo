@@ -99,4 +99,10 @@ public class JpaStoreService implements StoreService{
     public List<Order> findByCustId(int custId) {
         return orderRepo.findByCustomerCustId(custId);
     }
+
+    @Override
+    public void deleteOrderById(Integer id) {
+        orderRepo.deleteById(id);
+    }
+
 }

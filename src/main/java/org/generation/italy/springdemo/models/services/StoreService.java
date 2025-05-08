@@ -16,4 +16,5 @@ public interface StoreService {
     List<Supplier> findAllSuppliers();
     List<Customer> findAllCustomers();
     List<Order> findByCustId(int custId);
+    void deleteOrderById(Integer id);
 }
