@@ -1,6 +1,7 @@
 package org.generation.italy.springdemo.models.services;
 
 import org.generation.italy.springdemo.models.entities.Category;
+import org.generation.italy.springdemo.models.entities.Customer;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
@@ -49,6 +50,11 @@ public class JdbcService implements StoreService{
 
     @Override
     public List<Supplier> findAllSuppliers() {
+        return List.of();
+    }
+
+    @Override
+    public List<Customer> findAllCustomers() {
         return List.of();
     }
 }
