@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -29,7 +31,12 @@ public class OrderController {
     public String showOrdersByCustomerId(@Param("customerId") int custId, Model model){
         model.addAttribute("ordersByCustId",storeService.findByCustId(custId)) ;
 
-        return "order/forms/review-orders-by-customer-id";//123
+        return "order/forms/review-orders-by-customer-id";
     }
+
+//    @PostMapping("/delete-order")
+//    public String deleteOrderByCustomerId(@Param("orderId") int orderId, Model model){
+//
+//    }
 
 }
