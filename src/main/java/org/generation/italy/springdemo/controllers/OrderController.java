@@ -42,10 +42,11 @@ public class OrderController {
     }
 
     @PostMapping ("/delete-order")
-    public String deleteOrder(Integer orderId){
+    public String deleteOrder(@RequestParam Integer orderId, @RequestParam(required = false) Integer custId, Model model){
         try {
+            storeService.deleteOrderOrderDetails(orderId);
             storeService.deleteOrderById(orderId);
-            return "redirect:/order";
+            return "redirect:/order?custId=" + 5;
         } catch (DataException e) {
             throw new RuntimeException(e);
         }

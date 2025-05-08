@@ -44,7 +44,8 @@
                 <td th:text="${o.shipCountry}">Not Found</td>
                 <td>
                     <form action="/delete-order" method="post">
-                        <input type="hidden" value="${o.orderId}">
+                        <input type="hidden" th:value="${o.orderId}" name="orderId">
+                        <input type="hidden" th:value="${o.customer.custId}" name="custId">
                         <button type="submit">Delete</button>
                     </form>
                 </td>

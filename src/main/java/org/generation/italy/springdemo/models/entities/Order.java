@@ -44,7 +44,6 @@ public class Order {
     @Column(name = "shipcountry")
     private String shipCountry;
 
-
     @OneToMany (mappedBy = "order")
     private List<OrderDetails> orderDetails;
 
