@@ -1,6 +1,7 @@
 package org.generation.italy.springdemo.models.services;
 
 import org.generation.italy.springdemo.models.entities.Category;
+import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
@@ -17,4 +18,7 @@ public interface StoreService {
     Product saveProduct(Product p, int supplierId, int categoryId) throws DataException;
     List<Category> findAllCategories();
     List<Supplier> findAllSuppliers();
+    List<Order> findOrdersByCustId(int custId) throws DataException;
+    List<Order> findAllOrders();
+    void deleteOrderById(int orderId) throws DataException;
 }

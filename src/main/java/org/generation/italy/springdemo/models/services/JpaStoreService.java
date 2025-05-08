@@ -2,10 +2,12 @@ package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
 import org.generation.italy.springdemo.models.entities.Category;
+import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.repositories.JpaCategoryRepository;
+import org.generation.italy.springdemo.models.repositories.JpaOrderRepository;
 import org.generation.italy.springdemo.models.repositories.JpaProductRepository;
 import org.generation.italy.springdemo.models.repositories.JpaSupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +23,14 @@ public class JpaStoreService implements StoreService{
     private JpaProductRepository productRepo;
     private JpaCategoryRepository categoryRepo;
     private JpaSupplierRepository supplierRepo;
-
+    private JpaOrderRepository orderRepo;
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaOrderRepository orderRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
+        this.orderRepo = orderRepo;
     }
 
 
@@ -88,4 +91,20 @@ public class JpaStoreService implements StoreService{
     public List<Supplier> findAllSuppliers() {
         return supplierRepo.findAll();
     }
+
+    @Override
+    public List<Order> findOrdersByCustId(int custId) {
+        return orderRepo.findByCustomerCustId(custId);
+    }
+
+    @Override
+    public List<Order> findAllOrders() {
+        return orderRepo.findAll();
+    }
+
+    @Override
+    public void deleteOrderById(int orderId) throws DataException {
+        orderRepo.deleteById(orderId);
+    }
+
 }
