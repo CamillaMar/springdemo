@@ -2,10 +2,12 @@ package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
 import org.generation.italy.springdemo.models.entities.Category;
+import org.generation.italy.springdemo.models.entities.Customer;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.repositories.JpaCategoryRepository;
+import org.generation.italy.springdemo.models.repositories.JpaCustomerRepository;
 import org.generation.italy.springdemo.models.repositories.JpaProductRepository;
 import org.generation.italy.springdemo.models.repositories.JpaSupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ public class JpaStoreService implements StoreService{
     private JpaProductRepository productRepo;
     private JpaCategoryRepository categoryRepo;
     private JpaSupplierRepository supplierRepo;
+    private JpaCustomerRepository customerRepo;
 
 
     @Autowired
@@ -77,5 +80,10 @@ public class JpaStoreService implements StoreService{
         p.setCategory(c);
         productRepo.save(p);
         return p;
+    }
+
+    @Override
+    public List<Customer> findAllCustomers() throws DataException {
+        return orderRepo.findAllByCustomerCustid;
     }
 }
