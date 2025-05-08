@@ -97,6 +97,6 @@ public class JpaStoreService implements StoreService{
 
     @Override
     public List<Order> findByCustId(int custId) {
-        return orderRepo.findByCustId(custId);
+        return orderRepo.findByCustomerCustId(custId);
     }
 }

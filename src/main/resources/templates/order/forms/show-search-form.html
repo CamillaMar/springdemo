@@ -23,7 +23,7 @@
         <form th:action="@{/orders/byId}" method="get">
             <div>
                 <label for="idInput">Customer id</label>
-                <select id="idInput" name="customerId">
+                <select id="idInput" name="custId">
                     <option th:each="c : ${customers}" th:text="${c.custId}"></option>
                 </select>
             </div>
