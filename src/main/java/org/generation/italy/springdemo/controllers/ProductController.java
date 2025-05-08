@@ -48,6 +48,7 @@ public class ProductController {
     public String showSearchForm(){
         return "product/forms/show-search-form";
     }
+
     @GetMapping("/product")
     public String searchProducts(@RequestParam(required = false) String name,@RequestParam(required = false) Integer discontinued, Model model){
         try{
