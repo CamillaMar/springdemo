@@ -3,6 +3,7 @@ package org.generation.italy.springdemo.controllers;
 import org.generation.italy.springdemo.models.entities.Customer;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.services.StoreService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,13 +21,14 @@ public class OrderController {
 
     @GetMapping("/orders")
     public String showByCustomerIdForm(Model model){
-        List<Customer> customers = storeService.findAllCustomers();
-        model.addAttribute("customers", customers);
+        model.addAttribute("customers", storeService.findAllCustomers());
         return "order/forms/show-search-form";
     }
 
     @GetMapping("/orders/byId")
-    public String showOrdersByCustomerId(){
+    public String showOrdersByCustomerId(@Param("customerId") int custId, Model model){
+        model.addAttribute("ordersByCustId",storeService.findByCustId(custId)) ;
+
         return "order/forms/review-orders-by-customer-id";
     }
 
