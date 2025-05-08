@@ -31,7 +31,8 @@ public class Product {
     public Product(){
     }
 
-    public Product(String productName, Supplier supplier, Category category, BigDecimal unitPrice, int discontinued) {
+    public Product(int productId, String productName, Supplier supplier, Category category, BigDecimal unitPrice, int discontinued) {
+        this.productId = productId;
         this.productName = productName;
         this.supplier = supplier;
         this.category = category;

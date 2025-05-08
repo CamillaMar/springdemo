@@ -13,4 +13,5 @@ public interface StoreService {
     List<Product> findByProductNameContains(String name) throws DataException;
     List<Product> findProductsByDiscontinued(int discontinued) throws DataException;
     List<Product> findAllProducts() throws DataException;
+    Product saveProduct(Product p, int supplierId, int categoryId) throws DataException;
 }
