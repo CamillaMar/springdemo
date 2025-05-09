@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -20,14 +21,27 @@ public class ProductRestController {
     private StoreService storeService;
 
     @Autowired
-    public void setStoreService(StoreService storeService) {
+    public ProductRestController(StoreService storeService) {
         this.storeService = storeService;
     }
 
+    /*
+        Ricerca prodotti:
+            - se non passo nulla --> allProducts()
+            - per ogni parametro filtro puzzo
+            - parametri: categoryId, supplierId, minPrice, maxPrice
+    */
     @GetMapping
-    public ResponseEntity<List<ProductRestDto>> getAllProducts() throws DataException {
-        var productDtos = storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
+    public ResponseEntity<List<ProductRestDto>> getAllProducts(@RequestParam(required = false) Integer categoryId,
+                                                               @RequestParam(required = false) Integer supplierId,
+                                                               @RequestParam(required = false) BigDecimal minPrice,
+                                                               @RequestParam(required = false) BigDecimal maxPrice) throws DataException {
+        var productDtos = storeService.searchProducts(categoryId, supplierId, minPrice, maxPrice)
+                .stream().map(ProductRestDto::toDto).toList();
+
+        // var productDtos = storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
         // return ResponseEntity.status(200).body(productDtos);
+
         return ResponseEntity.ok(productDtos);
     }
 
@@ -73,7 +87,7 @@ public class ProductRestController {
             return ResponseEntity.notFound().build();
         }
 
-        storeService.updateProduct(op.get(), dto);
+        storeService.updateProduct(id, dto);
         return ResponseEntity.ok(ProductRestDto.toDto(op.get()));
     }
 }

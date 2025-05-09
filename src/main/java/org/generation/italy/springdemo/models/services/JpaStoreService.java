@@ -5,12 +5,14 @@ import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
+import org.generation.italy.springdemo.models.repositories.criteria.ProductCriteriaRepository;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,16 +25,19 @@ public class JpaStoreService implements StoreService{
     private JpaCustomerRepository customerRepo;
     private JpaOrderRepository orderRepo;
     private JpaOrderDetailsRepository orderDetailsRepo;
+    private ProductCriteriaRepository productCriteriaRepo;
 
     @Autowired
     public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo,
-                           JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo) {
+                           JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo,
+                           ProductCriteriaRepository productCriteriaRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
         this.customerRepo = customerRepo;
         this.orderRepo = orderRepo;
         this.orderDetailsRepo = orderDetailsRepo;
+        this.productCriteriaRepo = productCriteriaRepo;
     }
 
     @Override
@@ -97,14 +102,6 @@ public class JpaStoreService implements StoreService{
         } catch (PersistenceException pe) {
             throw new DataException("Errore nella creazione del prodotto", pe);
         }
-    }
-
-    @Override
-    public Product updateProduct(Product p, ProductRestDto dto) throws DataException, EntityNotFoundException {
-        p.setProductName(dto.getProductName());
-        p.setUnitPrice(dto.getUnitPrice());
-        p.setDiscontinued(dto.isDiscontinued() ? 1 : 0);
-        return saveProduct(p, dto.getSupplierId(), dto.getCategoryId());
     }
 
     @Override
@@ -176,6 +173,26 @@ public class JpaStoreService implements StoreService{
             return true;
         } catch (PersistenceException pe) {
             throw new DataException(String.format("Errore nella cancellazione del prodotto con id %d", id), pe);
+        }
+    }
+
+    @Override
+    public Product updateProduct(int id, ProductRestDto dto) throws DataException, EntityNotFoundException {
+        try {
+            Product p = dto.toProduct();
+            p.setProductId(id);
+            return saveProduct(p, dto.getSupplierId(), dto.getCategoryId());
+        } catch (PersistenceException pe) {
+            throw new DataException(String.format("Errore nell'aggiornamento del prodotto con id %d", id), pe);
+        }
+    }
+
+    @Override
+    public List<Product> searchProducts(Integer categoryId, Integer supplierId, BigDecimal minPrice, BigDecimal maxPrice) throws DataException {
+        try {
+            return productCriteriaRepo.searchProducts(categoryId, supplierId, minPrice, maxPrice);
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella ricerca dei prodotti", pe);
         }
     }
 }
