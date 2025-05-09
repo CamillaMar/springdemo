@@ -1,6 +1,7 @@
 package org.generation.italy.springdemo.models.repositories;
 
 import org.generation.italy.springdemo.models.entities.Order;
+import org.generation.italy.springdemo.models.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,7 +28,5 @@ public interface JpaOrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findByCompanyNameOfCustomer(@Param("name") String customerName);
 
     List<Order> findByCustomerCustId( int custId);
-
-
-
+    List<Product> findbySupplierSupplierId(int suppId);
 }

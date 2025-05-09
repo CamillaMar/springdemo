@@ -5,12 +5,14 @@ import jakarta.transaction.Transactional;
 import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.repositories.*;
+import org.generation.italy.springdemo.restdtos.ProductFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Profile("jpa")
@@ -24,7 +26,7 @@ public class JpaStoreService implements StoreService{
 
     @Autowired
     public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo,
-                           JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo) {
+                            JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
@@ -102,6 +104,16 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
+    public List<Product> findBySuppId(int suppId) {
+        return orderRepo.findbySupplierSupplierId(suppId);
+    }
+
+    @Override
+    public List<Product> findByCatId(int catId) {
+        return productRepo.findbyCategoryategoryId();
+    }
+
+    @Override
     public void deleteOrderById(Integer id) {
         orderRepo.deleteById(id);
 
@@ -121,6 +133,34 @@ public class JpaStoreService implements StoreService{
             return true;
         }
         return false;
+
     }
+
+    @Override
+    public Optional<Product> findByProductName(String name) throws DataException {
+        try{
+            return  productRepo.findByProductName(name);
+        }catch(PersistenceException pe) {
+            throw new DataException(pe.getMessage(), pe);
+        }
+    }
+
+    @Override
+    public List<Product> findProductByUnitPriceBetween(int param1, int param2) throws DataException {
+        return productRepo.findbyunitPriceBetween(param1,param2);
+    }
+
+    @Override
+    public List<Product> filterProductsByNameAndSupplierIDAndCategoryIdAndPriceBetween(ProductFilter filter) throws DataException {
+        return findAllProducts().stream()
+                .filter(p-> filter.getId() == null|| p.getProductId() == filter.getId())
+                .filter(p-> filter.getName()==null || p.getProductName().equalsIgnoreCase(filter.getName()))
+                .filter(p -> filter.getSupplierId() == null || p.getSupplier().getSupplierId()== filter.getSupplierId())
+                .filter(p -> filter.getCategoryId() == null || p.getCategory().getCategoryId()== filter.getCategoryId())
+                .filter(p -> filter.getMinPrice() == null || p.getUnitPrice().compareTo(filter.getMinPrice())>=0)
+                .filter(p -> filter.getMaxPrice() == null || p.getUnitPrice().compareTo(filter.getMaxPrice())>=0)
+                .collect(Collectors.toList());
+    }
+
 
 }

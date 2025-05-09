@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface JpaProductRepository extends JpaRepository<Product,Integer> {
     List<Product> findByProductNameContains(String name);
@@ -48,4 +49,7 @@ public interface JpaProductRepository extends JpaRepository<Product,Integer> {
     int discontinueProductsUnder(@Param("amount") BigDecimal amount);
 
 
+    Optional<Product> findByProductName(String name);
+    List<Product> findbyCategoryategoryId();
+    List<Product> findbyunitPriceBetween(int par1, int par2);
 }

@@ -3,6 +3,8 @@ package org.generation.italy.springdemo.restdtos;
 import org.generation.italy.springdemo.models.entities.Product;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductRestDto {
     private int productId;
@@ -29,8 +31,16 @@ public class ProductRestDto {
     }
 
     public static ProductRestDto toDto(Product p) {
-        return new ProductRestDto(p.getProductId(),p.getProductName(),p.getSupplier().getSupplierId(),p.getCategory().getCategoryId()
-                ,p.getCost(), p.getDiscontinued() == 1);
+        return new ProductRestDto(p.getProductId(),p.getProductName(),p.getSupplier().getSupplierId(),p.getCategory().getCategoryId(),p.getUnitPrice(), p.getDiscontinued() == 1);
+    }
+    public static List<ProductRestDto> listToDtoList(List<Product> products){
+        List<ProductRestDto> ret = new ArrayList<>();
+        for(Product p : products){
+            ProductRestDto dto;
+            dto = ProductRestDto.toDto(p);
+            ret.add(dto);
+        }
+        return ret;
     }
 
     public int getProductId() {

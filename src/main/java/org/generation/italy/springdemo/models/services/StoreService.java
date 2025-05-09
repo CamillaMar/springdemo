@@ -2,6 +2,7 @@ package org.generation.italy.springdemo.models.services;
 
 import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.restdtos.ProductFilter;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +18,13 @@ public interface StoreService {
     List<Supplier> findAllSuppliers();
     List<Customer> findAllCustomers();
     List<Order> findByCustId(int custId);
+    List<Product> findBySuppId(int suppId);
+    List<Product> findByCatId(int catId);
     void deleteOrderById(Integer id);
     Optional<Order> findOrderById (int id);
     boolean deleteProduct(int id) throws DataException;
+    Optional<Product> findByProductName(String name) throws DataException;
+    List<Product> findProductByUnitPriceBetween(int param1, int param2) throws DataException;
+    List<Product> filterProductsByNameAndSupplierIDAndCategoryIdAndPriceBetween(ProductFilter filter) throws DataException;
+
 }
