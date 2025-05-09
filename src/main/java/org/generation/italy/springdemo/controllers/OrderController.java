@@ -29,7 +29,7 @@ public class OrderController {
     }
 
     @GetMapping("/find-order")
-    public String findOrderByCustomer(@RequestParam(required = true) Integer custId, Model model) {
+    public String findOrderByCustomer(@RequestParam Integer custId, Model model) {
         List<Order> orders = storeService.findOrdersByCustomer(custId);
         List<OrderViewModel> lst = new ArrayList<>();
         for(Order o : orders) {
@@ -58,7 +58,7 @@ public class OrderController {
     }
 
     @PostMapping("/delete-order")
-    public String deleteOrder(@RequestParam(required = true) Integer custId, @RequestParam(required = true) Integer orderId, Model model) {
+    public String deleteOrder(@RequestParam Integer custId, @RequestParam Integer orderId, Model model) {
         storeService.deleteOrder(orderId);
         List<Order> orders = storeService.findOrdersByCustomer(custId);
         List<OrderViewModel> lst = new ArrayList<>();
