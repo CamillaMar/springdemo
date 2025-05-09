@@ -27,7 +27,6 @@ public class ProductRestController {
     @GetMapping
     public ResponseEntity<?> getAllProducts() throws DataException{
             List<ProductRestDto> ps =  storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
-//            return ResponseEntity.status(200).body(ps);
             return ResponseEntity.ok(ps);
     }
 
