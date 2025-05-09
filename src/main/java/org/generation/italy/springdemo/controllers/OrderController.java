@@ -20,9 +20,9 @@ public class OrderController {
 
     @GetMapping("/all-orders")
     public String getAllOrders(Model model) {
-        List<OrderViewModel> orders = storeService.findAllOrder();
+        List<OrderViewModel> orders = storeService.findAllOrders();
         model.addAttribute("orders", orders);
-        return "show-all-orders2";  // nome del template .html
+        return "show-all-orders";  // nome del template .html
     }
 
 }

@@ -55,7 +55,7 @@ public class JdbcService implements StoreService{
     }
 
     @Override
-    public List<OrderViewModel> findAllOrder() {
+    public List<OrderViewModel> findAllOrders() {
         return List.of();
     }
 }

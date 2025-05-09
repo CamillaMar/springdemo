@@ -1,6 +1,7 @@
 package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
+import org.aspectj.weaver.ast.Or;
 import org.generation.italy.springdemo.models.entities.Category;
 import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.entities.Product;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -96,26 +98,19 @@ public class JpaStoreService implements StoreService {
     }
 
     @Override
-    public List<OrderViewModel> findAllOrder() {
-        var orders = orderRepo.findAll();
-        System.out.println("ORDINI TROVATI: " + orders.size());
-        return orderRepo.findAll().stream()
-                .map(o -> new OrderViewModel(
-                        o.getOrderId(),
-                        o.getShipCountry(),
-                        o.getShipPostalCode(),
-                        o.getShipRegion(),
-                        o.getShipCity(),
-                        o.getShipAddress(),
-                        o.getShipName(),
-                        o.getFreight(),
-                        o.getShipper().getShipperId(),
-                        o.getShippedDate(),
-                        o.getRequiredDate(),
-                        o.getEmployee().getEmpId(),
-                        o.getCustomer().getCustId()
-                ))
-                .collect(Collectors.toList());
+    public List<OrderViewModel> findAllOrders() {
+        List<Order> orders = orderRepo.findAll();
+        return ordersToModelMapper(orders);
     }
+
+    private List<OrderViewModel> ordersToModelMapper(List<Order> orders){
+        List<OrderViewModel> listToReturn = new ArrayList<>();
+        for(Order o:orders){
+            OrderViewModel ovm = new OrderViewModel(o.getOrderId(), o.getShipCountry(), o.getShipPostalCode(), o.getShipRegion(), o.getShipCity(),o.getShipAddress(), o.getShipName(), o.getFreight(), o.getShipper().getShipperId(), o.getShippedDate(), o.getRequiredDate(), o.getEmployee().getEmpId(), o.getCustomer().getCustId() );
+            listToReturn.add(ovm);
+        }
+        return listToReturn;
+    }
+
 
 }

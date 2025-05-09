@@ -1,9 +1,12 @@
 package org.generation.italy.springdemo.viewmodels;
 
 import jakarta.persistence.Id;
+import org.generation.italy.springdemo.models.entities.Order;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderViewModel {
     private int orderId;
