@@ -25,12 +25,6 @@ public class ProductRestController {
         this.storeService = storeService;
     }
 
-    /*
-        Ricerca prodotti:
-            - se non passo nulla --> allProducts()
-            - per ogni parametro filtro puzzo
-            - parametri: categoryId, supplierId, minPrice, maxPrice
-    */
     @GetMapping
     public ResponseEntity<List<ProductRestDto>> getAllProducts(@RequestParam(required = false) Integer categoryId,
                                                                @RequestParam(required = false) Integer supplierId,
@@ -38,10 +32,8 @@ public class ProductRestController {
                                                                @RequestParam(required = false) BigDecimal maxPrice) throws DataException {
         var productDtos = storeService.searchProducts(categoryId, supplierId, minPrice, maxPrice)
                 .stream().map(ProductRestDto::toDto).toList();
-
         // var productDtos = storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
         // return ResponseEntity.status(200).body(productDtos);
-
         return ResponseEntity.ok(productDtos);
     }
 
