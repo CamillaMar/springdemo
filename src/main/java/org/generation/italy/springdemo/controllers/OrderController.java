@@ -5,6 +5,7 @@ import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.services.StoreService;
 import org.generation.italy.springdemo.viewmodels.OrderViewModel;
+import org.generation.italy.springdemo.viewmodels.SearchModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,8 @@ public class OrderController {
 
     @GetMapping("/show-by-customer-id-form")
     public String showByCustomerIdForm(Model model) {
-        List<Customer> customers = storeService.findAllCustomers();
+        List<Customer> allCustomers = storeService.findAllCustomers();
+        List<SearchModel> customers = allCustomers.stream().map(SearchModel::fromCustomer).toList();
         model.addAttribute("customers", customers);
         return "order/forms/select-order-by-customer-id";
     }
@@ -33,14 +35,12 @@ public class OrderController {
     public String searchOrders(@RequestParam(required = false) Integer custId, Model model) {
         try {
             List<Order> result = null;
-            List<OrderViewModel> ovmResult = new ArrayList<OrderViewModel>();
-            if (custId != null) {
-                result = storeService.findOrdersByCustomerCustId(custId);
-                result.forEach(o -> {
+            List<OrderViewModel> ovmResult = new ArrayList<>();
+            result = storeService.findOrdersByCustomerCustId(custId);
+            result.forEach(o -> {
                     OrderViewModel ovm = new OrderViewModel();
                     ovmResult.add(ovm.fromOrder(o));
-                });
-            }
+            });
             model.addAttribute("orders", ovmResult);
             System.out.println(ovmResult);
             return "order/show-orders";
