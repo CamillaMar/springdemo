@@ -51,4 +51,9 @@ public class JdbcService implements StoreService{
     public List<Supplier> findAllSuppliers() {
         return List.of();
     }
+
+    @Override
+    public boolean deleteProduct(int id) throws DataException {
+        return false;
+    }
 }
