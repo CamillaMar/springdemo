@@ -23,7 +23,7 @@ public class JpaStoreService implements StoreService{
 
     @Autowired
     public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo,
-                           JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo) {
+                            JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
@@ -103,6 +103,13 @@ public class JpaStoreService implements StoreService{
     @Override
     public void deleteOrderById(Integer id) {
         orderRepo.deleteById(id);
+
     }
+
+    @Override
+    public Optional<Order> findOrderById(int id) {
+        return orderRepo.findById(id);
+    }
+
 
 }

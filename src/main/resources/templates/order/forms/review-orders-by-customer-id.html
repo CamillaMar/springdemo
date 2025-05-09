@@ -5,18 +5,51 @@
         <title>Title</title>
         <style>
             body {
+                font-family:calibri;
                 background-image: url('https://i.imgur.com/iUbLoGf.gif');
                 background-size:100%;
                 }
             table{
-                background-color: grey 25%;
+                position:absolute;
+                top:50%;
+                left:10%;
+                margin-left:-100px;/* half width*/
+                margin-top:-300px;/* half height*/
+                border: 2px solid black;
+                border-radius: 5px;
+                background-color: rgb(128,128,128,0.5);
             }
+            tr{
+                border: 2px solid black;
+            }tr:hover{
+                background-color: rgb(128,128,128,0.5)
+            }
+            td{
+                border: 2px solid black;
+                padding:5px;
+            }td:hover{
+                align:center;
+            }
+            th{
+                border: 2px solid black;
+            }th:hover{
+                background-color: rgb(128,128,128,0.5)
+            }
+            button{
+                background-color: rgb(255,0,0,0.1);
+                border 2px solid black;
+            }
+            button:hover{
+                background-color: rgb(255,0,0,0.5);
+            }
+
         </style>
     </head>
     <body>
         <table>
             <thead>
                 <tr>
+                    <th></th>
                     <th>Order ID</th>
                     <th>Customer ID</th>
                     <th>Employee ID</th>
@@ -46,6 +79,7 @@
                     <td th:text="${o.orderId}"></td>
                     <td th:text="${o.customer.custId}"></td>
                     <td th:text="${o.employee.empId}"></td>
+                    <td> marcello deve mettere il order date parameter nel order</td>
                     <td th:text="${o.requiredDate}"></td>
                     <td th:text="${o.shippedDate}"></td>
                     <td th:text="${o.shipper.shipperId}"></td>
@@ -57,6 +91,7 @@
                     <td th:text="${o.shipPostalCode}"></td>
                     <td th:text="${o.shipCountry}"></td>
                 </tr>
+
             </tbody>
         </table>
     </body>

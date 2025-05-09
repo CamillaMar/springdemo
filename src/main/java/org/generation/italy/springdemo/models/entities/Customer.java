@@ -55,4 +55,8 @@ public class Customer {
     public List<Order> getOrders() {
         return orders;
     }
+
+    public String getCompanyName() {
+        return companyName;
+    }
 }

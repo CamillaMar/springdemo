@@ -63,4 +63,9 @@ public class JdbcService implements StoreService{
     @Override
     public void deleteOrderById(Integer id) {
     }
+
+    @Override
+    public Optional<Order> findOrderById(int id) {
+        return Optional.empty();
+    }
 }

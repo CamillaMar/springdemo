@@ -42,7 +42,7 @@ public class Order {
     @Column(name = "shipcountry")
     private String shipCountry;
 
-    @OneToMany (mappedBy = "order")
+    @OneToMany (mappedBy = "order", cascade = CascadeType.REMOVE)
     private List<OrderDetails> orderDetails;
 
     public Order() {
@@ -50,9 +50,9 @@ public class Order {
     }
 
     public Order(LocalDateTime shippedDate, Shipper shipper, BigDecimal freight, String shipName,
-                 String shipAddress, String shipCity, String shipRegion, String shipPostalCode,
-                 String shipCountry, List<OrderDetails> orderDetails, LocalDateTime requiredDate,
-                 Employee employee, Customer customer, int orderId) {
+        String shipAddress, String shipCity, String shipRegion, String shipPostalCode,
+        String shipCountry, List<OrderDetails> orderDetails, LocalDateTime requiredDate,
+        Employee employee, Customer customer, int orderId) {
         this.shippedDate = shippedDate;
         this.shipper = shipper;
         this.freight = freight;
