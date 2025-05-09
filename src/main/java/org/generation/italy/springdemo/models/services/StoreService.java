@@ -19,4 +19,5 @@ public interface StoreService {
     List<Order> findByCustId(int custId);
     void deleteOrderById(Integer id);
     Optional<Order> findOrderById (int id);
+    boolean deleteProduct(int id) throws DataException;
 }

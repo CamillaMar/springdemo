@@ -68,4 +68,8 @@ public class JdbcService implements StoreService{
     public Optional<Order> findOrderById(int id) {
         return Optional.empty();
     }
+    @Override
+    public boolean deleteProduct(int id) throws DataException {
+        return false;
+    }
 }

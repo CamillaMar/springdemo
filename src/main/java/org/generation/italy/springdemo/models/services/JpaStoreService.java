@@ -1,6 +1,7 @@
 package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
+import jakarta.transaction.Transactional;
 import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.repositories.*;
@@ -111,5 +112,15 @@ public class JpaStoreService implements StoreService{
         return orderRepo.findById(id);
     }
 
+    @Override
+    @Transactional
+    public boolean deleteProduct(int id) throws DataException {
+        Optional<Product> op = productRepo.findById(id);
+        if(op.isPresent()) {
+            productRepo.delete(op.get());
+            return true;
+        }
+        return false;
+    }
 
 }
