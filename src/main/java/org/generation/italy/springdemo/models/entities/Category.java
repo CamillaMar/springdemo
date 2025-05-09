@@ -1,6 +1,5 @@
 package org.generation.italy.springdemo.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -13,8 +12,10 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "categoryid")
     private int categoryId;
+
     @Column (name = "categoryname")
     private String categoryName;
+
     private String description;
 
     @OneToMany(mappedBy = "category")

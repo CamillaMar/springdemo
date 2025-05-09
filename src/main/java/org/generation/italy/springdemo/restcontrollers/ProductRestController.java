@@ -6,7 +6,6 @@ import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException
 import org.generation.italy.springdemo.models.services.StoreService;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -27,7 +26,7 @@ public class ProductRestController {
     @GetMapping
     public ResponseEntity<?> getAllProducts() throws DataException{
             List<ProductRestDto> ps =  storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
-//            return ResponseEntity.status(200).body(ps);
+            // return ResponseEntity.status(200).body(ps);
             return ResponseEntity.ok(ps);
     }
 
@@ -63,5 +62,4 @@ public class ProductRestController {
 
         return ResponseEntity.created(location).body(saved);
     }
-
 }

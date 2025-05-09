@@ -7,7 +7,6 @@ import org.generation.italy.springdemo.models.entities.Supplier;
 import java.math.BigDecimal;
 import java.util.List;
 
-
 public class ProductViewModel {
     private int productId;
     private String productName;
@@ -44,7 +43,7 @@ public class ProductViewModel {
     }
 
     public Product toProduct(){
-        return new Product(productId,productName,null,null,unitPrice,discontinued?1:0);
+        return new Product(productId, productName, null, null, unitPrice, discontinued ? 1:0);
     }
 
     public int getProductId() {

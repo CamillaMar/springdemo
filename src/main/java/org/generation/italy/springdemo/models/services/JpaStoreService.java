@@ -24,14 +24,12 @@ public class JpaStoreService implements StoreService{
     private JpaCategoryRepository categoryRepo;
     private JpaSupplierRepository supplierRepo;
 
-
     @Autowired
     public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
     }
-
 
     @Override
     public Optional<Product> findProductById(int id) throws DataException {
@@ -46,7 +44,7 @@ public class JpaStoreService implements StoreService{
     @Override
     public List<Product> findByProductNameContains(String name) throws DataException {
         try{
-            return  productRepo.findByProductNameContains(name);
+            return productRepo.findByProductNameContains(name);
         }catch(PersistenceException pe) {
             throw new DataException(pe.getMessage(), pe);
         }
@@ -55,7 +53,7 @@ public class JpaStoreService implements StoreService{
     @Override
     public List<Product> findProductsByDiscontinued(int discontinued) throws DataException {
         try{
-            return  productRepo.findByDiscontinued(discontinued);
+            return productRepo.findByDiscontinued(discontinued);
         }catch(PersistenceException pe) {
             throw new DataException(pe.getMessage(), pe);
         }
@@ -84,7 +82,6 @@ public class JpaStoreService implements StoreService{
         } catch (PersistenceException pe) {
             throw new DataException("Errore nella creazione di un nuovo prodotto", pe);
         }
-
     }
 
     @Override

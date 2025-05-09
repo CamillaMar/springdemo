@@ -6,7 +6,6 @@ import java.util.Objects;
 
 @Embeddable
 public class OrderDetailsId {
-
     private int orderId;
     private int productId;
 
