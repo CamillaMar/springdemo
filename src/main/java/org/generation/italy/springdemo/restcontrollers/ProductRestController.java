@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/product")
+@RequestMapping("/api/products")
 public class ProductRestController {
     private StoreService storeService;
 
@@ -25,14 +25,14 @@ public class ProductRestController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllProducts() throws DataException {
+    public ResponseEntity<List<ProductRestDto>> getAllProducts() throws DataException {
         var productDtos = storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
         // return ResponseEntity.status(200).body(productDtos);
         return ResponseEntity.ok(productDtos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getProductById(@PathVariable int id) throws DataException {
+    public ResponseEntity<ProductRestDto> getProductById(@PathVariable int id) throws DataException {
         Optional<Product> op = storeService.findProductById(id);
         if (op.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -63,6 +63,17 @@ public class ProductRestController {
                 .buildAndExpand(savedProduct.getProductId())
                 .toUri();
 
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(savedProduct);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductRestDto> updateProduct(@PathVariable int id, @RequestBody ProductRestDto dto) throws DataException, EntityNotFoundException {
+        Optional<Product> op = storeService.findProductById(id);
+        if (op.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        storeService.updateProduct(op.get(), dto);
+        return ResponseEntity.ok(ProductRestDto.toDto(op.get()));
     }
 }

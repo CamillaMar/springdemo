@@ -6,6 +6,7 @@ import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
+import org.generation.italy.springdemo.restdtos.ProductRestDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,4 +24,5 @@ public interface StoreService {
     void deleteOrderDetailsByOrderId(int orderId) throws DataException;
     Order findOrderById(int id) throws DataException;
     boolean deleteProductById(int id) throws DataException;
+    Product updateProduct(Product p, ProductRestDto dto) throws DataException, EntityNotFoundException;
 }

@@ -5,6 +5,7 @@ import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
+import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -96,6 +97,14 @@ public class JpaStoreService implements StoreService{
         } catch (PersistenceException pe) {
             throw new DataException("Errore nella creazione del prodotto", pe);
         }
+    }
+
+    @Override
+    public Product updateProduct(Product p, ProductRestDto dto) throws DataException, EntityNotFoundException {
+        p.setProductName(dto.getProductName());
+        p.setUnitPrice(dto.getUnitPrice());
+        p.setDiscontinued(dto.isDiscontinued() ? 1 : 0);
+        return saveProduct(p, dto.getSupplierId(), dto.getCategoryId());
     }
 
     @Override
