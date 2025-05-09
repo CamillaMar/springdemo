@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Show all orders</title>
+</head>
+<body>
+<h2> Lista degli ordini</h2>
+<table border="1">
+  <thead>
+  <tr>
+    <th>Order ID</th>
+    <th>Customer</th>
+    <th>Employee</th>
+    <th>Required date</th>
+    <th>Shipped date</th>
+    <th>Shipper</th>
+    <th>Freight</th>
+    <th>name</th>
+    <th>address</th>
+    <th>City</th>
+    <th>Region</th>
+    <th>Postalcode</th>
+    <th>Country</th>
+
+
+  </tr>
+  </thead>
+</table>
+<form th:action="@{/product}" method="get">
+  <div>
+    <label for="ordini"> ordini</label>
+    <input id="ordini" type="text" name="name">
+  </div>
+</form>
+</body>
+</html>

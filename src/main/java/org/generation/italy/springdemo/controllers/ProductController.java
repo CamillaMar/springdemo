@@ -18,6 +18,7 @@ import java.util.Optional;
 @Controller
 public class ProductController {
     private StoreService storeService;
+
     public ProductController(StoreService storeService) {
         this.storeService = storeService;
     }
@@ -90,4 +91,5 @@ public class ProductController {
             return "error";
         }
     }
+
 }

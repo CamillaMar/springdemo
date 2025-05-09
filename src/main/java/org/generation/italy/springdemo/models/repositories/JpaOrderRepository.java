@@ -19,4 +19,8 @@ public interface JpaOrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findByManagerId(@Param("empid") int empId);
 
 
+    @Query("SELECT o FROM Order o")
+    List<Order> getAll();
+
+
 }
