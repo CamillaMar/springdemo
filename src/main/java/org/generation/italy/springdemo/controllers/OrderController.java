@@ -21,7 +21,7 @@ public class OrderController {
         this.storeService = storeService;
     }
 
-    @GetMapping("/search-orders-by-client-form")
+    @GetMapping("/search-orders-by-client")
     public String findOrderByCustomer(Model model) {
         List<SelectListElement> clients = storeService.getSelectListCustomers();
         model.addAttribute("selectList", clients);
