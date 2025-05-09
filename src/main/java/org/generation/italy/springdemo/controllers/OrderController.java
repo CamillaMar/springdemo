@@ -19,7 +19,8 @@ public class OrderController {
         this.storeService = storeService;
     }
     @GetMapping("/show-order-search-form")
-    public String showSearchForm(){
+    public String showSearchForm(Model model){
+        model.addAttribute("customers", storeService.findAllCustomers());
         return "order/forms/show-order-search-form";
     }
     @GetMapping("/order")

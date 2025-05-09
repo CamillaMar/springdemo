@@ -6,10 +6,12 @@ import org.generation.italy.springdemo.models.services.StoreService;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/product")
@@ -25,6 +27,26 @@ public class ProductRestController {
     public List<ProductRestDto> getAllProducts(){
         try {
             return storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
+        } catch (DataException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/{name}")
+    public List<ProductRestDto> getProductByNameLike(@PathVariable String name){
+        try {
+            return storeService.findByProductNameContains(name).stream().map(ProductRestDto::toDto).toList();
+        } catch (DataException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/id/{id}")
+    public ProductRestDto getProductById(@PathVariable Integer id){
+        try {
+            Optional<Product> op = storeService.findProductById(id);
+            Product p = op.orElseThrow(()-> new DataException(String.format("la category con ID %d non esiste", id)));
+            return ProductRestDto.toDto(p);
         } catch (DataException e) {
             throw new RuntimeException(e);
         }

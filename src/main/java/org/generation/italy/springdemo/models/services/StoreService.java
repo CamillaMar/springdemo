@@ -20,4 +20,5 @@ public interface StoreService {
     void deleteOrderById(int orderId) throws DataException;
     List<OrderDetails> findOrderDetailsByOrderId(int orderId) throws DataException;
     void deleteOrderOrderDetails(int orderId) throws DataException;
+    List<Customer> findAllCustomers();
 }

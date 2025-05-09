@@ -75,4 +75,9 @@ public class JdbcService implements StoreService {
     public void deleteOrderOrderDetails(int orderId) throws DataException {
 
     }
+
+    @Override
+    public List<Customer> findAllCustomers() {
+        return List.of();
+    }
 }

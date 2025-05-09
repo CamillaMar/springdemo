@@ -20,14 +20,16 @@ public class JpaStoreService implements StoreService{
     private JpaSupplierRepository supplierRepo;
     private JpaOrderRepository orderRepo;
     private JpaOrderDetailsRepository orderDetailsRepo;
+    private JpaCustomerRepository customerRepo;
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo){
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo, JpaCustomerRepository customerRepo){
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
         this.orderRepo = orderRepo;
         this.orderDetailsRepo = orderDetailsRepo;
+        this.customerRepo = customerRepo;
     }
 
     @Override
@@ -118,5 +120,10 @@ public class JpaStoreService implements StoreService{
         for(OrderDetails od : orderDetails){
             orderDetailsRepo.delete(od);
         }
+    }
+
+    @Override
+    public List<Customer> findAllCustomers() {
+        return customerRepo.findAll();
     }
 }
