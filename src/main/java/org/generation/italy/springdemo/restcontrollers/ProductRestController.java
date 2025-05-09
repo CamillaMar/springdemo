@@ -1,6 +1,5 @@
 package org.generation.italy.springdemo.restcontrollers;
 
-import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.services.StoreService;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
@@ -28,5 +27,4 @@ public class ProductRestController {
             throw new RuntimeException(e);
         }
     }
-
 }
