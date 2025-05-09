@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cerca ordine per cliente</title>
+</head>
+<body>
+  <h1>Cerca ordine per id del cliente</h1>
+  <form th:action="@{/orders" method="get">
+    <div>
+      <label for="customer-id">Selezione il customer id</label>
+      <select id="customer-id" th:each=" c : ${customers}">
+          <option th:text="${c.custrId}">1</option>
+      </select>
+    </div>
+    <button type="submit">Cerca</button>
+  </form>
+</body>
+</html>
