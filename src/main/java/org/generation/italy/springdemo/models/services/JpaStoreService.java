@@ -1,18 +1,12 @@
 package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
-import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
-import org.generation.italy.springdemo.models.repositories.JpaCategoryRepository;
-import org.generation.italy.springdemo.models.repositories.JpaProductRepository;
-import org.generation.italy.springdemo.models.repositories.JpaSupplierRepository;
+import org.generation.italy.springdemo.models.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,13 +17,18 @@ public class JpaStoreService implements StoreService{
     private JpaProductRepository productRepo;
     private JpaCategoryRepository categoryRepo;
     private JpaSupplierRepository supplierRepo;
+    private JpaCustomerRepository customerRepo;
+    private JpaOrderRepository orderRepo;
 
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo,
+                           JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
+        this.customerRepo = customerRepo;
+        this.orderRepo = orderRepo;
     }
 
 
@@ -67,24 +66,18 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    @Transactional
-    public Product saveProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException {
-        try {
-            Optional<Supplier> os = supplierRepo.findById(supplierId);
-            if(os.isEmpty()){
-                throw new EntityNotFoundException(Supplier.class, supplierId);
-            }
-            Supplier s = os.get();
-            Optional<Category> oc = categoryRepo.findById(categoryId);
-            Category c = oc.orElseThrow(()-> new EntityNotFoundException(Category.class, categoryId));
-            p.setSupplier(s);
-            p.setCategory(c);
-            productRepo.save(p);
-            return p;
-        } catch (PersistenceException pe) {
-            throw new DataException("Errore nella creazione di un nuovo prodotto", pe);
+    public Product saveProduct(Product p, int supplierId, int categoryId) throws DataException {
+        Optional<Supplier> os = supplierRepo.findById(supplierId);
+        if(os.isEmpty()){
+            throw new DataException(String.format("Il supplier con id %d non esiste", supplierId));
         }
-
+        Supplier s = os.get();
+        Optional<Category> oc = categoryRepo.findById(categoryId);
+        Category c = oc.orElseThrow(()-> new DataException(String.format("la categoria con id %d non esiste", categoryId)));
+        p.setSupplier(s);
+        p.setCategory(c);
+        productRepo.save(p);
+        return p;
     }
 
     @Override
@@ -98,13 +91,25 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    @Transactional
-    public boolean deleteProduct(int id) throws DataException {
-        Optional<Product> op = productRepo.findById(id);
-        if(op.isPresent()) {
-            productRepo.delete(op.get());
-            return true;
-        }
-        return false;
+    public List<Customer> findAllCustomers() {
+        return customerRepo.findAll();
     }
+
+    @Override
+    public List<Order> findByCustId(int custId) {
+        return orderRepo.findByCustomerCustId(custId);
+    }
+
+    @Override
+    public void deleteOrderById(Integer id) {
+        orderRepo.deleteById(id);
+
+    }
+
+    @Override
+    public Optional<Order> findOrderById(int id) {
+        return orderRepo.findById(id);
+    }
+
+
 }
