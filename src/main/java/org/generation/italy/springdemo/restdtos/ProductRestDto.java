@@ -1,10 +1,10 @@
-package org.generation.italy.springdemo.viewmodels;
+package org.generation.italy.springdemo.restdtos;
 
 import org.generation.italy.springdemo.models.entities.Product;
+
 import java.math.BigDecimal;
 
-
-public class ProductViewModel {
+public class ProductRestDto {
     private int productId;
     private String productName;
     private int supplierId;
@@ -12,10 +12,11 @@ public class ProductViewModel {
     private BigDecimal unitPrice;
     private boolean discontinued;
 
-    public ProductViewModel() {
+    public ProductRestDto() {
     }
 
-    public ProductViewModel(int productId, String productName, int supplierId, int categoryId, BigDecimal unitPrice, boolean discontinued) {
+    public ProductRestDto(int productId, String productName, int supplierId,
+                          int categoryId, BigDecimal unitPrice, boolean discontinued) {
         this.productId = productId;
         this.productName = productName;
         this.supplierId = supplierId;
@@ -24,20 +25,13 @@ public class ProductViewModel {
         this.discontinued = discontinued;
     }
 
-    @Override
-    public String toString() {
-        return "ProductViewModel{" +
-                "productId=" + productId +
-                ", productName='" + productName + '\'' +
-                ", supplierId=" + supplierId +
-                ", categoryId=" + categoryId +
-                ", unitPrice=" + unitPrice +
-                ", discontinued=" + discontinued +
-                '}';
-    }
-
     public Product toProduct(){
         return new Product(productId, productName, null, null, unitPrice, discontinued ? 1 : 0);
+    }
+
+    public static ProductRestDto toDto(Product p) {
+        return new ProductRestDto(p.getProductId(), p.getProductName(), p.getSupplier().getSupplierId(),
+                p.getCategory().getCategoryId(), p.getUnitPrice(), p.getDiscontinued() == 1);
     }
 
     public int getProductId() {
@@ -75,7 +69,7 @@ public class ProductViewModel {
         this.unitPrice = unitPrice;
     }
 
-    public boolean getDiscontinued() {
+    public boolean isDiscontinued() {
         return discontinued;
     }
     public void setDiscontinued(boolean discontinued) {

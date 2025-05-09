@@ -1,5 +1,6 @@
 package org.generation.italy.springdemo.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -31,7 +32,8 @@ public class Product {
     public Product(){
     }
 
-    public Product(String productName, Supplier supplier, Category category, BigDecimal unitPrice, int discontinued) {
+    public Product(int productId, String productName, Supplier supplier, Category category, BigDecimal unitPrice, int discontinued) {
+        this.productId = productId;
         this.productName = productName;
         this.supplier = supplier;
         this.category = category;

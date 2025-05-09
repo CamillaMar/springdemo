@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-      <meta charset="UTF-8">
-      <title>show by name or by discontinued or all</title>
-  </head>
-  <body>
-  <form th:action="@{/product}" method="get">
-    <div>
-      <label for="name"> name</label>
-      <input id="name" type="text" name="name">
-    </div>
-    <div>
-      <label for="discontinued"> discontinued</label>
-      <select id="discontinued" name="discontinued">
-        <option value="-1"> Tutti</option>
-        <option value="0"> in stock</option>
-        <option value="1"> non in stock</option>
-      </select>
-    </div>
-    <button type="submit"> Cerca</button>
-  </form>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>show by name or by discontinued or all</title>
+</head>
+<body>
+    <form th:action="@{/product}" method="get">
+        <div>
+            <label for="name"> name</label>
+            <input id="name" type="text" name="name">
+        </div>
+        <div>
+            <label for="discontinued"> discontinued</label>
+            <select id="discontinued" name="discontinued">
+                <option value="-1"> Tutti</option>
+                <option value="0"> in stock</option>
+                <option value="1"> non in stock</option>
+            </select>
+        </div>
+        <button type="submit"> Cerca</button>
+    </form>
+</body>
 </html>
