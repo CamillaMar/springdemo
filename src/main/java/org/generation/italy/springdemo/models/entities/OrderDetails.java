@@ -1,7 +1,6 @@
 package org.generation.italy.springdemo.models.entities;
 
 import jakarta.persistence.*;
-import org.springframework.context.annotation.Primary;
 
 import java.math.BigDecimal;
 @Entity
