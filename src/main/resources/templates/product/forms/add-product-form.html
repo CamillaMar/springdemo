@@ -8,7 +8,7 @@
         <form th:action="@{/add-product}" th:object="${product}" method="post">
             <div>
                 <label for="product-name">Product name</label>
-                <input id="product-name" type="text" th:field="*{productName}">
+                <input id="product-name" type="text" th:field="*{productName}" placeholder="product-name">
             </div>
             <div>
                 <label for="supplier-id">Supplier id</label>

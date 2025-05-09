@@ -2,57 +2,110 @@
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Show orders</title>
+    <title>Show Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            padding: 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #007bff;
+            color: white;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f9ff;
+        }
+
+        td button {
+            background-color: #dc3545;
+            color: white;
+            padding: 0.4rem 0.7rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        td button:hover {
+            background-color: #a71d2a;
+        }
+
+        form {
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>I nostri meravigliosi ordini</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Customer Id</th>
-                <th>Employee id</th>
-                <th>Order Date</th>
-                <th>Required Date</th>
-                <th>Shipped Date</th>
-                <th>Shipper Id</th>
-                <th>Freight</th>
-                <th>Ship Name</th>
-                <th>Ship Address</th>
-                <th>Ship City</th>
-                <th>Ship Region</th>
-                <th>Ship PostalCode</th>
-                <th>Ship Country</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each = "o : ${orders}">
-                <td th:text="${o.orderId}">1000</td>
-                <td th:text="${o.customer.custId}">Giovanni</td>
-                <td th:text="${o.employee.empId}">2000</td>
-                <td th:text="${o.orderDate}">2000</td>
-                <td th:text="${o.requiredDate}">100.00</td>
-                <td th:text="${o.shippedDate}">0</td>
-                <td th:text="${o.shipper.shipperId}">0</td>
-                <td th:text="${o.freight}">0</td>
-                <td th:text="${o.shipName}">0</td>
-                <td th:text="${o.shipAddress}">0</td>
-                <td th:text="${o.shipCity}">0</td>
-                <td th:text="${o.shipRegion}">0</td>
-                <td th:text="${o.shipPostalCode}">0</td>
-                <td th:text="${o.shipCountry}">Not Found</td>
-                <td>
-                    <form action="/delete-order" method="post">
-                        <input type="hidden" th:value="${o.orderId}" name="orderId">
-                        <input type="hidden" th:value="${o.customer.custId}" name="custId">
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
-
-            </tr>
-        </tbody>
-    </table>
-
+<h1>I nostri meravigliosi ordini</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Customer Id</th>
+        <th>Employee Id</th>
+        <th>Order Date</th>
+        <th>Required Date</th>
+        <th>Shipped Date</th>
+        <th>Shipper Id</th>
+        <th>Freight</th>
+        <th>Ship Name</th>
+        <th>Ship Address</th>
+        <th>Ship City</th>
+        <th>Ship Region</th>
+        <th>Ship PostalCode</th>
+        <th>Ship Country</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="o : ${orders}">
+        <td th:text="${o.orderId}">1000</td>
+        <td th:text="${o.customer.custId}">Giovanni</td>
+        <td th:text="${o.employee.empId}">2000</td>
+        <td th:text="${o.orderDate}">2000</td>
+        <td th:text="${o.requiredDate}">100.00</td>
+        <td th:text="${o.shippedDate}">0</td>
+        <td th:text="${o.shipper.shipperId}">0</td>
+        <td th:text="${o.freight}">0</td>
+        <td th:text="${o.shipName}">0</td>
+        <td th:text="${o.shipAddress}">0</td>
+        <td th:text="${o.shipCity}">0</td>
+        <td th:text="${o.shipRegion}">0</td>
+        <td th:text="${o.shipPostalCode}">0</td>
+        <td th:text="${o.shipCountry}">Not Found</td>
+        <td>
+            <form action="/delete-order" method="post">
+                <input type="hidden" th:value="${o.orderId}" name="orderId">
+                <input type="hidden" th:value="${o.customer.custId}" name="custId">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

@@ -5,11 +5,14 @@ import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.services.StoreService;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/product")
@@ -17,11 +20,12 @@ public class ProductRestController {
     private StoreService storeService;
 
     @Autowired
-    public ProductRestController(StoreService storeService){
+    public ProductRestController(StoreService storeService) {
         this.storeService = storeService;
     }
+
     @GetMapping
-    public List<ProductRestDto> getAllProducts(){
+    public List<ProductRestDto> getAllProducts() {
         try {
             return storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
         } catch (DataException e) {
@@ -29,12 +33,4 @@ public class ProductRestController {
         }
     }
 
-    @GetMapping("/api/product/name")
-    public List<ProductRestDto> getAllProducts(String name){
-        try {
-            return storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
-        } catch (DataException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

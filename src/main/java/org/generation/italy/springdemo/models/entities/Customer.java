@@ -55,4 +55,44 @@ public class Customer {
     public List<Order> getOrders() {
         return orders;
     }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getContactTitle() {
+        return contactTitle;
+    }
 }

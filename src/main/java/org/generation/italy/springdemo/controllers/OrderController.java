@@ -1,5 +1,6 @@
 package org.generation.italy.springdemo.controllers;
 
+import org.generation.italy.springdemo.models.entities.Customer;
 import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.services.StoreService;
@@ -18,12 +19,16 @@ public class OrderController {
     public OrderController(StoreService storeService) {
         this.storeService = storeService;
     }
+
     @GetMapping("/show-order-search-form")
-    public String showSearchForm(){
+    public String showAllCustomer(Model model){
+        List<Customer> result = storeService.findAllCustomers();
+        model.addAttribute("customers", result);
         return "order/forms/show-order-search-form";
     }
-    @GetMapping("/order")
-    public String searchOrders(@RequestParam(required = false)Integer custId, Model model){
+
+    @GetMapping("/order/byId")
+    public String findOrderByCustId(@RequestParam(required = false)Integer custId, Model model){
         try{
             List<Order> result = null;
             if(custId != null){
@@ -46,7 +51,7 @@ public class OrderController {
         try {
             storeService.deleteOrderOrderDetails(orderId);
             storeService.deleteOrderById(orderId);
-            return "redirect:/order?custId=" + 5;
+            return "redirect:/order/byId?custId=" + custId;
         } catch (DataException e) {
             throw new RuntimeException(e);
         }
