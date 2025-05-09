@@ -9,7 +9,10 @@
     <form th:action="@{/order}" method="get">
         <div>
             <label for="custId">customer Id</label>
-            <input type="number" id="custId" name="custId">
+            <select name="custId" id="custId">
+                <option value="" >Scegli un customer</option>
+                <option th:each="c : ${customers}" th:value="${c.custId}" th:text="${c.companyName}">Customer 0000</option>
+            </select>
         </div>
         <button type="submit">Search</button>
     </form>

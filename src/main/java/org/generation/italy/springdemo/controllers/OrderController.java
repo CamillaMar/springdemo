@@ -19,7 +19,8 @@ public class OrderController {
         this.storeService = storeService;
     }
     @GetMapping("/show-order-search-form")
-    public String showSearchForm(){
+    public String showSearchForm(Model model){
+        model.addAttribute("customers", storeService.findAllCustomers());
         return "order/forms/show-order-search-form";
     }
     @GetMapping("/order")
@@ -46,7 +47,7 @@ public class OrderController {
         try {
             storeService.deleteOrderOrderDetails(orderId);
             storeService.deleteOrderById(orderId);
-            return "redirect:/order?custId=" + 5;
+            return "redirect:/order?custId=" + custId;
         } catch (DataException e) {
             throw new RuntimeException(e);
         }
