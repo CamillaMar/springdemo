@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <style>
+            body {
+                font-family:calibri;
+                background-image: url('https://i.imgur.com/iUbLoGf.gif');
+                background-size:100%;
+                }
+            table{
+                position:absolute;
+                top:50%;
+                left:10%;
+                margin-left:-100px;/* half width*/
+                margin-top:-300px;/* half height*/
+                border: 2px solid black;
+                border-radius: 5px;
+                background-color: rgb(128,128,128,0.5);
+            }
+            tr{
+                border: 2px solid black;
+            }tr:hover{
+                background-color: rgb(128,128,128,0.5)
+            }
+            td{
+                border: 2px solid black;
+                padding:5px;
+            }td:hover{
+                align:center;
+            }
+            th{
+                border: 2px solid black;
+            }th:hover{
+                background-color: rgb(128,128,128,0.5)
+            }
+            button{
+                background-color: rgb(255,0,0,0.1);
+                border 2px solid black;
+            }
+            button:hover{
+                background-color: rgb(255,0,0,0.5);
+            }
+
+        </style>
+    </head>
+    <body>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Order ID</th>
+                    <th>Customer ID</th>
+                    <th>Employee ID</th>
+                    <th>Order Date</th>
+                    <th>Required Date</th>
+                    <th>Shipped Date</th>
+                    <th>Shipper ID</th>
+                    <th>Freights</th>
+                    <th>Shipper Name</th>
+                    <th>Ship Address</th>
+                    <th>Ship City</th>
+                    <th>Ship Region</th>
+                    <th>Ship Postal Code</th>
+                    <th>Ship Country</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="o : ${ordersByCustId}">
+                    <td>
+                        <form th:action="@{/delete-order}" method="post">
+                            <input name="orderId" type="hidden" th:value="${o.orderId}">
+                            <button type="submit">
+                                Cancella
+                            </button>
+                        </form>
+                    </td>
+                    <td th:text="${o.orderId}"></td>
+                    <td th:text="${o.customer.custId}"></td>
+                    <td th:text="${o.employee.empId}"></td>
+                    <td> marcello deve mettere il order date parameter nel order</td>
+                    <td th:text="${o.requiredDate}"></td>
+                    <td th:text="${o.shippedDate}"></td>
+                    <td th:text="${o.shipper.shipperId}"></td>
+                    <td th:text="${o.freight}"></td>
+                    <td th:text="${o.shipName}"></td>
+                    <td th:text="${o.shipAddress}"></td>
+                    <td th:text="${o.shipCity}"></td>
+                    <td th:text="${o.shipRegion}"></td>
+                    <td th:text="${o.shipPostalCode}"></td>
+                    <td th:text="${o.shipCountry}"></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </body>
+</html>

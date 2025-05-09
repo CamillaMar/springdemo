@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public class OrderDetails {
     @EmbeddedId
     private OrderDetailsId id;
-    @ManyToOne
+    @ManyToOne 
     @MapsId("orderId")
     @JoinColumn(name = "orderid") // colonna del DB
     private Order order;

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Show by customer id</title>
+        <style>
+            body {
+                background-image: url('https://i.imgur.com/iUbLoGf.gif');
+                background-size:100%;
+                }
+            form{
+                position:absolute;
+                width: 50%;
+                top:50%;
+                left:25%;
+                margin-left:-100px;/* half width*/
+                margin-top:-300px;/* half height*/
+                border-radius: 5px;
+                border: 3px solid black;
+                padding: 5%;
+                background-color: rgb(128,128,128,0.5);
+            }
+            div{
+                border: 2px solid black;
+                border-radius:5px;
+                margin-bottom: 15px;
+                padding: 1%;
+            }
+            button{
+                margin: auto;
+                width: 100%;
+                size: 50%;
+            }
+            #idInput{
+                float: right;
+                width: 20%;
+                background-color: rgb(128,128,128,0.5);
+                border: 1px solid black;
+                color: black;
+            }
+
+        </style>
+    </head>
+    <body>
+        <form th:action="@{/orders/byId}" method="get" >
+            <div>
+                <label for="idInput">Customer id</label>
+                <select id="idInput" name="custId">
+                    <option th:each="c : ${customers}" th:text="${c.companyName}" th:value="${c.custId}">Cliente random</option>
+                </select>
+            </div>
+            <button type="submit" >Cerca</button>
+        </form>
+    </body>
+</html>
+p

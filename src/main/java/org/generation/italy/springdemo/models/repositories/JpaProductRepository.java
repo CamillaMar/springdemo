@@ -16,14 +16,16 @@ public interface JpaProductRepository extends JpaRepository<Product,Integer> {
     List<Product> findByDiscontinued(@Param("discontinued") int discontinued);
     List<Product> findByCostGreaterThanEqual(BigDecimal price);
     List<Product> findByCategoryCategoryName(String name);
-
+    //List<Product> findByProductNameLike(String name);
+    @Query("SELECT p FROM Product p WHERE productName LIKE :name")
+    List<Product> findByNameLike(@Param("name") String productName);
     @Query("SELECT p FROM Product p JOIN p.category c WHERE c.categoryName = :name")
     List<Product> findByCategoryName(@Param("name") String name);
 
     //metodo che per ogni nome di categoria di ogni product mi dà il nome delle categorie
     // e il numero di prodotti che ci sono in ogni categoria
     @Query("SELECT p.category.categoryName, COUNT(p) FROM Product p GROUP BY p.category.categoryName")
-    List<Object[]> findByCategoryNameAndProductCount(@Param("categoryname") String categoryName);
+    List<Object[]> findByCategoryNameAndProductCount();
 
     @Query("SELECT new org.generation.italy.springdemo.models.dtos.ProductSummary(p.productName, p.cost) FROM Product p")
     List<ProductSummary> getProductSummaries();
