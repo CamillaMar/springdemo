@@ -3,10 +3,12 @@ package org.generation.italy.springdemo.models.services;
 import jakarta.persistence.PersistenceException;
 import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,12 +36,20 @@ public class JpaStoreService implements StoreService{
 
     @Override
     public Optional<Product> findProductById(int id) throws DataException {
-        return productRepo.findById(id);
+        try {
+            return productRepo.findById(id);
+        } catch (PersistenceException pe) {
+            throw new DataException(String.format("Errore nella ricerca del prodotto con id %d", id), pe);
+        }
     }
 
     @Override
     public Optional<Category> findCategoryById(int id) throws DataException {
-        return categoryRepo.findById(id);
+        try {
+            return categoryRepo.findById(id);
+        } catch (PersistenceException pe) {
+            throw new DataException(String.format("Errore nella ricerca della categoria con id %d", id), pe);
+        }
     }
 
     @Override
@@ -62,56 +72,101 @@ public class JpaStoreService implements StoreService{
 
     @Override
     public List<Product> findAllProducts() throws DataException{
-        return productRepo.findAll();
+        try {
+            return productRepo.findAll();
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella ricerca di tutti i prodotti", pe);
+        }
     }
 
     @Override
-    public Product saveProduct(Product p, int supplierId, int categoryId) throws DataException {
-        Optional<Supplier> os = supplierRepo.findById(supplierId);
-        Supplier s = os.orElseThrow(() -> new DataException("Il supplier con id " + supplierId + " non esiste"));
+    @Transactional
+    public Product saveProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException {
+        try {
+            Optional<Supplier> os = supplierRepo.findById(supplierId);
+            Supplier s = os.orElseThrow(() -> new EntityNotFoundException(Supplier.class, supplierId));
 
-        Optional<Category> oc = categoryRepo.findById(categoryId);
-        Category c =  oc.orElseThrow(() -> new DataException("La categoria con id " + categoryId + " non esiste"));
+            Optional<Category> oc = categoryRepo.findById(categoryId);
+            Category c =  oc.orElseThrow(() -> new EntityNotFoundException(Category.class, categoryId));
 
-        p.setSupplier(s);
-        p.setCategory(c);
-        productRepo.save(p);
-
-        return p;
+            p.setSupplier(s);
+            p.setCategory(c);
+            productRepo.save(p);
+            return p;
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella creazione del prodotto", pe);
+        }
     }
 
     @Override
     public List<Customer> findAllCustomersWithOrders() throws DataException {
-        return customerRepo.findAllCustomersWithOrders();
+        try {
+            return customerRepo.findAllCustomersWithOrders();
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella ricerca dei customers con degli ordini", pe);
+        }
     }
 
     @Override
     public List<Order> findAllOrdersByCustomerId(int custId) throws DataException {
-        return orderRepo.findAllByCustomerCustId(custId);
+        try {
+            return orderRepo.findAllByCustomerCustId(custId);
+        } catch (PersistenceException pe) {
+            throw new DataException(String.format("Errore nella ricerca degli ordini del customer con id %d", custId), pe);
+        }
     }
 
-    public void deleteOrderById(int orderId) throws DataException {
-        Optional<Order> optionalOrder = orderRepo.findById(orderId);
-        if(optionalOrder.isEmpty()){
-            throw new DataException("Ordine con orderId: "+orderId+" non trovato");
-        }
+    public boolean deleteOrderById(int orderId) throws DataException {
+        try {
+            Optional<Order> optionalOrder = orderRepo.findById(orderId);
+            if(optionalOrder.isEmpty()) {
+                return false;
+            }
 
-        deleteOrderDetailsByOrderId(orderId);
-        orderRepo.deleteById(orderId);
+            deleteOrderDetailsByOrderId(orderId);
+            orderRepo.deleteById(orderId);
+            return true;
+        } catch (PersistenceException pe) {
+            throw new DataException(String.format("Errore nella cancellazione dell'ordine con id %d", orderId), pe);
+        }
     }
 
     @Override
     public void deleteOrderDetailsByOrderId(int orderId) throws DataException {
-        List<OrderDetails> odList = orderDetailsRepo.findAllByOrderOrderId(orderId);
+        try {
+            List<OrderDetails> odList = orderDetailsRepo.findAllByOrderOrderId(orderId);
 
-        for (OrderDetails od : odList){
-            orderDetailsRepo.delete(od);
+            for (OrderDetails od : odList){
+                orderDetailsRepo.delete(od);
+            }
+        } catch (PersistenceException pe) {
+            throw new DataException(String.format("Errore nella cancellazione dei OrderDetails dell'ordine con id %d", orderId), pe);
         }
     }
 
     @Override
     public Order findOrderById(int id) throws DataException {
-        Optional<Order> optionalOrder = orderRepo.findById(id);
-        return optionalOrder.orElseThrow(() -> new DataException("Ordine con orderId: "+id+" non trovato"));
+        try {
+            Optional<Order> optionalOrder = orderRepo.findById(id);
+            return optionalOrder.orElseThrow(() -> new DataException("Ordine con orderId: "+id+" non trovato"));
+        } catch (PersistenceException pe) {
+            throw new DataException(String.format("Errore nella ricerca dell'ordine con id %d", id), pe);
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteProductById(int id) throws DataException {
+        try {
+            Optional<Product> op = productRepo.findById(id);
+            if(op.isEmpty()) {
+                return false;
+            }
+
+            productRepo.delete(op.get());
+            return true;
+        } catch (PersistenceException pe) {
+            throw new DataException(String.format("Errore nella cancellazione del prodotto con id %d", id), pe);
+        }
     }
 }

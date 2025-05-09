@@ -2,6 +2,7 @@ package org.generation.italy.springdemo.controllers;
 
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.services.StoreService;
 import org.generation.italy.springdemo.viewmodels.ProductViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class ProductController {
         return "product/forms/add-product-form";
     }
     @PostMapping("/add-product")
-    public String addProduct(ProductViewModel pvm){
+    public String addProduct(ProductViewModel pvm) throws EntityNotFoundException {
         try {
             Product p = pvm.toProduct();
             storeService.saveProduct(p, pvm.getSupplierId(), pvm.getCategoryId());
