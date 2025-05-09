@@ -18,7 +18,7 @@
                 border-radius: 5px;
                 border: 3px solid black;
                 padding: 5%;
-                background-color: grey;
+                background-color: rgb(128,128,128,0.5);
             }
             div{
                 border: 2px solid black;
@@ -28,11 +28,13 @@
             }
             button{
                 margin: auto;
+                width: 100%;
+                size: 50%;
             }
             #idInput{
                 float: right;
                 width: 20%;
-                background-color: grey;
+                background-color: rgb(128,128,128,0.5);
                 border: 1px solid black;
                 color: black;
             }
@@ -43,11 +45,11 @@
             <div>
                 <label for="idInput">Customer id</label>
                 <select id="idInput" name="custId">
-                    <option th:each="c : ${customers}" th:text="${c.custId}"></option>
+                    <option th:each="c : ${customers}" th:text="${c.companyName}" th:value="${c.custId}">Cliente random</option>
                 </select>
             </div>
             <button type="submit" >Cerca</button>
         </form>
-
     </body>
 </html>
+p

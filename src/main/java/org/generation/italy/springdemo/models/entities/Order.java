@@ -50,9 +50,9 @@ public class Order {
     }
 
     public Order(LocalDateTime shippedDate, Shipper shipper, BigDecimal freight, String shipName,
-                 String shipAddress, String shipCity, String shipRegion, String shipPostalCode,
-                 String shipCountry, List<OrderDetails> orderDetails, LocalDateTime requiredDate,
-                 Employee employee, Customer customer, int orderId) {
+        String shipAddress, String shipCity, String shipRegion, String shipPostalCode,
+        String shipCountry, List<OrderDetails> orderDetails, LocalDateTime requiredDate,
+        Employee employee, Customer customer, int orderId) {
         this.shippedDate = shippedDate;
         this.shipper = shipper;
         this.freight = freight;

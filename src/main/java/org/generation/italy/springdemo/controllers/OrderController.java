@@ -1,21 +1,21 @@
 package org.generation.italy.springdemo.controllers;
 
-import org.generation.italy.springdemo.models.entities.Customer;
-import org.generation.italy.springdemo.models.entities.Supplier;
+
+import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.services.StoreService;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+
+import java.util.Optional;
 
 
 @Controller
 public class OrderController {
-    StoreService storeService;
+    StoreService storeService; // qualcosa che implementa storeService
 
     public OrderController(StoreService storeService){
         this.storeService = storeService;
@@ -35,8 +35,9 @@ public class OrderController {
 
     @PostMapping("/delete-order")
     public String deleteOrderByCustomerId(@RequestParam("orderId") int orderId, Model model){
+        Order order = storeService.findOrderById(orderId).get();
         storeService.deleteOrderById(orderId);
-        return "redirect:/orders";
+        return "redirect:/orders/byId?custId="+order.getCustomer().getCustId();
     }
 
 }
