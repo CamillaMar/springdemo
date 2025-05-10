@@ -79,7 +79,7 @@ public class ProductRestController {
             return ResponseEntity.notFound().build();
         }
 
-        if (op.get().getProductId() != id) {
+        if (dto.getProductId() != id) {
             return ResponseEntity.badRequest().build();
         }
 
