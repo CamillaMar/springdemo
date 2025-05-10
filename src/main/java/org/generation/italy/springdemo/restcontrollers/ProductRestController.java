@@ -83,7 +83,7 @@ public class ProductRestController {
             return ResponseEntity.badRequest().build();
         }
 
-        storeService.updateProduct(op.get(), dto);
+        storeService.updateProduct(dto.toProduct(), dto.getSupplierId(), dto.getCategoryId());
         return ResponseEntity.ok(ProductRestDto.toDto(op.get()));
     }
 }

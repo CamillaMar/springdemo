@@ -25,6 +25,6 @@ public interface StoreService {
     void deleteOrderDetailsByOrderId(int orderId) throws DataException;
     Order findOrderById(int id) throws DataException;
     boolean deleteProductById(int id) throws DataException;
-    Product updateProduct(Product p, ProductRestDto dto) throws DataException, EntityNotFoundException;
+    Product updateProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException;
     List<Product> searchProducts(Integer categoryId, Integer supplierId, BigDecimal minPrice, BigDecimal maxPrice) throws DataException;
 }

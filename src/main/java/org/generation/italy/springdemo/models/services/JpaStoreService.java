@@ -174,12 +174,18 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    public Product updateProduct(Product p, ProductRestDto dto) throws DataException, EntityNotFoundException {
+    public Product updateProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException {
         try {
-            p.setProductName(dto.getProductName());
-            p.setUnitPrice(dto.getUnitPrice());
-            p.setDiscontinued(dto.isDiscontinued() ? 1 : 0);
-            return saveProduct(p, dto.getSupplierId(), dto.getCategoryId());
+            Optional<Supplier> os = supplierRepo.findById(supplierId);
+            Supplier s = os.orElseThrow(() -> new EntityNotFoundException(Supplier.class, supplierId));
+
+            Optional<Category> oc = categoryRepo.findById(categoryId);
+            Category c =  oc.orElseThrow(() -> new EntityNotFoundException(Category.class, categoryId));
+
+            p.setSupplier(s);
+            p.setCategory(c);
+            productRepo.save(p);
+            return p;
         } catch (PersistenceException pe) {
             throw new DataException(String.format("Errore nell'aggiornamento del prodotto con id %d", p.getProductId()), pe);
         }
