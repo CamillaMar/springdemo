@@ -33,7 +33,8 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(int custId, String companyName, String contactName, String contactTitle, String address, String city, String region, String postalCode, String country, String phone, String fax) {
+    public Customer(int custId, String companyName, String contactName, String contactTitle, String address,
+                    String city, String region, String postalCode, String country, String phone, String fax) {
         this.custId = custId;
         this.companyName = companyName;
         this.contactName = contactName;

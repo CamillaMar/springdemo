@@ -44,7 +44,7 @@ public class Order {
     @Column(name = "shipcountry")
     private String shipCountry;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
     private List<OrderDetails> orderDetails;
 
 
@@ -52,7 +52,9 @@ public class Order {
         this.orderDetails = new ArrayList<>();
     }
 
-    public Order(int orderId, Customer customer, Employee employee, LocalDateTime orderDate, LocalDateTime requiredDate, LocalDateTime shippedDate, Shipper shipper, BigDecimal freight, String shipName, String shipAddress, String shipCity, String shipRegion, String shipPostalCode, String shipCountry, List<OrderDetails> orderDetails) {
+    public Order(int orderId, Customer customer, Employee employee, LocalDateTime orderDate, LocalDateTime requiredDate,
+                 LocalDateTime shippedDate, Shipper shipper, BigDecimal freight, String shipName, String shipAddress,
+                 String shipCity, String shipRegion, String shipPostalCode, String shipCountry, List<OrderDetails> orderDetails) {
         this.orderId = orderId;
         this.customer = customer;
         this.employee = employee;

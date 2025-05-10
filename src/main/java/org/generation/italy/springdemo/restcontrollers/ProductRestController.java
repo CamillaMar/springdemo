@@ -2,14 +2,16 @@ package org.generation.italy.springdemo.restcontrollers;
 
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.services.StoreService;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,31 +26,69 @@ public class ProductRestController {
     }
 
     @GetMapping
-    public List<ProductRestDto> getAllProducts(){
-        try {
-            return storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
-        } catch (DataException e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<?> getAllProducts(@RequestParam(required = false) Integer supplierId,
+                                            @RequestParam(required = false) Integer categoryId,
+                                            @RequestParam(required = false) BigDecimal minPrice,
+                                            @RequestParam(required = false) BigDecimal maxPrice,
+                                            @RequestParam(required = false) String productName) throws DataException{
+
+        List<ProductRestDto> productDtos = storeService.searchProducts(supplierId, categoryId, minPrice, maxPrice, productName)
+                .stream().map(ProductRestDto::toDto).toList();
+        //  List<ProductRestDto> productDtos = storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
+        //  return ResponseEntity.status(200).body(productDtos);
+        return ResponseEntity.ok(productDtos);
     }
 
-    @GetMapping("/{name}")
-    public List<ProductRestDto> getProductByNameLike(@PathVariable String name){
-        try {
-            return storeService.findByProductNameContains(name).stream().map(ProductRestDto::toDto).toList();
-        } catch (DataException e) {
-            throw new RuntimeException(e);
-        }
+    @GetMapping("/name/{name}")
+    public ResponseEntity<?> getProductByNameLike(@PathVariable String name) throws DataException{
+        List<ProductRestDto> ps = storeService.findByProductNameContains(name).stream().map(ProductRestDto::toDto).toList();
+        return ResponseEntity.ok(ps);
     }
 
-    @GetMapping("/id/{id}")
-    public ProductRestDto getProductById(@PathVariable Integer id){
-        try {
-            Optional<Product> op = storeService.findProductById(id);
-            Product p = op.orElseThrow(()-> new DataException(String.format("la category con ID %d non esiste", id)));
-            return ProductRestDto.toDto(p);
-        } catch (DataException e) {
-            throw new RuntimeException(e);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable Integer id) throws DataException{
+        Optional<Product> op = storeService.findProductById(id);
+        if(op.isPresent()){
+            var productDto = ProductRestDto.toDto(op.get());
+            return ResponseEntity.ok(productDto);
         }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable int id) throws DataException{
+        boolean deleted = storeService.deleteProduct(id);
+        if(deleted){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductRestDto> createProduct(@RequestBody ProductRestDto dto) throws DataException, EntityNotFoundException {
+        Product p = dto.toProduct();
+        storeService.saveProduct(p, dto.getSupplierId(), dto.getCategoryId());
+        ProductRestDto saved = ProductRestDto.toDto(p);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(saved.getProductId())
+                .toUri();
+        //  return ResponseEntity.created(URI.create("/api/product/" + saved.getProductId())).body(saved);
+        return ResponseEntity.created(location).body(saved);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductRestDto> updateProduct(@PathVariable int id, @RequestBody ProductRestDto dto) throws DataException, EntityNotFoundException{
+        Optional<Product> op = storeService.findProductById(id);
+        if(op.isPresent()){
+            Product p = dto.toProduct();
+            p.setProductId(id);
+            storeService.saveProduct(p, dto.getSupplierId(), dto.getCategoryId());
+            ProductRestDto updated = ProductRestDto.toDto(p);
+            return ResponseEntity.ok(updated);
+        }
+        return ResponseEntity.notFound().build();
     }
 }
+

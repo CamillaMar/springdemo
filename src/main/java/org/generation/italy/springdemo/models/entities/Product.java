@@ -68,4 +68,8 @@ public class Product {
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
     }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
 }

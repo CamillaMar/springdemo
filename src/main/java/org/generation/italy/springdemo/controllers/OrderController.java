@@ -20,7 +20,11 @@ public class OrderController {
     }
     @GetMapping("/show-order-search-form")
     public String showSearchForm(Model model){
-        model.addAttribute("customers", storeService.findAllCustomers());
+        try {
+            model.addAttribute("customers", storeService.findAllCustomers());
+        } catch (DataException e) {
+            throw new RuntimeException(e);
+        }
         return "order/forms/show-order-search-form";
     }
     @GetMapping("/order")
