@@ -127,7 +127,6 @@ public class JpaStoreService implements StoreService{
     @Transactional
     @Override
     public boolean updateProduct(int id, Product np) throws DataException {
-
         Optional<Product> op = productRepo.findById(id);
         if(op.isPresent()){
             Product p = op.get();
@@ -142,6 +141,7 @@ public class JpaStoreService implements StoreService{
         return false;
     }
 
+    @Override
     public void setSupplierAndCategory(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException {
         Optional<Supplier> os = supplierRepo.findById(supplierId);
         if(os.isEmpty()){

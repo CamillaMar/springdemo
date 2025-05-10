@@ -74,7 +74,7 @@ public class ProductRestController {
         boolean updated = storeService.updateProduct(id, np);
         if(updated){
             ProductRestDto newDto = ProductRestDto.toDto(storeService.findProductById(id).get());
-            return ResponseEntity.accepted().body(newDto);
+            return ResponseEntity.ok().body(newDto);
         }
         return ResponseEntity.notFound().build();
     }
