@@ -5,11 +5,13 @@ import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
+import org.generation.italy.springdemo.models.repositories.criteriaRepositories.CriteriaProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,17 +23,28 @@ public class JpaStoreService implements StoreService{
     private JpaSupplierRepository supplierRepo;
     private JpaOrderRepository orderRepo;
     private JpaCustomerRepository customerRepo;
+    private CriteriaProductRepository criteriaProductRepo;
 
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaOrderRepository orderRepo, JpaCustomerRepository customerRepo) {
+    public JpaStoreService(JpaProductRepository productRepo,
+                           JpaCategoryRepository categoryRepo,
+                           JpaSupplierRepository supplierRepo,
+                           JpaOrderRepository orderRepo,
+                           JpaCustomerRepository customerRepo,
+                           CriteriaProductRepository criteriaProductRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
         this.orderRepo = orderRepo;
         this.customerRepo = customerRepo;
+        this.criteriaProductRepo = criteriaProductRepo;
     }
 
+    @Override
+    public List<Product> searchProducts(Integer categoryId, Integer supplierId, BigDecimal minPrice, BigDecimal maxPrice) throws DataException {
+        return criteriaProductRepo.searchProducts(categoryId, supplierId, minPrice, maxPrice);
+    }
 
     @Override
     public Optional<Product> findProductById(int id) throws DataException {
@@ -117,11 +130,11 @@ public class JpaStoreService implements StoreService{
     @Transactional
     public boolean deleteProduct(int id) throws DataException {
         Optional<Product> op = productRepo.findById(id);
-        if(op.isPresent()) {
-            productRepo.delete(op.get());
-            return true;
+        if(op.isEmpty()) {
+            return false;
         }
-        return false;
+        productRepo.delete(op.get());
+        return true;
     }
 
     @Transactional
@@ -134,8 +147,6 @@ public class JpaStoreService implements StoreService{
         Product p = op.get();
         p.setProductName(np.getProductName());
         p.setCost(np.getCost());
-        p.setSupplier(np.getSupplier());
-        p.setCategory(np.getCategory());
         p.setDiscontinued(np.isDiscontinued());
         setSupplierAndCategory(p, supplierId, categoryId);
         productRepo.save(p);
@@ -152,5 +163,4 @@ public class JpaStoreService implements StoreService{
         p.setSupplier(s);
         p.setCategory(c);
     }
-
 }

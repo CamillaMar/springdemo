@@ -39,11 +39,8 @@ public interface JpaProductRepository extends JpaRepository<Product,Integer> {
             """)
     List<Product> findNeverOrdered();
 
-
     //cancellare i prodotti che costano meno di una certa quantità
     @Modifying
     @Query("UPDATE Product p SET p.discontinued = 1 WHERE p.cost < :amount")
     int discontinueProductsUnder(@Param("amount") BigDecimal amount);
-
-
 }

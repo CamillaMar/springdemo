@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -73,6 +74,16 @@ public class ProductRestController {
         Product updated = storeService.updateProduct(id, np, dto.getSupplierId(), dto.getCategoryId());
         ProductRestDto newDto = ProductRestDto.toDto(updated);
         return ResponseEntity.ok().body(newDto);
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> searchProducts(@PathVariable Integer categoryId,
+                                            @PathVariable Integer supplierId,
+                                            @PathVariable BigDecimal minPrice,
+                                            @PathVariable BigDecimal maxPrice) throws DataException {
+        List<ProductRestDto> dtos = storeService.searchProducts(categoryId, supplierId, minPrice, maxPrice).
+                stream().map(ProductRestDto::toDto).toList();
+        return ResponseEntity.ok(dtos);
     }
 
 }
