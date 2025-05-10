@@ -56,7 +56,7 @@ public class Product {
         this.cost = cost;
     }
 
-    public int getDiscontinued() {
+    public int isDiscontinued() {
         return discontinued;
     }
     public void setDiscontinued(int discontinued) {

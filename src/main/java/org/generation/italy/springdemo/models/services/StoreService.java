@@ -24,6 +24,6 @@ public interface StoreService {
     List<Order> findAllOrders();
 
     boolean deleteProduct(int id) throws DataException;
-    Product updateProduct(int id, Product np) throws DataException;
+    Product updateProduct(int id, Product np, int supplierId, int categoryId) throws DataException, EntityNotFoundException;
     public void setSupplierAndCategory(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException;
 }

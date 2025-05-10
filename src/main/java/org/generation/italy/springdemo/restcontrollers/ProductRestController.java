@@ -70,11 +70,7 @@ public class ProductRestController {
             return ResponseEntity.badRequest().body("L'id risorsa e id del dto non corrispondono.");
         }
         Product np = dto.toProduct();
-        storeService.setSupplierAndCategory(np, dto.getSupplierId(), dto.getCategoryId());
-        Product updated = storeService.updateProduct(id, np);
-        if(updated == null){
-            return ResponseEntity.notFound().build();
-        }
+        Product updated = storeService.updateProduct(id, np, dto.getSupplierId(), dto.getCategoryId());
         ProductRestDto newDto = ProductRestDto.toDto(updated);
         return ResponseEntity.ok().body(newDto);
     }

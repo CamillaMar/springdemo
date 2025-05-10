@@ -126,17 +126,18 @@ public class JpaStoreService implements StoreService{
 
     @Transactional
     @Override
-    public Product updateProduct(int id, Product np) throws DataException {
+    public Product updateProduct(int id, Product np, int supplierId, int categoryId) throws DataException, EntityNotFoundException {
         Optional<Product> op = productRepo.findById(id);
         if(op.isEmpty()){
-            return null;
+            throw new EntityNotFoundException(Product.class, id);
         }
         Product p = op.get();
         p.setProductName(np.getProductName());
         p.setCost(np.getCost());
         p.setSupplier(np.getSupplier());
         p.setCategory(np.getCategory());
-        p.setDiscontinued(np.getDiscontinued());
+        p.setDiscontinued(np.isDiscontinued());
+        setSupplierAndCategory(p, supplierId, categoryId);
         productRepo.save(p);
         return p;
 
