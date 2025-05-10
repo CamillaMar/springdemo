@@ -68,4 +68,9 @@ public class JdbcService implements StoreService{
     @Override
     public void deleteOrder(Integer orderId) {
     }
+
+    @Override
+    public boolean deleteProduct(int id) throws DataException {
+        return false;
+    }
 }

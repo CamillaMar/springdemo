@@ -15,30 +15,45 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "orderid")
     private int orderId;
+
     @ManyToOne
     @JoinColumn (name = "custid")
     private Customer customer;
+
     @ManyToOne
     @JoinColumn (name = "empid")
     private Employee employee;
+
+    @Column(name = "orderdate")
+    private LocalDateTime orderDate;
+
     @Column(name = "requireddate")
     private LocalDateTime requiredDate;
+
     @Column(name = "shippeddate")
     private LocalDateTime shippedDate;
+
     @ManyToOne
     @JoinColumn( name = "shipperid")
     private Shipper shipper;
+
     private BigDecimal freight;
+
     @Column(name = "shipname")
     private String shipName;
+
     @Column(name = "shipaddress")
     private String shipAddress;
+
     @Column(name = "shipcity")
     private String shipCity;
+
     @Column(name = "shipregion")
     private String shipRegion;
+
     @Column(name = "shippostalcode")
     private String shipPostalCode;
+
     @Column(name = "shipcountry")
     private String shipCountry;
 
@@ -49,10 +64,15 @@ public class Order {
         this.orderDetails = new ArrayList<>();
     }
 
-    public Order(LocalDateTime shippedDate, Shipper shipper, BigDecimal freight, String shipName,
-                 String shipAddress, String shipCity, String shipRegion, String shipPostalCode,
-                 String shipCountry, List<OrderDetails> orderDetails, LocalDateTime requiredDate,
-                 Employee employee, Customer customer, int orderId) {
+    public Order(int orderId, Customer customer, Employee employee, LocalDateTime orderDate,
+                 LocalDateTime requiredDate, LocalDateTime shippedDate, Shipper shipper,
+                 BigDecimal freight, String shipName, String shipAddress, String shipCity,
+                 String shipRegion, String shipPostalCode, String shipCountry) {
+        this.orderId = orderId;
+        this.customer = customer;
+        this.employee = employee;
+        this.orderDate = orderDate;
+        this.requiredDate = requiredDate;
         this.shippedDate = shippedDate;
         this.shipper = shipper;
         this.freight = freight;
@@ -62,11 +82,6 @@ public class Order {
         this.shipRegion = shipRegion;
         this.shipPostalCode = shipPostalCode;
         this.shipCountry = shipCountry;
-        this.orderDetails = orderDetails;
-        this.requiredDate = requiredDate;
-        this.employee = employee;
-        this.customer = customer;
-        this.orderId = orderId;
     }
 
     public int getOrderId() {
@@ -79,6 +94,10 @@ public class Order {
 
     public Employee getEmployee() {
         return employee;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
     }
 
     public LocalDateTime getRequiredDate() {

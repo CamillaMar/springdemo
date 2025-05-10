@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface JpaCustomerRepository extends JpaRepository<Customer, Integer> {
     List<Customer> findAllByOrderByCompanyNameDesc();
+
     @Query("SELECT c FROM Customer c ORDER BY c.companyName DESC")
     List<Customer> findOrderByCompanyNameDesc();
 

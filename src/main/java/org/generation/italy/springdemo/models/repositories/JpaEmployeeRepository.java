@@ -27,5 +27,4 @@ public interface JpaEmployeeRepository extends JpaRepository<Employee, Integer> 
                 )
             """)
     List<Employee> findNoOrdersEmployees();
-
 }

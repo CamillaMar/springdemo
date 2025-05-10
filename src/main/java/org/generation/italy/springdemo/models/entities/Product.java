@@ -11,58 +11,74 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "productid")
     private int productId;
+
     @Column(name = "productname")
     private String productName;
+
     @ManyToOne
     @JoinColumn(name = "supplierid")
     private Supplier supplier;
+
     @ManyToOne
     @JoinColumn(name = "categoryid")
     private Category category;
+
     @Column(name = "unitprice")
-    private BigDecimal unitPrice;
+    private BigDecimal cost;
+
     private int discontinued;
 
     public Product(){
     }
 
-    public Product(int productId, String productName, Supplier supplier, Category category, BigDecimal unitPrice, int discontinued) {
+    public Product(int productId, String productName, Supplier supplier, Category category, BigDecimal cost, int discontinued) {
         this.productId = productId;
         this.productName = productName;
         this.supplier = supplier;
         this.category = category;
         this.discontinued = discontinued;
-        this.unitPrice = unitPrice;
+        this.cost = cost;
     }
 
     public int getProductId() {
         return productId;
     }
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
 
     public String getProductName() {
         return productName;
     }
-
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public int getDiscontinued() {
-        return discontinued;
-    }
     public Supplier getSupplier() {
         return supplier;
+    }
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
     public Category getCategory() {
         return category;
     }
-
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
-
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public BigDecimal getCost() {
+        return cost;
+    }
+    public void setCost(BigDecimal cost) {
+        this.cost = cost;
+    }
+
+    public int getDiscontinued() {
+        return discontinued;
+    }
+    public void setDiscontinued(int discontinued) {
+        this.discontinued = discontinued;
     }
 }
