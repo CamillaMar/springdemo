@@ -13,12 +13,12 @@ public class Shipper {
     @Column(name = "shipperid")
     private int shipperId;
 
-    @Column(name = "companyname")
+    @Column (name = "companyname")
     private String companyName;
 
     private String phone;
 
-    @OneToMany(mappedBy = "shipper")
+    @OneToMany( mappedBy = "shipper")
     private List<Order> orders = new ArrayList<>();
 
     public Shipper() {

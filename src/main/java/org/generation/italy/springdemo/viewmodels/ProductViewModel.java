@@ -1,8 +1,11 @@
 package org.generation.italy.springdemo.viewmodels;
 
+import org.generation.italy.springdemo.models.entities.Category;
 import org.generation.italy.springdemo.models.entities.Product;
-import java.math.BigDecimal;
+import org.generation.italy.springdemo.models.entities.Supplier;
 
+import java.math.BigDecimal;
+import java.util.List;
 
 public class ProductViewModel {
     private int productId;
@@ -11,6 +14,9 @@ public class ProductViewModel {
     private int categoryId;
     private BigDecimal unitPrice;
     private boolean discontinued;
+
+    private List<Category> categories;
+    private List<Supplier> suppliers;
 
     public ProductViewModel() {
     }
@@ -37,7 +43,7 @@ public class ProductViewModel {
     }
 
     public Product toProduct(){
-        return new Product(productId, productName, null, null, unitPrice, discontinued ? 1 : 0);
+        return new Product(productId, productName, null, null, unitPrice, discontinued ? 1:0);
     }
 
     public int getProductId() {
@@ -80,5 +86,13 @@ public class ProductViewModel {
     }
     public void setDiscontinued(boolean discontinued) {
         this.discontinued = discontinued;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public void setSuppliers(List<Supplier> suppliers) {
+        this.suppliers = suppliers;
     }
 }

@@ -12,11 +12,10 @@ public class ProductRestDto {
     private BigDecimal unitPrice;
     private boolean discontinued;
 
-    public ProductRestDto() {
+    public ProductRestDto(){
     }
 
-    public ProductRestDto(int productId, String productName, int supplierId,
-                          int categoryId, BigDecimal unitPrice, boolean discontinued) {
+    public ProductRestDto(int productId, String productName, int supplierId, int categoryId, BigDecimal unitPrice, boolean discontinued) {
         this.productId = productId;
         this.productName = productName;
         this.supplierId = supplierId;
@@ -26,12 +25,12 @@ public class ProductRestDto {
     }
 
     public Product toProduct(){
-        return new Product(productId, productName, null, null, unitPrice, discontinued ? 1 : 0);
+        return new Product(productId, productName, null, null, unitPrice, discontinued ? 1:0);
     }
 
     public static ProductRestDto toDto(Product p) {
         return new ProductRestDto(p.getProductId(), p.getProductName(), p.getSupplier().getSupplierId(),
-                p.getCategory().getCategoryId(), p.getUnitPrice(), p.getDiscontinued() == 1);
+                p.getCategory().getCategoryId(), p.getCost(), p.getDiscontinued() == 1);
     }
 
     public int getProductId() {

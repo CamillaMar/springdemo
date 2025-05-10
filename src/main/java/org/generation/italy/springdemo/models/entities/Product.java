@@ -1,15 +1,14 @@
 package org.generation.italy.springdemo.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "products")
+@Table(name="products")
 public class Product {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "productid")
     private int productId;
 
@@ -25,20 +24,20 @@ public class Product {
     private Category category;
 
     @Column(name = "unitprice")
-    private BigDecimal unitPrice;
+    private BigDecimal cost;
 
     private int discontinued;
 
     public Product(){
     }
 
-    public Product(int productId, String productName, Supplier supplier, Category category, BigDecimal unitPrice, int discontinued) {
+    public Product(int productId, String productName, Supplier supplier, Category category, BigDecimal cost, int discontinued) {
         this.productId = productId;
         this.productName = productName;
         this.supplier = supplier;
         this.category = category;
-        this.unitPrice = unitPrice;
         this.discontinued = discontinued;
+        this.cost = cost;
     }
 
     public int getProductId() {
@@ -69,11 +68,11 @@ public class Product {
         this.category = category;
     }
 
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
+    public BigDecimal getCost() {
+        return cost;
     }
-    public void setUnitPrice(BigDecimal unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setCost(BigDecimal cost) {
+        this.cost = cost;
     }
 
     public int getDiscontinued() {

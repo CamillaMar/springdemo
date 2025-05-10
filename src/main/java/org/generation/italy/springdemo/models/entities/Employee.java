@@ -2,7 +2,6 @@ package org.generation.italy.springdemo.models.entities;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
