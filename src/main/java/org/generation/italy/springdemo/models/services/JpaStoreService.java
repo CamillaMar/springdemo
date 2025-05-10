@@ -126,10 +126,10 @@ public class JpaStoreService implements StoreService{
 
     @Transactional
     @Override
-    public boolean updateProduct(int id, Product np) throws DataException {
+    public Product updateProduct(int id, Product np) throws DataException {
         Optional<Product> op = productRepo.findById(id);
         if(op.isEmpty()){
-            return false;
+            return null;
         }
         Product p = op.get();
         p.setProductName(np.getProductName());
@@ -138,7 +138,7 @@ public class JpaStoreService implements StoreService{
         p.setCategory(np.getCategory());
         p.setDiscontinued(np.getDiscontinued());
         productRepo.save(p);
-        return true;
+        return p;
 
     }
 
