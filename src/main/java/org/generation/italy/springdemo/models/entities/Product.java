@@ -38,30 +38,41 @@ public class Product {
     public int getProductId() {
         return productId;
     }
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
 
     public String getProductName() {
         return productName;
+    }
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public BigDecimal getCost() {
         return cost;
     }
+    public void setCost(BigDecimal cost) {
+        this.cost = cost;
+    }
 
     public int getDiscontinued() {
         return discontinued;
     }
+    public void setDiscontinued(int discontinued) {
+        this.discontinued = discontinued;
+    }
+
     public Supplier getSupplier() {
         return supplier;
+    }
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
     public Category getCategory() {
         return category;
     }
-
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
-
     public void setCategory(Category category) {
         this.category = category;
     }

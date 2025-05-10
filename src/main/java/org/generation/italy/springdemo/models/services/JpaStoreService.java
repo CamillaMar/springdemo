@@ -3,6 +3,7 @@ package org.generation.italy.springdemo.models.services;
 import jakarta.persistence.PersistenceException;
 import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -125,7 +126,32 @@ public class JpaStoreService implements StoreService{
 
     @Transactional
     @Override
-    public boolean updateProduct(Product p, Product np) throws DataException {
-        return productRepo.updateProduct(p.getProductId(), np.getCost());
+    public boolean updateProduct(int id, Product np) throws DataException {
+
+        Optional<Product> op = productRepo.findById(id);
+        if(op.isPresent()){
+            Product p = op.get();
+            p.setProductName(np.getProductName());
+            p.setCost(np.getCost());
+            p.setSupplier(np.getSupplier());
+            p.setCategory(np.getCategory());
+            p.setDiscontinued(np.getDiscontinued());
+            productRepo.save(p);
+            return true;
+        }
+        return false;
     }
+
+    public void setSupplierAndCategory(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException {
+        Optional<Supplier> os = supplierRepo.findById(supplierId);
+        if(os.isEmpty()){
+            throw new EntityNotFoundException(Supplier.class, supplierId);
+        }
+        Supplier s = os.get();
+        Optional<Category> oc = categoryRepo.findById(categoryId);
+        Category c = oc.orElseThrow(()-> new EntityNotFoundException(Category.class, categoryId));
+        p.setSupplier(s);
+        p.setCategory(c);
+    }
+
 }
