@@ -72,11 +72,11 @@ public class ProductRestController {
         Product np = dto.toProduct();
         storeService.setSupplierAndCategory(np, dto.getSupplierId(), dto.getCategoryId());
         boolean updated = storeService.updateProduct(id, np);
-        if(updated){
-            ProductRestDto newDto = ProductRestDto.toDto(storeService.findProductById(id).get());
-            return ResponseEntity.ok().body(newDto);
+        if(!updated){
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        ProductRestDto newDto = ProductRestDto.toDto(storeService.findProductById(id).get());
+        return ResponseEntity.ok().body(newDto);
     }
 
 }

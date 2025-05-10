@@ -128,26 +128,24 @@ public class JpaStoreService implements StoreService{
     @Override
     public boolean updateProduct(int id, Product np) throws DataException {
         Optional<Product> op = productRepo.findById(id);
-        if(op.isPresent()){
-            Product p = op.get();
-            p.setProductName(np.getProductName());
-            p.setCost(np.getCost());
-            p.setSupplier(np.getSupplier());
-            p.setCategory(np.getCategory());
-            p.setDiscontinued(np.getDiscontinued());
-            productRepo.save(p);
-            return true;
+        if(op.isEmpty()){
+            return false;
         }
-        return false;
+        Product p = op.get();
+        p.setProductName(np.getProductName());
+        p.setCost(np.getCost());
+        p.setSupplier(np.getSupplier());
+        p.setCategory(np.getCategory());
+        p.setDiscontinued(np.getDiscontinued());
+        productRepo.save(p);
+        return true;
+
     }
 
     @Override
     public void setSupplierAndCategory(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException {
         Optional<Supplier> os = supplierRepo.findById(supplierId);
-        if(os.isEmpty()){
-            throw new EntityNotFoundException(Supplier.class, supplierId);
-        }
-        Supplier s = os.get();
+        Supplier s = os.orElseThrow(()-> new EntityNotFoundException(Supplier.class, supplierId));
         Optional<Category> oc = categoryRepo.findById(categoryId);
         Category c = oc.orElseThrow(()-> new EntityNotFoundException(Category.class, categoryId));
         p.setSupplier(s);
