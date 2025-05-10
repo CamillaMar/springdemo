@@ -115,12 +115,32 @@ public class JpaStoreService implements StoreService{
         return ordersBy;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void deleteOrder(Integer orderId) {
         orderDetailsRepo.deleteOrderDetailsByOrderId(orderId);
         orderRepo.deleteById(orderId);
     }
+
+    @Override
+    public boolean updateProduct(Product newProduct, int categoryId, int supplierId) throws DataException, EntityNotFoundException {
+        try {
+            Optional<Supplier> os = supplierRepo.findById(supplierId);
+            if(os.isEmpty()){
+                throw new EntityNotFoundException(Supplier.class, supplierId);
+            }
+            Supplier s = os.get();
+            Optional<Category> oc = categoryRepo.findById(categoryId);
+            Category c = oc.orElseThrow(()-> new EntityNotFoundException(Category.class, categoryId));
+            newProduct.setSupplier(s);
+            newProduct.setCategory(c);
+            newProduct = productRepo.save(newProduct);
+            return newProduct != null;
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella modifica di un prodotto", pe);
+        }
+    }
+
     @Override
     @Transactional
     public boolean deleteProduct(int id) throws DataException {

@@ -6,6 +6,7 @@ import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.viewmodels.OrderViewModel;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,11 @@ public class JdbcService implements StoreService{
 
     @Override
     public void deleteOrder(Integer orderId) {
+    }
+
+    @Override
+    public boolean updateProduct(Product newProduct, int categoryId, int supplierId) throws DataException, EntityNotFoundException {
+        return false;
     }
 
     @Override

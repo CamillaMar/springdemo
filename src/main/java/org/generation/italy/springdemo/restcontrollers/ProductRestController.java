@@ -59,7 +59,17 @@ public class ProductRestController {
                 .path("/{id}")
                 .buildAndExpand(saved.getProductId())
                 .toUri();
-
         return ResponseEntity.created(location).body(saved);
+    }
+    @PutMapping
+    public ResponseEntity<Void> updateProduct(@RequestBody ProductRestDto newProduct) throws DataException, EntityNotFoundException {
+        Product p = newProduct.toProduct();
+        int categoryId = newProduct.getCategoryId();
+        int supplierId = newProduct.getSupplierId();
+        boolean updated = storeService.updateProduct(p, categoryId, supplierId);
+        if(updated){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

@@ -25,4 +25,5 @@ public interface StoreService {
     List<SelectListElement> getSelectListCustomers();
     List<Order> findOrdersByCustomer(Integer CustId);
     void deleteOrder(Integer orderId);
+    boolean updateProduct(Product newProduct, int categoryId, int supplierId) throws DataException, EntityNotFoundException;
 }
