@@ -2,7 +2,9 @@ package org.generation.italy.springdemo.models.services;
 
 import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.restdtos.ProductRestDto;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +20,9 @@ public interface StoreService {
     List<Customer> findAllCustomers();
     List<Order> findByCustId(int custId);
     void deleteOrderById(Integer id);
-    Optional<Order> findOrderById (int id);
+    Optional<Order> findOrderById (int id) ;
     boolean deleteProduct(int id) throws DataException;
+    Product updateProduct(Product p, int supplierID, int categoryId) throws DataException;
+    List<Product> searchProducts(Integer categoryId, Integer supplierId, BigDecimal minPrice, BigDecimal maxPrice) throws DataException;
+
 }

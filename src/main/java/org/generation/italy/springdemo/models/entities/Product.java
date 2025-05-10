@@ -65,4 +65,20 @@ public class Product {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setCost(BigDecimal cost) {
+        this.cost = cost;
+    }
+
+    public void setDiscontinued(int discontinued) {
+        this.discontinued = discontinued;
+    }
 }

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -24,11 +25,15 @@ public class ProductRestController {
     public ProductRestController(StoreService storeService){
         this.storeService = storeService;
     }
+
     @GetMapping
-    public ResponseEntity<?> getAllProducts() throws DataException{
-            List<ProductRestDto> ps =  storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
-//            return ResponseEntity.status(200).body(ps);
-            return ResponseEntity.ok(ps);
+    public ResponseEntity<List<ProductRestDto>> getAllProducts(@RequestParam(required = false) Integer categoryId,
+                                            @RequestParam(required = false) Integer supplierId,
+                                            @RequestParam(required = false) BigDecimal minPrice,
+                                            @RequestParam(required = false) BigDecimal maxPrice) throws DataException{
+            List<Product> productsSearched = storeService.searchProducts(categoryId, supplierId, minPrice, maxPrice);
+            List<ProductRestDto> productRestDtos = productsSearched.stream().map(ProductRestDto::toDto).toList();
+            return ResponseEntity.ok(productRestDtos); // :)
     }
 
     @GetMapping("/{id}")
@@ -63,5 +68,25 @@ public class ProductRestController {
 
         return ResponseEntity.created(location).body(saved);
     }
+    //update del prodotto, modifica di tutti i suoi campi tranne l id
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateProduct(@PathVariable Integer id, @RequestBody ProductRestDto productRestDto) throws DataException {
+        Optional<Product> op = storeService.findProductById(id);
+
+        if(op.isEmpty() ){
+            return ResponseEntity.notFound().build();
+        }
+
+        if(id != productRestDto.getProductId() ){
+            return ResponseEntity.badRequest().body("Id risorsa e id del dto non corrispondono");
+        }
+        Product p = productRestDto.toProduct();
+        storeService.updateProduct(p, productRestDto.getSupplierId(), productRestDto.getCategoryId());
+        return ResponseEntity.ok(ProductRestDto.toDto(p));
+
+
+
+    }
+
 
 }

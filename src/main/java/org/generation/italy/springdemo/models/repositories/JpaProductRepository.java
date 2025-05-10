@@ -2,6 +2,7 @@ package org.generation.italy.springdemo.models.repositories;
 
 import org.generation.italy.springdemo.models.dtos.ProductSummary;
 import org.generation.italy.springdemo.models.entities.Product;
+import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -46,6 +47,6 @@ public interface JpaProductRepository extends JpaRepository<Product,Integer> {
     @Modifying
     @Query("UPDATE Product p SET p.discontinued = 1 WHERE p.cost < :amount")
     int discontinueProductsUnder(@Param("amount") BigDecimal amount);
-
+    //List<Product> searchProducts(Integer categoryId, Integer supplierId, BigDecimal minPrice, BigDecimal maxPrice) throws DataException;
 
 }
