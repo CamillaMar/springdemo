@@ -25,12 +25,6 @@ public class ProductRestController {
     public ProductRestController(StoreService storeService){
         this.storeService = storeService;
     }
-    @GetMapping
-    public ResponseEntity<?> getAllProducts() throws DataException{
-            List<ProductRestDto> ps =  storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
-//            return ResponseEntity.status(200).body(ps);
-            return ResponseEntity.ok(ps);
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable int id) throws DataException {
@@ -77,11 +71,11 @@ public class ProductRestController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> searchProducts(@PathVariable Integer categoryId,
+    public ResponseEntity<List<ProductRestDto>> searchProducts(@PathVariable Integer categoryId,
                                             @PathVariable Integer supplierId,
                                             @PathVariable BigDecimal minPrice,
                                             @PathVariable BigDecimal maxPrice) throws DataException {
-        List<ProductRestDto> dtos = storeService.searchProducts(categoryId, supplierId, minPrice, maxPrice).
+        var dtos = storeService.searchProducts(categoryId, supplierId, minPrice, maxPrice).
                 stream().map(ProductRestDto::toDto).toList();
         return ResponseEntity.ok(dtos);
     }
