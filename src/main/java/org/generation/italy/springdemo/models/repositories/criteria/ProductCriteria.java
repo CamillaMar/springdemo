@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class ProductRepository implements ProductCriteriaRepository{
+public class ProductCriteria implements ProductCriteriaRepository{
     EntityManager entityManager;
 
     @Autowired
-    public ProductRepository(EntityManager entityManager) {
+    public ProductCriteria(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
@@ -26,28 +26,28 @@ public class ProductRepository implements ProductCriteriaRepository{
     public List<Product> searchProducts(Integer categoryId, Integer supplierId, BigDecimal minPrice, BigDecimal maxPrice) throws DataException {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> query = builder.createQuery(Product.class);
-        Root<Product> product = query.from(Product.class);
+        Root<Product> root = query.from(Product.class);
         List<Predicate> predicates = new ArrayList<>();
 
         if (categoryId != null) {
-            Join<Product, Category> categoryJoin = product.join("category");
+            Join<Product, Category> categoryJoin = root.join("category");
             Predicate categoryIdPredicate = builder.equal(categoryJoin.get("categoryId"), categoryId);
             predicates.add(categoryIdPredicate);
         }
 
         if (supplierId != null) {
-            Join<Product, Supplier> supplierJoin = product.join("supplier");
+            Join<Product, Supplier> supplierJoin = root.join("supplier");
             Predicate supplierIdPredicate = builder.equal(supplierJoin.get("supplierId"), supplierId);
             predicates.add(supplierIdPredicate);
         }
 
         if (minPrice != null) {
-            Predicate minPricePredicate = builder.greaterThanOrEqualTo(product.get("unitPrice"), minPrice);
+            Predicate minPricePredicate = builder.greaterThanOrEqualTo(root.get("unitPrice"), minPrice);
             predicates.add(minPricePredicate);
         }
 
         if (maxPrice != null) {
-            Predicate maxPricePredicate = builder.lessThanOrEqualTo(product.get("unitPrice"), maxPrice);
+            Predicate maxPricePredicate = builder.lessThanOrEqualTo(root.get("unitPrice"), maxPrice);
             predicates.add(maxPricePredicate);
         }
 

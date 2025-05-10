@@ -2,7 +2,6 @@ package org.generation.italy.springdemo.models.repositories.criteria;
 
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.exceptions.DataException;
-import org.generation.italy.springdemo.models.repositories.JpaProductRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
