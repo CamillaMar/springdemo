@@ -66,6 +66,9 @@ public class ProductRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Integer id, @RequestBody ProductRestDto dto) throws DataException, EntityNotFoundException{
+        if(id != dto.getProductId()){
+            return ResponseEntity.badRequest().body("L'id risorsa e id del dto non corrispondono.");
+        }
         Product np = dto.toProduct();
         storeService.setSupplierAndCategory(np, dto.getSupplierId(), dto.getCategoryId());
         boolean updated = storeService.updateProduct(id, np);
