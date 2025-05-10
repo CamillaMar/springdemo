@@ -2,6 +2,7 @@ package org.generation.italy.springdemo.models.services;
 
 import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.restdtos.ProductRestDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,4 +21,5 @@ public interface StoreService {
     void deleteOrderById(Integer id);
     Optional<Order> findOrderById (int id);
     boolean deleteProduct(int id) throws DataException;
+    Product updateProduct(Product p, int supplierId, int categoryId);
 }

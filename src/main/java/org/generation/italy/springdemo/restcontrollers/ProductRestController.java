@@ -1,5 +1,6 @@
 package org.generation.italy.springdemo.restcontrollers;
 
+import org.apache.catalina.authenticator.jaspic.PersistentProviderRegistrations;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
@@ -32,14 +33,16 @@ public class ProductRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable int id) throws DataException {
+    public ResponseEntity<?> findById(@PathVariable int id) throws DataException{
         Optional<Product> p = storeService.findProductById(id);
-        if (p.isPresent()) {
-            var productDto = ProductRestDto.toDto(p.get());
+        if(p.isPresent()){
+            ProductRestDto productDto = ProductRestDto.toDto(p.get());
             return ResponseEntity.ok(productDto);
         }
         return ResponseEntity.notFound().build();
     }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable int id) throws  DataException{
@@ -51,17 +54,22 @@ public class ProductRestController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductRestDto> createProduct(@RequestBody ProductRestDto dto) throws DataException, EntityNotFoundException {
+    public ResponseEntity<ProductRestDto> createProduct(@RequestBody ProductRestDto dto) throws DataException{
         Product p = dto.toProduct();
-        storeService.saveProduct(p, dto.getSupplierId(), dto.getCategoryId());
+        storeService.saveProduct(p,dto.getSupplierId(),dto.getCategoryId());
         ProductRestDto saved = ProductRestDto.toDto(p);
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(saved.getProductId())
-                .toUri();
-
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(saved.getProductId()).toUri();
         return ResponseEntity.created(location).body(saved);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateProduct(@PathVariable int id, @RequestBody ProductRestDto dto) throws DataException{
+        Optional<Product> op = storeService.findProductById(id);
+        if(op.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        if(dto.getProductId() != id){
+            return ResponseEntity.badRequest().body("Id risorse e Id del Dto non corrispondono :(, ritenta! :)");
+        }
+    }
 }

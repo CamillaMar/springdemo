@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.repositories.*;
+import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -122,5 +123,4 @@ public class JpaStoreService implements StoreService{
         }
         return false;
     }
-
 }
