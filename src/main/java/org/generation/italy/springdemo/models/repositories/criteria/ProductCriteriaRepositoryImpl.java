@@ -7,18 +7,16 @@ import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
-public class ProductCriteria implements ProductCriteriaRepository{
+public class ProductCriteriaRepositoryImpl implements ProductCriteriaRepository{
     EntityManager entityManager;
 
     @Autowired
-    public ProductCriteria(EntityManager entityManager) {
+    public ProductCriteriaRepositoryImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
