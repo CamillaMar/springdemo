@@ -31,9 +31,9 @@ public class ProductRestController {
                                                                @RequestParam(required = false) BigDecimal minPrice,
                                                                @RequestParam(required = false) BigDecimal maxPrice) throws DataException {
         var productDtos = storeService.searchProducts(categoryId, supplierId, minPrice, maxPrice)
-                .stream().map(ProductRestDto::toDto).toList();
-        // var productDtos = storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
-        // return ResponseEntity.status(200).body(productDtos);
+                .stream()
+                .map(ProductRestDto::toDto)
+                .toList();
         return ResponseEntity.ok(productDtos);
     }
 
