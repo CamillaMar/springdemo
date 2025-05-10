@@ -25,19 +25,16 @@ public class JpaStoreService implements StoreService{
     private JpaCustomerRepository customerRepo;
     private JpaOrderRepository orderRepo;
     private JpaOrderDetailsRepository orderDetailsRepo;
-    private ProductCriteriaRepository productCriteriaRepo;
 
     @Autowired
     public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo,
-                           JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo,
-                           ProductCriteriaRepository productCriteriaRepo) {
+                           JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
         this.customerRepo = customerRepo;
         this.orderRepo = orderRepo;
         this.orderDetailsRepo = orderDetailsRepo;
-        this.productCriteriaRepo = productCriteriaRepo;
     }
 
     @Override
@@ -191,7 +188,7 @@ public class JpaStoreService implements StoreService{
     @Override
     public List<Product> searchProducts(Integer categoryId, Integer supplierId, BigDecimal minPrice, BigDecimal maxPrice) throws DataException {
         try {
-            return productCriteriaRepo.searchProducts(categoryId, supplierId, minPrice, maxPrice);
+            return productRepo.searchProducts(categoryId, supplierId, minPrice, maxPrice);
         } catch (PersistenceException pe) {
             throw new DataException("Errore nella ricerca dei prodotti", pe);
         }
