@@ -20,19 +20,19 @@ public class Product {
     @JoinColumn(name = "categoryid")
     private Category category;
     @Column(name = "unitprice")
-    private BigDecimal unitPrice;
+    private BigDecimal cost;
     private int discontinued;
 
     public Product(){
     }
 
-    public Product(int productId, String productName, Supplier supplier, Category category, BigDecimal unitPrice, int discontinued) {
+    public Product(int productId, String productName, Supplier supplier, Category category, BigDecimal cost, int discontinued) {
         this.productId = productId;
         this.productName = productName;
         this.supplier = supplier;
         this.category = category;
         this.discontinued = discontinued;
-        this.unitPrice = unitPrice;
+        this.cost = cost;
     }
 
     public int getProductId() {
@@ -43,8 +43,8 @@ public class Product {
         return productName;
     }
 
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
+    public BigDecimal getCost() {
+        return cost;
     }
 
     public int getDiscontinued() {
