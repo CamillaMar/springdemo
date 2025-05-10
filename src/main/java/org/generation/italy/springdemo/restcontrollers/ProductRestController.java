@@ -64,4 +64,16 @@ public class ProductRestController {
         return ResponseEntity.created(location).body(saved);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateProduct(@PathVariable Integer id, @RequestBody ProductRestDto dto) throws DataException, EntityNotFoundException{
+        Product np = dto.toProduct();
+        Optional<Product> op = storeService.findProductById(id);
+        if (op.isPresent()){
+            storeService.updateProduct(op.get(),np);
+            ProductRestDto newDto = ProductRestDto.toDto(op.get());
+            return ResponseEntity.accepted().body(newDto);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 }

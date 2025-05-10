@@ -17,6 +17,10 @@ public interface JpaProductRepository extends JpaRepository<Product,Integer> {
     List<Product> findByCostGreaterThanEqual(BigDecimal price);
     List<Product> findByCategoryCategoryName(String name);
 
+    @Modifying
+    @Query("UPDATE Product p SET p.cost = :np WHERE p.productId = :id")
+    boolean updateProduct(@Param("id") int id, @Param("np") BigDecimal cost);
+
     @Query("SELECT p FROM Product p JOIN p.category c WHERE c.categoryName = :name")
     List<Product> findByCategoryName(@Param("name") String name);
 

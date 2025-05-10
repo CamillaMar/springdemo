@@ -68,4 +68,14 @@ public class JdbcService implements StoreService{
     public List<Order> findAllOrders() {
         return List.of();
     }
+
+    @Override
+    public boolean deleteProduct(int id) throws DataException {
+        return false;
+    }
+
+    @Override
+    public boolean updateProduct(Product p, Product np) throws DataException {
+        return false;
+    }
 }

@@ -7,6 +7,7 @@ import org.generation.italy.springdemo.models.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -79,6 +80,8 @@ public class JpaStoreService implements StoreService{
         return p;
     }
 
+
+
     @Override
     public List<Category> findAllCategories() {
         return categoryRepo.findAll();
@@ -107,5 +110,22 @@ public class JpaStoreService implements StoreService{
     @Override
     public List<Order> findAllOrders() {
         return orderRepo.findAll();
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteProduct(int id) throws DataException {
+        Optional<Product> op = productRepo.findById(id);
+        if(op.isPresent()) {
+            productRepo.delete(op.get());
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    @Override
+    public boolean updateProduct(Product p, Product np) throws DataException {
+        return productRepo.updateProduct(p.getProductId(), np.getCost());
     }
 }
