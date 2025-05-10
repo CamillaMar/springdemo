@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/product")
+@RequestMapping("/api/products")
 public class ProductRestController {
     private StoreService storeService;
 
@@ -47,6 +47,19 @@ public class ProductRestController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateById(@PathVariable int id, @RequestBody ProductRestDto dto) throws DataException, EntityNotFoundException {
+        Optional<Product> optionalProduct= storeService.findProductById(id);
+        if(optionalProduct.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        if(id!=dto.getProductId()){
+            return ResponseEntity.badRequest().body("Resource id and dto id do not match");
+        }
+        storeService.updateProduct(optionalProduct.get(), dto);
+        return ResponseEntity.ok(ProductRestDto.toDto(optionalProduct.get()));
     }
 
     @PostMapping

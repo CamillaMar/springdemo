@@ -2,6 +2,7 @@ package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
 import org.generation.italy.springdemo.models.entities.Category;
+import org.generation.italy.springdemo.models.entities.Customer;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
@@ -9,6 +10,7 @@ import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException
 import org.generation.italy.springdemo.models.repositories.JpaCategoryRepository;
 import org.generation.italy.springdemo.models.repositories.JpaProductRepository;
 import org.generation.italy.springdemo.models.repositories.JpaSupplierRepository;
+import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -103,5 +105,13 @@ public class JpaStoreService implements StoreService{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Product updateProduct(Product product, ProductRestDto dto) throws DataException, EntityNotFoundException {
+        product.setProductName(dto.getProductName());
+        product.setCost(dto.getUnitPrice());
+        product.setDiscontinued(dto.isDiscontinued() ? 1:0);
+        return saveProduct(product, dto.getSupplierId(), dto.getCategoryId());
     }
 }
