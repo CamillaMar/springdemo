@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface JpaProductRepository extends JpaRepository<Product, Integer>, JpaSpecificationExecutor<Product> {
+public interface JpaProductRepository extends JpaRepository<Product, Integer>{
     List<Product> findByProductNameContains(String name);
 
     @Query("SELECT p FROM Product p WHERE discontinued = :discontinued")
