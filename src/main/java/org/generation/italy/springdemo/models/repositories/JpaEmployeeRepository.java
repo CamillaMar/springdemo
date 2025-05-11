@@ -2,8 +2,11 @@ package org.generation.italy.springdemo.models.repositories;
 
 import org.generation.italy.springdemo.models.entities.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
 
@@ -27,4 +30,30 @@ public interface JpaEmployeeRepository extends JpaRepository<Employee, Integer> 
                 )
             """)
     List<Employee> findNoOrdersEmployees();
+
+    //Seleziona tutti gli impiegati
+    @Query("""
+            SELECT e
+            FROM Employee e
+            """)
+    List<Employee> getAllEmployee();
+
+
+    @Query("""
+            SELECT e
+            FROM Employee e
+            WHERE e.empId = :id
+            """)
+    Employee getEmployeeById(@Param("id") int id);
+
+    @Transactional
+    @Modifying
+    @Query("""
+            DELETE FROM Employee e
+            WHERE e.empId = :id
+            """)
+    int deleteEmployee(@Param("id") int id);
+
+
 }
+

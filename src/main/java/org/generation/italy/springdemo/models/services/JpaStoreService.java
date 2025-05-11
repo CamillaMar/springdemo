@@ -1,16 +1,10 @@
 package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
-import org.aspectj.weaver.ast.Or;
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Order;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
-import org.generation.italy.springdemo.models.repositories.JpaCategoryRepository;
-import org.generation.italy.springdemo.models.repositories.JpaOrderRepository;
-import org.generation.italy.springdemo.models.repositories.JpaProductRepository;
-import org.generation.italy.springdemo.models.repositories.JpaSupplierRepository;
+import org.generation.italy.springdemo.models.repositories.*;
+import org.generation.italy.springdemo.restdtos.EmployeeRestDto;
 import org.generation.italy.springdemo.viewmodels.OrderViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -19,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Profile("jpa")
@@ -28,14 +21,16 @@ public class JpaStoreService implements StoreService {
     private JpaCategoryRepository categoryRepo;
     private JpaSupplierRepository supplierRepo;
     private JpaOrderRepository orderRepo;
+    private JpaEmployeeRepository employeeRepo;
 
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaOrderRepository orderRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaOrderRepository orderRepo, JpaEmployeeRepository employeeRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
         this.orderRepo = orderRepo;
+        this.employeeRepo = employeeRepo;
     }
 
 
@@ -101,6 +96,81 @@ public class JpaStoreService implements StoreService {
     public List<OrderViewModel> findAllOrders() {
         List<Order> orders = orderRepo.findAll();
         return ordersToModelMapper(orders);
+    }
+
+    @Override
+    public List<Employee> findAllEmployee() {
+        return employeeRepo.getAllEmployee();
+    }
+
+    @Override
+    public Employee findEmployeeById(int id) {
+        return employeeRepo.getEmployeeById(id);
+    }
+
+    @Override
+    public Employee saveEmployee(Employee e) {
+        return employeeRepo.save(e);
+    }
+
+    @Override
+    public Employee updateEmployee(EmployeeRestDto dto) {
+        if(dto.getEmpId() == 0){
+            return new Employee();
+        };
+        Employee e = employeeRepo.getEmployeeById(dto.getEmpId());
+        if(dto.getManagerEmpId() != null && dto.getManagerEmpId() != e.getManager().getEmpId()){
+            Employee m = employeeRepo.getEmployeeById(dto.getManagerEmpId());
+            if(m != null){
+                e.setManager(m);
+            }
+        }
+        if(dto.getPhone() != null && !dto.getPhone().equalsIgnoreCase(e.getPhone())){
+            e.setPhone(dto.getPhone());
+        }
+        if(dto.getCountry() != null && !dto.getCountry().equalsIgnoreCase(e.getCountry())){
+            e.setCountry(dto.getCountry());
+        }
+        if((e.getPostalCode() == null && dto.getPostalCode() != null)|| ( dto.getPostalCode() != null && !dto.getPostalCode().equalsIgnoreCase(e.getPostalCode()))){
+            e.setPostalCode(dto.getPostalCode());
+        }
+        if((e.getRegion() == null && dto.getRegion() != null)|| ( dto.getRegion() != null && !dto.getRegion().equalsIgnoreCase(e.getRegion()))){
+            e.setRegion(dto.getRegion());
+        }
+        if(dto.getCity() != null && !dto.getCity().equalsIgnoreCase(e.getCity())){
+            e.setCity(dto.getCity());
+        }
+        if(dto.getAddress() != null && !dto.getAddress().equalsIgnoreCase(e.getAddress())){
+            e.setAddress(dto.getAddress());
+        }
+        if(dto.getHireDate() != null && !dto.getHireDate().isEqual(e.getHireDate())){
+            e.setHireDate(dto.getHireDate());
+        }
+        if(dto.getBirthDate() != null && !dto.getBirthDate().isEqual(e.getBirthDate())){
+            e.setBirthDate(dto.getBirthDate());
+        }
+        if(dto.getTitleOfCourtesy() != null && !dto.getTitleOfCourtesy().equalsIgnoreCase(e.getTitleOfCourtesy())){
+            e.setTitleOfCourtesy(dto.getTitleOfCourtesy());
+        }
+        if(dto.getTitle() != null && !dto.getTitle().equalsIgnoreCase(e.getTitle())){
+            e.setTitle(dto.getTitle());
+        }
+        if(dto.getFirstName() != null && !dto.getFirstName().equalsIgnoreCase(e.getFirstName())){
+            e.setFirstName(dto.getFirstName());
+        }
+        if(dto.getLastName() != null && !dto.getLastName().equalsIgnoreCase(e.getLastName())){
+            e.setLastName(dto.getLastName());
+        }
+        employeeRepo.saveAndFlush(e);
+        return e;
+    }
+
+    @Override
+    public void deleteEmployee(int id) throws DataException {
+       Integer count = employeeRepo.deleteEmployee(id);
+       if(count == 0){
+           throw new DataException("Id non presente nel database");
+       }
     }
 
     private List<OrderViewModel> ordersToModelMapper(List<Order> orders){

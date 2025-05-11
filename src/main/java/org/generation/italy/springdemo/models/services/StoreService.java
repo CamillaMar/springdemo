@@ -1,9 +1,11 @@
 package org.generation.italy.springdemo.models.services;
 
 import org.generation.italy.springdemo.models.entities.Category;
+import org.generation.italy.springdemo.models.entities.Employee;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.restdtos.EmployeeRestDto;
 import org.generation.italy.springdemo.viewmodels.OrderViewModel;
 
 import java.util.List;
@@ -19,4 +21,10 @@ public interface StoreService {
     List<Category> findAllCategories();
     List<Supplier> findAllSuppliers();
     List<OrderViewModel> findAllOrders();
+    List<Employee> findAllEmployee();
+    Employee findEmployeeById(int id);
+    Employee saveEmployee(Employee e);
+    Employee updateEmployee(EmployeeRestDto dto);
+
+    void deleteEmployee(int id) throws DataException;
 }
