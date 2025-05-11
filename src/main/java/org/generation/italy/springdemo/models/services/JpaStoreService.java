@@ -7,6 +7,7 @@ import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
+import org.generation.italy.springdemo.models.repositories.CustomProductRepository;
 import org.generation.italy.springdemo.models.repositories.JpaCategoryRepository;
 import org.generation.italy.springdemo.models.repositories.JpaProductRepository;
 import org.generation.italy.springdemo.models.repositories.JpaSupplierRepository;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,12 +27,17 @@ public class JpaStoreService implements StoreService{
     private JpaProductRepository productRepo;
     private JpaCategoryRepository categoryRepo;
     private JpaSupplierRepository supplierRepo;
+    private CustomProductRepository customProductRepository;
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo) {
+    public JpaStoreService(JpaProductRepository productRepo,
+                           JpaCategoryRepository categoryRepo,
+                           JpaSupplierRepository supplierRepo,
+                           CustomProductRepository customProductRepository) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
+        this.customProductRepository=customProductRepository;
     }
 
     @Override
@@ -113,5 +120,21 @@ public class JpaStoreService implements StoreService{
         product.setCost(dto.getUnitPrice());
         product.setDiscontinued(dto.isDiscontinued() ? 1:0);
         return saveProduct(product, dto.getSupplierId(), dto.getCategoryId());
+    }
+
+    @Override
+    public List<Product> searchAllProducts(Integer supplierId, Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice) throws DataException {
+        return customProductRepository.searchAllProducts(supplierId, categoryId, minPrice, maxPrice);
+    }
+
+    @Override
+    public Category saveCategory(Category category) throws DataException {
+        return categoryRepo.save(category);
+    }
+
+    @Override
+    public boolean deleteCategory(Category category) throws DataException {
+        categoryRepo.delete(category);
+        return true;
     }
 }

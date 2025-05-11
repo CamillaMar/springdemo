@@ -8,6 +8,7 @@ import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,4 +23,7 @@ public interface StoreService {
     List<Supplier> findAllSuppliers() throws DataException;
     boolean deleteProduct(int id) throws DataException;
     Product updateProduct(Product product, ProductRestDto dto) throws DataException, EntityNotFoundException;
+    List<Product> searchAllProducts(Integer supplierId, Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice ) throws DataException;
+    Category saveCategory(Category category) throws DataException;
+    boolean deleteCategory(Category category) throws DataException;
 }

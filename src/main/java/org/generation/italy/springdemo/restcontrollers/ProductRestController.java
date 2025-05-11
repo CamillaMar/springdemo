@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -24,8 +25,12 @@ public class ProductRestController {
         this.storeService = storeService;
     }
     @GetMapping
-    public ResponseEntity<?> getAllProducts() throws DataException{
-            List<ProductRestDto> ps =  storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
+    public ResponseEntity<?> getAllProducts(@RequestParam (required = false) Integer supplierId,
+                                            @RequestParam (required = false) Integer categoryId,
+                                            @RequestParam (required = false) BigDecimal minPrice,
+                                            @RequestParam (required = false) BigDecimal maxPrice) throws DataException{
+            List<ProductRestDto> ps =  storeService.searchAllProducts(supplierId, categoryId, minPrice, maxPrice)
+                    .stream().map(ProductRestDto::toDto).toList();
             // return ResponseEntity.status(200).body(ps);
             return ResponseEntity.ok(ps);
     }
