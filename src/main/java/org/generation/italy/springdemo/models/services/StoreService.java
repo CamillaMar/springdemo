@@ -21,5 +21,6 @@ public interface StoreService {
     void deleteOrderById(Integer id);
     Optional<Order> findOrderById (int id);
     boolean deleteProduct(int id) throws DataException;
-    Product updateProduct(Product p, int supplierId, int categoryId);
+    Product updateProduct(Product p, int supplierId, int categoryId) throws DataException;
+    List<Employee> findAllEmployees() throws DataException;
 }

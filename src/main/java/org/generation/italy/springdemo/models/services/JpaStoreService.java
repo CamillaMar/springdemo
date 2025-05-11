@@ -21,16 +21,18 @@ public class JpaStoreService implements StoreService{
     private JpaSupplierRepository supplierRepo;
     private JpaCustomerRepository customerRepo;
     private JpaOrderRepository orderRepo;
+    private JpaEmployeeRepository employeeRepo;
 
 
     @Autowired
     public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo,
-                           JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo) {
+                           JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaEmployeeRepository employeeRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
         this.customerRepo = customerRepo;
         this.orderRepo = orderRepo;
+        this.employeeRepo = employeeRepo;
     }
 
 
@@ -70,12 +72,12 @@ public class JpaStoreService implements StoreService{
     @Override
     public Product saveProduct(Product p, int supplierId, int categoryId) throws DataException {
         Optional<Supplier> os = supplierRepo.findById(supplierId);
-        if(os.isEmpty()){
-            throw new DataException(String.format("Il supplier con id %d non esiste", supplierId));
-        }
-        Supplier s = os.get();
+        Supplier s = os.orElseThrow(()->new DataException(String.format("Il supplier con id %d non esiste", supplierId)));
+
         Optional<Category> oc = categoryRepo.findById(categoryId);
         Category c = oc.orElseThrow(()-> new DataException(String.format("la categoria con id %d non esiste", categoryId)));
+
+
         p.setSupplier(s);
         p.setCategory(c);
         productRepo.save(p);
@@ -122,5 +124,25 @@ public class JpaStoreService implements StoreService{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Product updateProduct(Product p, int supplierId, int categoryId) throws DataException{
+        Optional<Supplier> os = supplierRepo.findById(supplierId);
+        Supplier s = os.orElseThrow(()->new DataException(String.format("Il supplier con id %d non esiste", supplierId)));
+
+        Optional<Category> oc = categoryRepo.findById(categoryId);
+        Category c = oc.orElseThrow(()-> new DataException(String.format("la categoria con id %d non esiste", categoryId)));
+
+
+        p.setSupplier(s);
+        p.setCategory(c);
+        productRepo.save(p);
+        return p;
+    }
+
+    @Override
+    public List<Employee> findAllEmployees() throws DataException {
+        return employeeRepo.findAll();
     }
 }

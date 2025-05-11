@@ -71,5 +71,8 @@ public class ProductRestController {
         if(dto.getProductId() != id){
             return ResponseEntity.badRequest().body("Id risorse e Id del Dto non corrispondono :(, ritenta! :)");
         }
+        Product p = dto.toProduct();
+        storeService.updateProduct(p, dto.getSupplierId(), dto.getCategoryId());
+        return ResponseEntity.ok(ProductRestDto.toDto(op.get()));
     }
 }
