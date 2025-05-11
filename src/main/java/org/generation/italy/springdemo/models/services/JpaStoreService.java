@@ -9,6 +9,7 @@ import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
+import org.generation.italy.springdemo.restdtos.ProductFiltersDto;
 import org.generation.italy.springdemo.viewmodels.OrderViewModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -138,6 +140,15 @@ public class JpaStoreService implements StoreService{
             return newProduct != null;
         } catch (PersistenceException pe) {
             throw new DataException("Errore nella modifica di un prodotto", pe);
+        }
+    }
+
+    @Override
+    public List<Product> searchProduct(ProductFiltersDto filters) throws DataException{
+        try{
+            return productRepo.searchProducts(filters);
+        }catch(PersistenceException pe){
+            throw new DataException("Errore nella ricerca del prodotto", pe);
         }
     }
 

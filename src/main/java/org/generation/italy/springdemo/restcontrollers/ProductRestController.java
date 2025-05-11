@@ -4,6 +4,7 @@ import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.services.StoreService;
+import org.generation.italy.springdemo.restdtos.ProductFiltersDto;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +24,17 @@ public class ProductRestController {
     public ProductRestController(StoreService storeService){
         this.storeService = storeService;
     }
+
+//    @GetMapping
+//    public ResponseEntity<?> getAllProducts() throws DataException{
+//            List<ProductRestDto> ps =  storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
+//            // return ResponseEntity.status(200).body(ps);
+//            return ResponseEntity.ok(ps);
+//    }
     @GetMapping
-    public ResponseEntity<?> getAllProducts() throws DataException{
-            List<ProductRestDto> ps =  storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
-            // return ResponseEntity.status(200).body(ps);
-            return ResponseEntity.ok(ps);
+    public ResponseEntity<?> findProducts(@RequestBody ProductFiltersDto filters) throws DataException{
+        List<ProductRestDto> products = storeService.searchProduct(filters).stream().map(ProductRestDto::toDto).toList();
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{id}")
