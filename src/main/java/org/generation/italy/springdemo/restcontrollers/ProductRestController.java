@@ -64,10 +64,12 @@ public class ProductRestController {
         if(id != dto.getProductId()){
             return ResponseEntity.badRequest().body("L'id risorsa e id del dto non corrispondono.");
         }
-        Product np = dto.toProduct();
-        Product updated = storeService.updateProduct(id, np, dto.getSupplierId(), dto.getCategoryId());
-        ProductRestDto newDto = ProductRestDto.toDto(updated);
-        return ResponseEntity.ok().body(newDto);
+        Optional<Product> op = storeService.findProductById(id);
+        if(op.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        Product updated = storeService.updateProduct(op.get(), dto.toProduct(), dto.getSupplierId(), dto.getCategoryId());
+        return ResponseEntity.ok().body(ProductRestDto.toDto(updated));
     }
 
     @GetMapping()
@@ -79,5 +81,4 @@ public class ProductRestController {
                 stream().map(ProductRestDto::toDto).toList();
         return ResponseEntity.ok(dtos);
     }
-
 }
