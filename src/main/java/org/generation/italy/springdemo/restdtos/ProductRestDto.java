@@ -25,18 +25,17 @@ public class ProductRestDto {
     }
 
     public Product toProduct(){
-        return new Product(productId,productName,null,null,unitPrice,discontinued?1:0);
+        return new Product(productId, productName, null, null, unitPrice, discontinued ? 1:0);
     }
 
     public static ProductRestDto toDto(Product p) {
-        return new ProductRestDto(p.getProductId(),p.getProductName(),p.getSupplier().getSupplierId(),p.getCategory().getCategoryId()
-                ,p.getCost(), p.getDiscontinued() == 1);
+        return new ProductRestDto(p.getProductId(), p.getProductName(), p.getSupplier().getSupplierId(),
+                p.getCategory().getCategoryId(), p.getCost(), p.getDiscontinued() == 1);
     }
 
     public int getProductId() {
         return productId;
     }
-
     public void setProductId(int productId) {
         this.productId = productId;
     }
@@ -44,7 +43,6 @@ public class ProductRestDto {
     public String getProductName() {
         return productName;
     }
-
     public void setProductName(String productName) {
         this.productName = productName;
     }
@@ -52,7 +50,6 @@ public class ProductRestDto {
     public int getSupplierId() {
         return supplierId;
     }
-
     public void setSupplierId(int supplierId) {
         this.supplierId = supplierId;
     }
@@ -60,7 +57,6 @@ public class ProductRestDto {
     public int getCategoryId() {
         return categoryId;
     }
-
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
@@ -68,7 +64,6 @@ public class ProductRestDto {
     public BigDecimal getUnitPrice() {
         return unitPrice;
     }
-
     public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
@@ -76,7 +71,6 @@ public class ProductRestDto {
     public boolean isDiscontinued() {
         return discontinued;
     }
-
     public void setDiscontinued(boolean discontinued) {
         this.discontinued = discontinued;
     }

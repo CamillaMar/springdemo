@@ -35,9 +35,9 @@ public class ProductController {
     }
     @PostMapping("/add-product")
     public String addProduct(ProductViewModel pvm) throws DataException, EntityNotFoundException {
-            Product p = pvm.toProduct();
-            storeService.saveProduct(p, pvm.getSupplierId(), pvm.getCategoryId());
-            return "redirect:/product";
+        Product p = pvm.toProduct();
+        storeService.saveProduct(p, pvm.getSupplierId(), pvm.getCategoryId());
+        return "redirect:/product";
     }
 
     @GetMapping("/show-search-form")
