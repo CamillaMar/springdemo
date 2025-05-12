@@ -24,15 +24,16 @@ public class CriteriaProductRepositoryImpl implements CriteriaProductRepository{
     public List<Product> searchProductsFilters(Integer supplierId, Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String namePart) throws DataException {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> query = builder.createQuery(Product.class);
-        Root<Product> product = query.from(Product.class);
+        Root<Product> root = query.from(Product.class);
         List<Predicate> predicates = new ArrayList<>();
 
-        Join<Product, Supplier> supplierJoin = product.join("supplier");
-        Join<Product, Category> categoryJoin = product.join("category");
+        Join<Product, Supplier> supplierJoin = root.join("supplier");
+        Join<Product, Category> categoryJoin = root.join("category");
 
         if(supplierId != null){
             Predicate supplierIdPredicate = builder.equal(supplierJoin.get("supplierId"), supplierId);
             predicates.add(supplierIdPredicate);
+            // predicates.add(builder.equal(root.get("supplier").get("supplierId"), supplierId));
         }
 
         if(categoryId != null){
@@ -41,17 +42,17 @@ public class CriteriaProductRepositoryImpl implements CriteriaProductRepository{
         }
 
         if(minPrice != null){
-            Predicate minPricePredicate = builder.greaterThanOrEqualTo(product.get("unitPrice"), minPrice);
+            Predicate minPricePredicate = builder.greaterThanOrEqualTo(root.get("unitPrice"), minPrice);
             predicates.add(minPricePredicate);
         }
 
         if(maxPrice != null){
-            Predicate maxPricePredicate = builder.lessThanOrEqualTo(product.get("unitPrice"), maxPrice);
+            Predicate maxPricePredicate = builder.lessThanOrEqualTo(root.get("unitPrice"), maxPrice);
             predicates.add(maxPricePredicate);
         }
 
         if(namePart != null){
-            Predicate nameLikePredicate = builder.like(product.get("productName"), "%" + namePart + "%");
+            Predicate nameLikePredicate = builder.like(root.get("productName"), "%" + namePart + "%");
             predicates.add(nameLikePredicate);
         }
 

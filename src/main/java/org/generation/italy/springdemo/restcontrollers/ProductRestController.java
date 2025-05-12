@@ -79,16 +79,24 @@ public class ProductRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductRestDto> updateProduct(@PathVariable int id, @RequestBody ProductRestDto dto) throws DataException, EntityNotFoundException{
-        Optional<Product> op = storeService.findProductById(id);
-        if(op.isPresent()){
-            Product p = dto.toProduct();
-            p.setProductId(id);
-            storeService.saveProduct(p, dto.getSupplierId(), dto.getCategoryId());
-            ProductRestDto updated = ProductRestDto.toDto(p);
-            return ResponseEntity.ok(updated);
+    public ResponseEntity<?> updateProduct(@PathVariable int id, @RequestBody ProductRestDto dto) throws DataException, EntityNotFoundException{
+        if(id != dto.getProductId()){
+            return ResponseEntity.badRequest().body("L'id del path non corrisponde all'id del dto");
         }
-        return ResponseEntity.notFound().build();
+        Optional<Product> op = storeService.findProductById(id);
+        if(op.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        Product p = dto.toProduct();
+        p.setProductId(id);
+
+        boolean updated = storeService.updateProduct(p, dto.getSupplierId(), dto.getCategoryId());
+        if (updated) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+        //?????????????????????????
     }
 }
 

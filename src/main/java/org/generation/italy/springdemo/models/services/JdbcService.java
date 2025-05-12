@@ -89,8 +89,8 @@ public class JdbcService implements StoreService {
     }
 
     @Override
-    public Product updateProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException {
-        return p;
+    public boolean updateProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException {
+        return false;
     }
 
     @Override
