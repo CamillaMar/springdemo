@@ -1,4 +1,4 @@
-package org.generation.italy.springdemo.restdtos;
+package org.generation.italy.springdemo.models.searchcriteria;
 
 import java.math.BigDecimal;
 
