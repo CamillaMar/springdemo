@@ -2,9 +2,7 @@ package org.generation.italy.springdemo.models.repositories.product;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.*;
-import org.generation.italy.springdemo.models.entities.Category;
 import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,7 @@ public class JpaProductRepositoryCustomImpl implements JpaProductRepositoryCusto
         if (filters.getCategoryId() != null) {
 //            Join<Product, Category> categoryJoin = root.join("category");
 //            Predicate categoryIdPredicate = builder.equal(categoryJoin.get("categoryId"), filters.getCategoryId());
+
             Predicate categoryIdPredicate = builder.equal(root.get("category").get("categoryId"), filters.getCategoryId());
             predicates.add(categoryIdPredicate);
         }
