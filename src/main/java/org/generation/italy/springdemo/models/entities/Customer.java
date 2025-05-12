@@ -12,17 +12,23 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "custid")
     private int custId;
+
     @Column(name = "companyname")
     private String companyName;
+
     @Column(name = "contactname")
     private String contactName;
+
     @Column(name = "contacttitle")
     private String contactTitle;
+
     private String address;
     private String city;
     private String region;
+
     @Column(name = "postalcode")
     private String postalCode;
+
     private String country;
     private String phone;
     private String fax;
@@ -50,6 +56,46 @@ public class Customer {
 
     public int getCustId() {
         return custId;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public String getContactTitle() {
+        return contactTitle;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getFax() {
+        return fax;
     }
 
     public List<Order> getOrders() {

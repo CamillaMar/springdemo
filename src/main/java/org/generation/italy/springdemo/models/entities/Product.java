@@ -11,16 +11,21 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "productid")
     private int productId;
+
     @Column(name = "productname")
     private String productName;
+
     @ManyToOne
     @JoinColumn(name = "supplierid")
     private Supplier supplier;
+
     @ManyToOne
     @JoinColumn(name = "categoryid")
     private Category category;
+
     @Column(name = "unitprice")
     private BigDecimal cost;
+
     private int discontinued;
 
     public Product(){
@@ -38,17 +43,15 @@ public class Product {
     public int getProductId() {
         return productId;
     }
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
 
     public String getProductName() {
         return productName;
     }
-
-    public BigDecimal getCost() {
-        return cost;
-    }
-
-    public int getDiscontinued() {
-        return discontinued;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public Supplier getSupplier() {
@@ -63,5 +66,19 @@ public class Product {
     }
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public BigDecimal getCost() {
+        return cost;
+    }
+    public void setCost(BigDecimal cost) {
+        this.cost = cost;
+    }
+
+    public int getDiscontinued() {
+        return discontinued;
+    }
+    public void setDiscontinued(int discontinued) {
+        this.discontinued = discontinued;
     }
 }

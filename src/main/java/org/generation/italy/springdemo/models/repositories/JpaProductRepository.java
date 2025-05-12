@@ -10,11 +10,14 @@ import org.springframework.data.repository.query.Param;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface JpaProductRepository extends JpaRepository<Product,Integer> {
+public interface JpaProductRepository extends JpaRepository<Product,Integer>, JpaProductRepositoryCustom {
     List<Product> findByProductNameContains(String name);
+
     @Query("SELECT p FROM Product p WHERE discontinued = :discontinued")
     List<Product> findByDiscontinued(@Param("discontinued") int discontinued);
+
     List<Product> findByCostGreaterThanEqual(BigDecimal price);
+
     List<Product> findByCategoryCategoryName(String name);
     //List<Product> findByProductNameLike(String name);
     @Query("SELECT p FROM Product p WHERE productName LIKE :name")
@@ -32,20 +35,17 @@ public interface JpaProductRepository extends JpaRepository<Product,Integer> {
 
     //tutti i prodotti non ordinati
     @Query("""
-            SELECT p 
+            SELECT p
             FROM Product p 
             WHERE p.productId NOT IN (
-                  SELECT od.product.productId 
-                  FROM OrderDetails od
-                  ) 
+                SELECT od.product.productId 
+                FROM OrderDetails od
+            ) 
             """)
     List<Product> findNeverOrdered();
-
 
     //cancellare i prodotti che costano meno di una certa quantità
     @Modifying
     @Query("UPDATE Product p SET p.discontinued = 1 WHERE p.cost < :amount")
     int discontinueProductsUnder(@Param("amount") BigDecimal amount);
-
-
 }

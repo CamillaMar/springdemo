@@ -1,7 +1,6 @@
 package org.generation.italy.springdemo.models.entities;
 
 import jakarta.persistence.*;
-import org.springframework.context.annotation.Primary;
 
 import java.math.BigDecimal;
 @Entity
@@ -9,18 +8,23 @@ import java.math.BigDecimal;
 public class OrderDetails {
     @EmbeddedId
     private OrderDetailsId id;
-    @ManyToOne 
+
+    @ManyToOne
     @MapsId("orderId")
     @JoinColumn(name = "orderid") // colonna del DB
     private Order order;
+
     @ManyToOne
     @MapsId("productId")
     @JoinColumn(name = "productid")
     private Product product;
+
     @Column(name = "unitprice")
     private BigDecimal unitPrice;
+
     @Column(name = "qty")
     private int quantity;
+
     private BigDecimal discount;
 
     public OrderDetails() {
