@@ -5,10 +5,9 @@ import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
-import org.generation.italy.springdemo.models.repositories.criteria.ProductCriteriaRepository;
-import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -174,8 +173,13 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    public Product updateProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException {
+    public boolean updateProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException {
         try {
+            Optional<Product> op = findProductById(p.getProductId());
+            if (op.isEmpty()) {
+                return false;
+            }
+
             Optional<Supplier> os = supplierRepo.findById(supplierId);
             Supplier s = os.orElseThrow(() -> new EntityNotFoundException(Supplier.class, supplierId));
 
@@ -185,7 +189,7 @@ public class JpaStoreService implements StoreService{
             p.setSupplier(s);
             p.setCategory(c);
             productRepo.save(p);
-            return p;
+            return true;
         } catch (PersistenceException pe) {
             throw new DataException(String.format("Errore nell'aggiornamento del prodotto con id %d", p.getProductId()), pe);
         }
