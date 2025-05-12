@@ -1,6 +1,7 @@
 package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
+import org.apache.coyote.BadRequestException;
 import org.generation.italy.springdemo.models.dtos.SelectListElement;
 import org.generation.italy.springdemo.models.entities.Category;
 import org.generation.italy.springdemo.models.entities.Order;
@@ -125,20 +126,21 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
+    @Transactional
     public boolean updateProduct(Product newProduct, int categoryId, int supplierId) throws DataException, EntityNotFoundException {
         try {
-            Optional<Supplier> os = supplierRepo.findById(supplierId);
-            if(os.isEmpty()){
-                throw new EntityNotFoundException(Supplier.class, supplierId);
-            }
-            Supplier s = os.get();
-            Optional<Category> oc = categoryRepo.findById(categoryId);
-            Category c = oc.orElseThrow(()-> new EntityNotFoundException(Category.class, categoryId));
+            Product p = productRepo.findById(newProduct.getProductId()).orElseThrow(() -> new BadRequestException());
+
+            Supplier s = supplierRepo.findById(supplierId).orElseThrow(()-> new EntityNotFoundException(Supplier.class, supplierId));
+            Category c = categoryRepo.findById(categoryId).orElseThrow(()-> new EntityNotFoundException(Category.class, categoryId));
+
             newProduct.setSupplier(s);
             newProduct.setCategory(c);
+
             newProduct = productRepo.save(newProduct);
+
             return newProduct != null;
-        } catch (PersistenceException pe) {
+        } catch (PersistenceException | BadRequestException pe) {
             throw new DataException("Errore nella modifica di un prodotto", pe);
         }
     }
