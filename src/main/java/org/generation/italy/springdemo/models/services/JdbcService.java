@@ -7,8 +7,7 @@ import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
-import org.generation.italy.springdemo.restdtos.ProductFiltersDto;
-import org.generation.italy.springdemo.viewmodels.OrderViewModel;
+import org.generation.italy.springdemo.restdtos.ProductFilterCriteria;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -77,7 +76,7 @@ public class JdbcService implements StoreService{
     }
 
     @Override
-    public List<Product> searchProduct(ProductFiltersDto filters) {
+    public List<Product> searchProduct(ProductFilterCriteria filters) {
         return List.of();
     }
 

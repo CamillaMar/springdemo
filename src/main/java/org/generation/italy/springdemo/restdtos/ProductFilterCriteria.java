@@ -1,21 +1,21 @@
 package org.generation.italy.springdemo.restdtos;
 
-import org.generation.italy.springdemo.models.dtos.SelectListElement;
-
 import java.math.BigDecimal;
 
-public class ProductFiltersDto {
+public class ProductFilterCriteria {
 
     private Integer supplierId;
     private Integer categoryId;
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
+    private Integer discontinued;
 
-    public ProductFiltersDto(Integer supplierId, Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice) {
+    public ProductFilterCriteria(Integer supplierId, Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, Integer discontinued) {
         this.supplierId = supplierId;
         this.categoryId = categoryId;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
+        this.discontinued = discontinued;
     }
 
     // /--GETTER--/
@@ -33,5 +33,9 @@ public class ProductFiltersDto {
 
     public BigDecimal getMaxPrice() {
         return maxPrice;
+    }
+
+    public Integer getDiscontinued() {
+        return discontinued;
     }
 }

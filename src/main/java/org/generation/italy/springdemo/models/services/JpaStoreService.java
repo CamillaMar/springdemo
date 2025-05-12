@@ -1,7 +1,6 @@
 package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
-import org.apache.coyote.BadRequestException;
 import org.generation.italy.springdemo.models.dtos.SelectListElement;
 import org.generation.italy.springdemo.models.entities.Category;
 import org.generation.italy.springdemo.models.entities.Order;
@@ -10,8 +9,7 @@ import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
-import org.generation.italy.springdemo.restdtos.ProductFiltersDto;
-import org.generation.italy.springdemo.viewmodels.OrderViewModel;
+import org.generation.italy.springdemo.restdtos.ProductFilterCriteria;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -20,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -129,7 +126,10 @@ public class JpaStoreService implements StoreService{
     @Transactional
     public boolean updateProduct(Product newProduct, int categoryId, int supplierId) throws DataException, EntityNotFoundException {
         try {
-            Product p = productRepo.findById(newProduct.getProductId()).orElseThrow(() -> new BadRequestException());
+            Optional<Product> op = productRepo.findById(newProduct.getProductId());
+            if(op.isEmpty()){
+                return false;
+            }
 
             Supplier s = supplierRepo.findById(supplierId).orElseThrow(()-> new EntityNotFoundException(Supplier.class, supplierId));
             Category c = categoryRepo.findById(categoryId).orElseThrow(()-> new EntityNotFoundException(Category.class, categoryId));
@@ -137,16 +137,16 @@ public class JpaStoreService implements StoreService{
             newProduct.setSupplier(s);
             newProduct.setCategory(c);
 
-            newProduct = productRepo.save(newProduct);
+            productRepo.save(newProduct);
 
-            return newProduct != null;
-        } catch (PersistenceException | BadRequestException pe) {
+            return true;
+        } catch (PersistenceException pe) {
             throw new DataException("Errore nella modifica di un prodotto", pe);
         }
     }
 
     @Override
-    public List<Product> searchProduct(ProductFiltersDto filters) throws DataException{
+    public List<Product> searchProduct(ProductFilterCriteria filters) throws DataException{
         try{
             return productRepo.searchProducts(filters);
         }catch(PersistenceException pe){

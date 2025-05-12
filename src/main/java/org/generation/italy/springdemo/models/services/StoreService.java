@@ -6,8 +6,7 @@ import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
-import org.generation.italy.springdemo.restdtos.ProductFiltersDto;
-import org.generation.italy.springdemo.viewmodels.OrderViewModel;
+import org.generation.italy.springdemo.restdtos.ProductFilterCriteria;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 
 import java.util.List;
@@ -27,5 +26,5 @@ public interface StoreService {
     List<Order> findOrdersByCustomer(Integer CustId);
     void deleteOrder(Integer orderId);
     boolean updateProduct(Product newProduct, int categoryId, int supplierId) throws DataException, EntityNotFoundException;
-    List<Product> searchProduct(ProductFiltersDto filters) throws DataException;
+    List<Product> searchProduct(ProductFilterCriteria filters) throws DataException;
 }
