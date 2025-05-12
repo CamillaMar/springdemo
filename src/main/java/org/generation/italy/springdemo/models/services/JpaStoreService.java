@@ -175,6 +175,7 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
+    @Transactional
     public boolean updateProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException {
         try {
             Optional<Product> op = findProductById(p.getProductId());

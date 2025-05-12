@@ -86,11 +86,7 @@ public class ProductRestController {
             return ResponseEntity.notFound().build();
         }
 
-        boolean updated = storeService.updateProduct(dto.toProduct(), dto.getSupplierId(), dto.getCategoryId());
-        if(!updated){
-            return ResponseEntity.notFound().build();
-        }
-
+        storeService.updateProduct(dto.toProduct(), dto.getSupplierId(), dto.getCategoryId());
         return ResponseEntity.ok(ProductRestDto.toDto(op.get()));
     }
 }
