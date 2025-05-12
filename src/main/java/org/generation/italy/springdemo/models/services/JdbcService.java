@@ -7,7 +7,7 @@ import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
-import org.generation.italy.springdemo.restdtos.ProductFilterCriteria;
+import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
