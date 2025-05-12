@@ -21,7 +21,7 @@ public class OrderController {
     }
 
     @GetMapping("/show-order-search-form")
-    public String showAllCustomer(Model model){
+    public String showAllCustomer(Model model) throws DataException {
         List<Customer> result = storeService.findAllCustomers();
         model.addAttribute("customers", result);
         return "order/forms/show-order-search-form";

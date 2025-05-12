@@ -2,9 +2,11 @@ package org.generation.italy.springdemo.models.services;
 
 import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -75,6 +77,21 @@ public class JdbcService implements StoreService{
 
     @Override
     public List<Customer> findAllCustomers() {
+        return List.of();
+    }
+
+    @Override
+    public boolean deleteProduct(int id) throws DataException {
+        return false;
+    }
+
+    @Override
+    public boolean updateProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException {
+        return false;
+    }
+
+    @Override
+    public List<Product> searchProducts(Integer supplierId, Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String namePart) throws DataException {
         return List.of();
     }
 }
