@@ -3,6 +3,7 @@ package org.generation.italy.springdemo.models.services;
 import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
+import org.generation.italy.springdemo.models.searchCriteria.ProductFilterCriteria;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -94,7 +95,7 @@ public class JdbcService implements StoreService {
     }
 
     @Override
-    public List<Product> searchProducts(Integer supplierId, Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String namePart) throws DataException {
+    public List<Product> searchProducts(ProductFilterCriteria filters) throws DataException {
         return List.of();
     }
 }

@@ -6,6 +6,7 @@ import org.generation.italy.springdemo.models.entities.Category;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.models.searchCriteria.ProductFilterCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
@@ -21,7 +22,7 @@ public class CriteriaProductRepositoryImpl implements CriteriaProductRepository{
     }
 
     @Override
-    public List<Product> searchProductsFilters(Integer supplierId, Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String namePart) throws DataException {
+    public List<Product> searchProductsFilters(ProductFilterCriteria filters) throws DataException {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> query = builder.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
@@ -30,29 +31,34 @@ public class CriteriaProductRepositoryImpl implements CriteriaProductRepository{
         Join<Product, Supplier> supplierJoin = root.join("supplier");
         Join<Product, Category> categoryJoin = root.join("category");
 
-        if(supplierId != null){
-            Predicate supplierIdPredicate = builder.equal(supplierJoin.get("supplierId"), supplierId);
+        if(filters.getSupplierId() != null){
+            Predicate supplierIdPredicate = builder.equal(supplierJoin.get("supplierId"), filters.getSupplierId());
             predicates.add(supplierIdPredicate);
             // predicates.add(builder.equal(root.get("supplier").get("supplierId"), supplierId));
         }
 
-        if(categoryId != null){
-            Predicate categoryIdPredicate = builder.equal(categoryJoin.get("categoryId"), categoryId);
+        if(filters.getCategoryId() != null){
+            Predicate categoryIdPredicate = builder.equal(categoryJoin.get("categoryId"), filters.getCategoryId());
             predicates.add(categoryIdPredicate);
         }
 
-        if(minPrice != null){
-            Predicate minPricePredicate = builder.greaterThanOrEqualTo(root.get("unitPrice"), minPrice);
+        if(filters.getMinPrice() != null){
+            Predicate minPricePredicate = builder.greaterThanOrEqualTo(root.get("unitPrice"), filters.getMinPrice());
             predicates.add(minPricePredicate);
         }
 
-        if(maxPrice != null){
-            Predicate maxPricePredicate = builder.lessThanOrEqualTo(root.get("unitPrice"), maxPrice);
+        if(filters.getMaxPrice() != null){
+            Predicate maxPricePredicate = builder.lessThanOrEqualTo(root.get("unitPrice"), filters.getMaxPrice());
             predicates.add(maxPricePredicate);
         }
 
-        if(namePart != null){
-            Predicate nameLikePredicate = builder.like(root.get("productName"), "%" + namePart + "%");
+        if(filters.getNamePart() != null){
+            Predicate nameLikePredicate = builder.like(root.get("productName"), "%" + filters.getNamePart() + "%");
+            predicates.add(nameLikePredicate);
+        }
+
+        if(filters.getDiscontinued() != null){
+            Predicate nameLikePredicate = builder.equal(root.get("discontinued"), filters.getDiscontinued());
             predicates.add(nameLikePredicate);
         }
 

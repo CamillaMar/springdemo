@@ -3,6 +3,7 @@ package org.generation.italy.springdemo.restcontrollers;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
+import org.generation.italy.springdemo.models.searchCriteria.ProductFilterCriteria;
 import org.generation.italy.springdemo.models.services.StoreService;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,11 @@ public class ProductRestController {
                                             @RequestParam(required = false) Integer categoryId,
                                             @RequestParam(required = false) BigDecimal minPrice,
                                             @RequestParam(required = false) BigDecimal maxPrice,
-                                            @RequestParam(required = false) String productName) throws DataException{
+                                            @RequestParam(required = false) String productName,
+                                            @RequestParam(required = false) Integer discontinued) throws DataException{
 
-        List<ProductRestDto> productDtos = storeService.searchProducts(supplierId, categoryId, minPrice, maxPrice, productName)
+        ProductFilterCriteria filters = new ProductFilterCriteria(supplierId, categoryId, minPrice, maxPrice, productName, discontinued);
+        List<ProductRestDto> productDtos = storeService.searchProducts(filters)
                 .stream().map(ProductRestDto::toDto).toList();
         //  List<ProductRestDto> productDtos = storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
         //  return ResponseEntity.status(200).body(productDtos);
