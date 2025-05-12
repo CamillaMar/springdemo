@@ -6,6 +6,7 @@ import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
+import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
 
 import java.math.BigDecimal;
@@ -26,5 +27,5 @@ public interface StoreService {
     Order findOrderById(int id) throws DataException;
     boolean deleteProductById(int id) throws DataException;
     boolean updateProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException;
-    List<Product> searchProducts(Integer categoryId, Integer supplierId, BigDecimal minPrice, BigDecimal maxPrice) throws DataException;
+    List<Product> searchProducts(ProductFilterCriteria filters) throws DataException;
 }

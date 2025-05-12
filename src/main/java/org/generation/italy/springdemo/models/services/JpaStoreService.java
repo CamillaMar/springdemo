@@ -5,13 +5,15 @@ import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
+import org.generation.italy.springdemo.models.repositories.product.JpaProductRepository;
+import org.generation.italy.springdemo.models.repositories.product.ProductSpecifications;
+import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -195,10 +197,24 @@ public class JpaStoreService implements StoreService{
         }
     }
 
+//    @Override
+//    public List<Product> searchProducts(ProductFilterCriteria filters) throws DataException {
+//        try {
+//            return productRepo.searchProducts(filters);
+//        } catch (PersistenceException pe) {
+//            throw new DataException("Errore nella ricerca dei prodotti", pe);
+//        }
+//    }
+
     @Override
-    public List<Product> searchProducts(Integer categoryId, Integer supplierId, BigDecimal minPrice, BigDecimal maxPrice) throws DataException {
+    public List<Product> searchProducts(ProductFilterCriteria filters) throws DataException {
         try {
-            return productRepo.searchProducts(categoryId, supplierId, minPrice, maxPrice);
+            return productRepo.findAll(
+                    Specification.where(ProductSpecifications.hasSupplierId(filters.getSupplierId())
+                            .and(ProductSpecifications.hasCategoryId(filters.getCategoryId())))
+                            .and(ProductSpecifications.isMinPriceGreaterThan(filters.getMinPrice()))
+                            .and(ProductSpecifications.isMaxPriceLessThan(filters.getMaxPrice()))
+            );
         } catch (PersistenceException pe) {
             throw new DataException("Errore nella ricerca dei prodotti", pe);
         }

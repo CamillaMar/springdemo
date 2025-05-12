@@ -3,6 +3,7 @@ package org.generation.italy.springdemo.restcontrollers;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
+import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 import org.generation.italy.springdemo.models.services.StoreService;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,12 @@ public class ProductRestController {
                                                                @RequestParam(required = false) Integer supplierId,
                                                                @RequestParam(required = false) BigDecimal minPrice,
                                                                @RequestParam(required = false) BigDecimal maxPrice) throws DataException {
-        var productDtos = storeService.searchProducts(categoryId, supplierId, minPrice, maxPrice)
+        var filters = new ProductFilterCriteria(categoryId, supplierId, minPrice, maxPrice);
+        var productDtos = storeService.searchProducts(filters)
                 .stream()
                 .map(ProductRestDto::toDto)
                 .toList();
+
         return ResponseEntity.ok(productDtos);
     }
 
@@ -83,7 +86,11 @@ public class ProductRestController {
             return ResponseEntity.notFound().build();
         }
 
-        storeService.updateProduct(dto.toProduct(), dto.getSupplierId(), dto.getCategoryId());
+        boolean updated = storeService.updateProduct(dto.toProduct(), dto.getSupplierId(), dto.getCategoryId());
+        if(!updated){
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.ok(ProductRestDto.toDto(op.get()));
     }
 }
