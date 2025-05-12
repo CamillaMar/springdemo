@@ -7,20 +7,26 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.restdtos.ProductFiltersDto;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class JpaProductRepositoryImpl implements JpaProductRepositoryCustom{
+    EntityManager entityManager;
 
-    private EntityManager em;
+    @Autowired
+    public JpaProductRepositoryImpl(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     @Override
     public List<Product> searchProducts(ProductFiltersDto filters) {
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> query = criteriaBuilder.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
         List<Predicate> queryFilters = new ArrayList<>();
+
         if(filters.getSupplierId() != null){
             queryFilters.add(criteriaBuilder.equal(root.get("supplier.supplierId"), filters.getSupplierId()));
         }
@@ -34,6 +40,7 @@ public class JpaProductRepositoryImpl implements JpaProductRepositoryCustom{
             queryFilters.add(criteriaBuilder.lessThanOrEqualTo(root.get("cost"), filters.getMaxPrice()));
         }
         query.select(root).where(criteriaBuilder.and(queryFilters.toArray(new Predicate[0])));
-        return em.createQuery(query).getResultList();
+
+        return entityManager.createQuery(query).getResultList();
     }
 }
