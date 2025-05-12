@@ -50,18 +50,17 @@ public class Product {
     public int getDiscontinued() {
         return discontinued;
     }
+
     public Supplier getSupplier() {
         return supplier;
+    }
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
     public Category getCategory() {
         return category;
     }
-
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
-
     public void setCategory(Category category) {
         this.category = category;
     }
