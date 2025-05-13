@@ -3,6 +3,7 @@ package org.generation.italy.springdemo.models.services;
 import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
+import org.generation.italy.springdemo.models.searchCriteria.OrderFilterCriteria;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -26,4 +27,5 @@ public interface StoreService {
     boolean deleteProduct(int id) throws DataException;
     boolean updateProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException;
     List<Product> searchProducts(Integer supplierId, Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String namePart) throws DataException;
+    List<Order> searchOrders(OrderFilterCriteria filters);
 }

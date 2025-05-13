@@ -7,6 +7,7 @@ import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
 import org.generation.italy.springdemo.models.repositories.JpaOrderDetailsRepository;
+import org.generation.italy.springdemo.models.searchCriteria.OrderFilterCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.domain.Specification;
@@ -189,4 +190,10 @@ public class JpaStoreService implements StoreService{
 //            throw new DataException("Errore nella ricerca die prodotti", pe);
 //        }
    }
+
+    @Override
+    public List<Order> searchOrders(OrderFilterCriteria filters) {
+        return orderRepo.searchOrdersFilters(filters);
+    }
+
 }
