@@ -6,7 +6,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.restdtos.ProductFilterCriteria;
+import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
