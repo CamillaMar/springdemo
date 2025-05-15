@@ -9,6 +9,7 @@ import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,4 +30,5 @@ public interface StoreService {
     List<Product> searchProduct(ProductFilterCriteria filters) throws DataException;
     List<Product> findProductOrderedByCostDesc(Integer topN) throws DataException;
     List<Product> findCategoryCategoryName(String categoryName) throws DataException;
+    List<Category> findAll() throws DataException;
 }

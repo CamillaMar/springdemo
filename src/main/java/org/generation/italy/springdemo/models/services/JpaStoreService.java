@@ -167,6 +167,11 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
+    public List<Category> findAll() throws DataException {
+        return categoryRepo.findAll();
+    }
+
+    @Override
     @Transactional
     public boolean deleteProduct(int id) throws DataException {
         Optional<Product> op = productRepo.findById(id);
