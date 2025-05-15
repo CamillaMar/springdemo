@@ -102,7 +102,4 @@ public class Customer {
         return orders;
     }
 
-    public String getCompanyName() {
-        return companyName;
-    }
 }
