@@ -84,6 +84,15 @@ public class Order {
         this.shipCountry = shipCountry;
     }
 
+    public Order(int orderId, Customer customer, Employee employee, LocalDateTime orderDate, BigDecimal freight, String shipCountry) {
+        this.orderId = orderId;
+        this.customer = customer;
+        this.employee = employee;
+        this.orderDate = orderDate;
+        this.freight = freight;
+        this.shipCountry = shipCountry;
+    }
+
     public int getOrderId() {
         return orderId;
     }

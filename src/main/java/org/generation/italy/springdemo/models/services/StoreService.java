@@ -1,14 +1,13 @@
 package org.generation.italy.springdemo.models.services;
 
 import org.generation.italy.springdemo.models.dtos.SelectListElement;
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Order;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
-import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
+import org.generation.italy.springdemo.models.searchCriteria.OrderFilterCriteria;
+import org.generation.italy.springdemo.models.searchCriteria.ProductFilterCriteria;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,4 +28,7 @@ public interface StoreService {
     List<Product> searchProduct(ProductFilterCriteria filters) throws DataException;
     List<Product> orderByUnitPrice(Integer topN);
 
+    List<Employee> searchEmployee() throws DataException;
+
+    List<Order> searchOrders(OrderFilterCriteria ofc) throws DataException;
 }

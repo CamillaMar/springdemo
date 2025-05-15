@@ -2,14 +2,12 @@ package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
 import org.generation.italy.springdemo.models.dtos.SelectListElement;
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Order;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
-import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
+import org.generation.italy.springdemo.models.searchCriteria.OrderFilterCriteria;
+import org.generation.italy.springdemo.models.searchCriteria.ProductFilterCriteria;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -30,9 +28,13 @@ public class JpaStoreService implements StoreService{
     private JpaCustomerRepository customerRepo;
     private JpaOrderRepository orderRepo;
     private JpaOrderDetailsRepository orderDetailsRepo;
+    private JpaEmployeeRepository employeeRepo;
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo,
+                           JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo,
+                           JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo,
+                           JpaEmployeeRepository employeeRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
@@ -157,6 +159,16 @@ public class JpaStoreService implements StoreService{
     @Override
     public List<Product> orderByUnitPrice(Integer topN) {
         return productRepo.findByOrderByUnitPriceDesc(topN);
+    }
+
+    @Override
+    public List<Employee> searchEmployee() throws DataException {
+        return employeeRepo.findAll();
+    }
+
+    @Override
+    public List<Order> searchOrders(OrderFilterCriteria ofc) throws DataException {
+        return orderRepo.searchOrdersFilters(ofc);
     }
 
     @Override

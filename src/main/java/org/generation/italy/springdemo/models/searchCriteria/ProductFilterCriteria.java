@@ -1,4 +1,4 @@
-package org.generation.italy.springdemo.models.searchcriteria;
+package org.generation.italy.springdemo.models.searchCriteria;
 
 import java.math.BigDecimal;
 

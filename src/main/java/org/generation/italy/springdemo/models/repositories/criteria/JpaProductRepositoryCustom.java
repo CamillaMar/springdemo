@@ -1,7 +1,7 @@
-package org.generation.italy.springdemo.models.repositories;
+package org.generation.italy.springdemo.models.repositories.criteria;
 
 import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
+import org.generation.italy.springdemo.models.searchCriteria.ProductFilterCriteria;
 
 import java.util.List;
 

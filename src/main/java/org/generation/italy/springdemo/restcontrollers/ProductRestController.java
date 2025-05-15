@@ -4,7 +4,7 @@ import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.services.StoreService;
-import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
+import org.generation.italy.springdemo.models.searchCriteria.ProductFilterCriteria;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

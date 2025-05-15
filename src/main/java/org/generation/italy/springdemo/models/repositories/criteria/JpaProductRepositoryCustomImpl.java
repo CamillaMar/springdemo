@@ -1,4 +1,4 @@
-package org.generation.italy.springdemo.models.repositories;
+package org.generation.italy.springdemo.models.repositories.criteria;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -6,13 +6,13 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
+import org.generation.italy.springdemo.models.searchCriteria.ProductFilterCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class JpaProductRepositoryCustomImpl implements JpaProductRepositoryCustom{
+public class JpaProductRepositoryCustomImpl implements JpaProductRepositoryCustom {
     EntityManager entityManager;
 
     @Autowired

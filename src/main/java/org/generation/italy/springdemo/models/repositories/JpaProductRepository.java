@@ -2,6 +2,7 @@ package org.generation.italy.springdemo.models.repositories;
 
 import org.generation.italy.springdemo.models.dtos.ProductSummary;
 import org.generation.italy.springdemo.models.entities.Product;
+import org.generation.italy.springdemo.models.repositories.criteria.JpaProductRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
