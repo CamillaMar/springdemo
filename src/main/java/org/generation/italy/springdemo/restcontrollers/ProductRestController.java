@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin (origins = "*")
 @RequestMapping("/api/product")
 public class ProductRestController {
     private StoreService storeService;
@@ -34,8 +35,6 @@ public class ProductRestController {
 
         List<ProductRestDto> productDtos = storeService.searchProducts(supplierId, categoryId, minPrice, maxPrice, productName)
                 .stream().map(ProductRestDto::toDto).toList();
-        //  List<ProductRestDto> productDtos = storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
-        //  return ResponseEntity.status(200).body(productDtos);
         return ResponseEntity.ok(productDtos);
     }
 
