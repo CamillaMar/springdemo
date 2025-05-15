@@ -85,6 +85,11 @@ public class JdbcService implements StoreService{
         return List.of();
     }
 
+    @Override
+    public List<Product> findByCategory(int categoryId) {
+        return List.of();
+    }
+
 
     @Override
     public boolean deleteProduct(int id) throws DataException {

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.math.*;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,8 @@ public class ProductRestController {
         if(topN != null && topN > 0) {
             List<ProductRestDto> products = storeService.findMostExpensiveProducts(topN).stream().map(ProductRestDto::toDto).toList();
             return ResponseEntity.ok(products);
+        }else if(topN != null){
+            return ResponseEntity.ok(new ArrayList<ProductRestDto>());
         }
         ProductFilterCriteria filters = new ProductFilterCriteria(supplierId, categoryId, minPrice, maxPrice, discontinued);
         List<ProductRestDto> products = storeService.searchProduct(filters).stream().map(ProductRestDto::toDto).toList();
@@ -97,5 +100,11 @@ public class ProductRestController {
 
         storeService.updateProduct(p, categoryId, supplierId);
         return ResponseEntity.ok().build();
+    }
+    @PostMapping("/category")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<?> findByCategory(@RequestParam int categoryId) throws DataException{
+        List<ProductRestDto> products = storeService.findByCategory(categoryId).stream().map(ProductRestDto::toDto).toList();
+        return ResponseEntity.ok(products);
     }
 }

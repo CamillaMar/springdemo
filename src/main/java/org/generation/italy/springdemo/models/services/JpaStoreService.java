@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -158,6 +159,25 @@ public class JpaStoreService implements StoreService{
     @Override
     public List<Product> findMostExpensiveProducts(Integer topN) {
         List<Product> products = productRepo.findByOrderByCostDesc(Limit.of(topN));
+        return products;
+    }
+
+    @Override
+    public List<Product> findByCategory(int categoryId) {
+        List<Product> products = productRepo.findByCategoryCategoryId(categoryId);
+        if((!products.isEmpty() && products.stream().mapToDouble(p -> p.getCost().doubleValue()).sum() > 200) || products.size() <= 3){
+            Supplier supplier = supplierRepo.findById(1).get();
+            Category category = categoryRepo.findById(categoryId).get();
+            Product p = productRepo.save(new Product(
+                    0,
+                    "Standard_Product",
+                    supplier,
+                    category,
+                    new BigDecimal(100),
+                    0
+                    ));
+            products.add(p);
+        }
         return products;
     }
 

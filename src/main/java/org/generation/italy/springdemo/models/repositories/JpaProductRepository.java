@@ -49,4 +49,6 @@ public interface JpaProductRepository extends JpaRepository<Product,Integer>, Jp
     int discontinueProductsUnder(@Param("amount") BigDecimal amount);
 
     List<Product> findByOrderByCostDesc(Limit of);
+
+    List<Product> findByCategoryCategoryId(int categoryId);
 }
