@@ -4,6 +4,7 @@ import org.generation.italy.springdemo.models.entities.Category;
 import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Supplier;
 import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.services.StoreService;
 import org.generation.italy.springdemo.viewmodels.ProductViewModel;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class ProductController {
     }
 
     @GetMapping("/show-add-product-form")
-    public String showAddProductForm( Model model){
+    public String showAddProductForm( Model model) throws DataException{
         ProductViewModel pvm = new ProductViewModel();
         List<Category> categories = storeService.findAllCategories();
         List<Supplier> suppliers = storeService.findAllSuppliers();
@@ -33,21 +34,17 @@ public class ProductController {
         return "product/forms/add-product-form";
     }
     @PostMapping("/add-product")
-    public String addProduct(ProductViewModel pvm){
-        try {
-            Product p = pvm.toProduct();
-            storeService.saveProduct(p, pvm.getSupplierId(), pvm.getCategoryId());
-            return "redirect:/product";
-        } catch (DataException e) {
-            throw new RuntimeException(e);
-        }
-
+    public String addProduct(ProductViewModel pvm) throws DataException, EntityNotFoundException {
+        Product p = pvm.toProduct();
+        storeService.saveProduct(p, pvm.getSupplierId(), pvm.getCategoryId());
+        return "redirect:/product";
     }
 
     @GetMapping("/show-search-form")
     public String showSearchForm(){
         return "product/forms/show-search-form";
     }
+
     @GetMapping("/product")
     public String searchProducts(@RequestParam(required = false) String name,@RequestParam(required = false) Integer discontinued, Model model){
         try{

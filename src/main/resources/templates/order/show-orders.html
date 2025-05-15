@@ -1,58 +1,54 @@
 <!DOCTYPE html>
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Show orders</title>
+  <meta charset="UTF-8">
+  <title>Ecco tutti gli ordini</title>
 </head>
 <body>
-    <h1>I nostri meravigliosi ordini</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Customer Id</th>
-                <th>Employee id</th>
-                <th>Order Date</th>
-                <th>Required Date</th>
-                <th>Shipped Date</th>
-                <th>Shipper Id</th>
-                <th>Freight</th>
-                <th>Ship Name</th>
-                <th>Ship Address</th>
-                <th>Ship City</th>
-                <th>Ship Region</th>
-                <th>Ship PostalCode</th>
-                <th>Ship Country</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each = "o : ${orders}">
-                <td th:text="${o.orderId}">1000</td>
-                <td th:text="${o.customer.custId}">Giovanni</td>
-                <td th:text="${o.employee.empId}">2000</td>
-                <td th:text="${o.orderDate}">2000</td>
-                <td th:text="${o.requiredDate}">100.00</td>
-                <td th:text="${o.shippedDate}">0</td>
-                <td th:text="${o.shipper.shipperId}">0</td>
-                <td th:text="${o.freight}">0</td>
-                <td th:text="${o.shipName}">0</td>
-                <td th:text="${o.shipAddress}">0</td>
-                <td th:text="${o.shipCity}">0</td>
-                <td th:text="${o.shipRegion}">0</td>
-                <td th:text="${o.shipPostalCode}">0</td>
-                <td th:text="${o.shipCountry}">Not Found</td>
-                <td>
-                    <form action="/delete-order" method="post">
-                        <input type="hidden" th:value="${o.orderId}" name="orderId">
-                        <input type="hidden" th:value="${o.customer.custId}" name="custId">
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
+<h1>Orders</h1>
 
-            </tr>
-        </tbody>
-    </table>
+<form th:action="@{/delete-order}" method="post">
+  <input style="display: none" th:name="${'custId'}" th:value="${orders.getFirst().custId}">
 
+  <table style="border: 1px solid black">
+    <thead style="border: 1px solid black">
+    <tr style="border: 1px solid black">
+      <th>Customer</th>
+      <th>Employee</th>
+      <th>Required Date</th>
+      <th>Shipper Date</th>
+      <th>Shipper</th>
+      <th>Freight</th>
+      <th>Ship Name</th>
+      <th>Ship Address</th>
+      <th>Ship City</th>
+      <th>Ship Region</th>
+      <th>Ship CAP</th>
+      <th>Ship Country</th>
+      <th>Delete</th>
+    </tr>
+    </thead>
+      <tbody style="border: 1px solid black">
+      <tr th:each="o : ${orders}" style="border: 1px solid black">
+        <td style="display: none"><input th:name="${'orderId'}" th:value="${o.orderId}"></td>
+        <td style="border: 1px solid black" th:text="${o.custContactName}"></td>
+        <td style="border: 1px solid black" th:text="${o.fullName}"></td>
+        <td style="border: 1px solid black" th:text="${o.requiredDate}"></td>
+        <td style="border: 1px solid black" th:text="${o.shipperDate}"></td>
+        <td style="border: 1px solid black" th:text="${o.shipperCompanyName}"></td>
+        <td style="border: 1px solid black" th:text="${o.freight}"></td>
+        <td style="border: 1px solid black" th:text="${o.shipName}"></td>
+        <td style="border: 1px solid black" th:text="${o.shipAddress}"></td>
+        <td style="border: 1px solid black" th:text="${o.shipCity}"></td>
+        <td style="border: 1px solid black" th:text="${o.shipRegion}"></td>
+        <td style="border: 1px solid black" th:text="${o.shipPostalCode}"></td>
+        <td style="border: 1px solid black" th:text="${o.shipCountry}"></td>
+        <td style="border: 1px solid black">
+          <button type="submit">Delete</button>
+        </td>
+    </tr>
+    </tbody>
+  </table>
+</form>
 </body>
 </html>
