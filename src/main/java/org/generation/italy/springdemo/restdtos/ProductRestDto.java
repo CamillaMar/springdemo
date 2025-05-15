@@ -30,7 +30,7 @@ public class ProductRestDto {
 
     public static ProductRestDto toDto(Product p) {
         return new ProductRestDto(p.getProductId(), p.getProductName(), p.getSupplier().getSupplierId(),
-                p.getCategory().getCategoryId(), p.getCost(), p.getDiscontinued() == 1);
+                p.getCategory().getCategoryId(), p.getUnitPrice(), p.getDiscontinued() == 1);
     }
 
     public int getProductId() {

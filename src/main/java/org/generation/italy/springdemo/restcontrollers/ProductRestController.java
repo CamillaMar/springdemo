@@ -41,7 +41,8 @@ public class ProductRestController {
                                            @RequestParam(required = false) BigDecimal maxPrice,
                                            @RequestParam(required = false) Integer discontinued) throws DataException{
         if(topN != null){
-            return null;//caricarci la lista dei topN prodotti più costosi
+            List<ProductRestDto> products1 = storeService.orderByUnitPrice(topN).stream().map(ProductRestDto::toDto).toList();
+            return ResponseEntity.ok(products1);
         } else {
             ProductFilterCriteria filters = new ProductFilterCriteria(supplierId, categoryId, minPrice, maxPrice, discontinued);
             List<ProductRestDto> products = storeService.searchProduct(filters).stream().map(ProductRestDto::toDto).toList();

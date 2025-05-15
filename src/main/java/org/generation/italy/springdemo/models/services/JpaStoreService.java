@@ -155,6 +155,11 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
+    public List<Product> orderByUnitPrice(Integer topN) {
+        return productRepo.findByOrderByUnitPriceDesc(topN);
+    }
+
+    @Override
     @Transactional
     public boolean deleteProduct(int id) throws DataException {
         Optional<Product> op = productRepo.findById(id);
