@@ -15,7 +15,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@Profile("jpa")
 public class JpaStoreService implements StoreService{
     private JpaProductRepository productRepo;
     private JpaCategoryRepository categoryRepo;
@@ -104,16 +103,6 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    public List<Product> findBySuppId(int suppId) {
-        return orderRepo.findbySupplierSupplierId(suppId);
-    }
-
-    @Override
-    public List<Product> findByCatId(int catId) {
-        return productRepo.findbyCategoryategoryId();
-    }
-
-    @Override
     public void deleteOrderById(Integer id) {
         orderRepo.deleteById(id);
 
@@ -137,29 +126,20 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    public Optional<Product> findByProductName(String name) throws DataException {
-        try{
-            return  productRepo.findByProductName(name);
-        }catch(PersistenceException pe) {
-            throw new DataException(pe.getMessage(), pe);
-        }
-    }
-
-    @Override
-    public List<Product> findProductByUnitPriceBetween(int param1, int param2) throws DataException {
-        return productRepo.findbyunitPriceBetween(param1,param2);
-    }
-
-    @Override
     public List<Product> filterProductsByNameAndSupplierIDAndCategoryIdAndPriceBetween(ProductFilter filter) throws DataException {
         return findAllProducts().stream()
-                .filter(p-> filter.getId() == null|| p.getProductId() == filter.getId())
-                .filter(p-> filter.getName()==null || p.getProductName().equalsIgnoreCase(filter.getName()))
-                .filter(p -> filter.getSupplierId() == null || p.getSupplier().getSupplierId()== filter.getSupplierId())
-                .filter(p -> filter.getCategoryId() == null || p.getCategory().getCategoryId()== filter.getCategoryId())
-                .filter(p -> filter.getMinPrice() == null || p.getUnitPrice().compareTo(filter.getMinPrice())>=0)
-                .filter(p -> filter.getMaxPrice() == null || p.getUnitPrice().compareTo(filter.getMaxPrice())>=0)
+                .filter(p -> filter.getId() == null || p.getProductId() == filter.getId())
+                .filter(p -> filter.getName() == null || p.getProductName().equalsIgnoreCase(filter.getName()))
+                .filter(p -> filter.getSupplierId() == null || p.getSupplier().getSupplierId() == filter.getSupplierId())
+                .filter(p -> filter.getCategoryId() == null || p.getCategory().getCategoryId() == filter.getCategoryId())
+                .filter(p -> filter.getMinPrice() == null || p.getUnitPrice().compareTo(filter.getMinPrice()) >= 0)
+                .filter(p -> filter.getMaxPrice() == null || p.getUnitPrice().compareTo(filter.getMaxPrice()) <= 0)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Product> findAllOrderby(String orderrer) {
+
     }
 
 

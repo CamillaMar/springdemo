@@ -43,6 +43,23 @@ public class ProductRestDto {
         return ret;
     }
 
+    public Boolean equalToProduct (Product p){
+        if(p.getProductId() == this.productId){
+            if(p.getProductName().equalsIgnoreCase(this.productName)){
+                if(p.getSupplier().getSupplierId() == this.supplierId){
+                    if(p.getCategory().getCategoryId() == this.categoryId){
+                        if(p.getUnitPrice() == this.unitPrice){
+                            if (p.getDiscontinued() == (this.discontinued?1:0)){
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public int getProductId() {
         return productId;
     }

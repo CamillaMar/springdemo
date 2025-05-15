@@ -18,13 +18,10 @@ public interface StoreService {
     List<Supplier> findAllSuppliers();
     List<Customer> findAllCustomers();
     List<Order> findByCustId(int custId);
-    List<Product> findBySuppId(int suppId);
-    List<Product> findByCatId(int catId);
     void deleteOrderById(Integer id);
     Optional<Order> findOrderById (int id);
     boolean deleteProduct(int id) throws DataException;
-    Optional<Product> findByProductName(String name) throws DataException;
-    List<Product> findProductByUnitPriceBetween(int param1, int param2) throws DataException;
     List<Product> filterProductsByNameAndSupplierIDAndCategoryIdAndPriceBetween(ProductFilter filter) throws DataException;
+    List<Product> findAllOrderby(String orderrer);
 
 }
