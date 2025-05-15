@@ -3,10 +3,10 @@ package org.generation.italy.springdemo.models.services;
 import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
+import org.generation.italy.springdemo.models.searchCriteria.OrderFilterCriteria;
 import org.generation.italy.springdemo.models.searchCriteria.ProductFilterCriteria;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
+import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,4 +29,8 @@ public interface StoreService {
     boolean updateProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException;
     List<Product> searchProducts(ProductFilterCriteria filters) throws DataException;
     List<Employee> searchEmployee() throws DataException;
+    List<Order> searchOrders(OrderFilterCriteria ofc) throws DataException;
+    List<Customer> searchCustomer() throws DataException;
+    List<Customer> findCustomerByOrderNum(Integer limite) throws DataException;
+    List<Employee> findEmployeeByOrderNum(Integer limite) throws DataException;
 }

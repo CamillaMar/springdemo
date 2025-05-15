@@ -16,4 +16,14 @@ public interface JpaCustomerRepository extends JpaRepository<Customer, Integer> 
     @Modifying
     @Query("DELETE FROM Customer c WHERE c.region = :region OR c.region IS NULL")
     int deleteCustomerByRegion(@Param("region") String region);
+
+    @Query("""
+    SELECT c
+    FROM Customer c
+    JOIN c.orders o
+    GROUP BY c.custId
+    ORDER BY COUNT(*) DESC
+    LIMIT :limite
+    """)
+    List<Customer> findByMaxOrders(@Param("limite") Integer limite);
 }

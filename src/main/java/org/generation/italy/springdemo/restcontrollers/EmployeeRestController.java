@@ -2,14 +2,12 @@ package org.generation.italy.springdemo.restcontrollers;
 
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.services.StoreService;
+import org.generation.italy.springdemo.restdtos.CustomerRestDto;
 import org.generation.italy.springdemo.restdtos.EmployeeRestDto;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +23,11 @@ public class EmployeeRestController {
     }
 
     @GetMapping
-    public ResponseEntity<?> findEmployees() throws DataException {
+    public ResponseEntity<?> findEmployees(@RequestParam(required = false) Integer limite) throws DataException {
+        if(limite != null){
+            List<EmployeeRestDto> employeesOrders = storeService.findEmployeeByOrderNum(limite).stream().map(EmployeeRestDto::toDto).toList();
+            return ResponseEntity.ok(employeesOrders);
+        }
         List<EmployeeRestDto> employeeDtos = storeService.searchEmployee()
                 .stream().map(EmployeeRestDto::toDto).toList();
         return ResponseEntity.ok(employeeDtos);

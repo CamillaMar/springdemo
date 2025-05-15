@@ -8,6 +8,7 @@ import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException
 import org.generation.italy.springdemo.models.repositories.*;
 import org.generation.italy.springdemo.models.repositories.JpaOrderDetailsRepository;
 import org.generation.italy.springdemo.models.repositories.specifications.ProductSpecifications;
+import org.generation.italy.springdemo.models.searchCriteria.OrderFilterCriteria;
 import org.generation.italy.springdemo.models.searchCriteria.ProductFilterCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -198,5 +199,25 @@ public class JpaStoreService implements StoreService{
     @Override
     public List<Employee> searchEmployee() throws DataException {
         return employeeRepo.findAll();
+    }
+
+    @Override
+    public List<Order> searchOrders(OrderFilterCriteria ofc) throws DataException {
+        return orderRepo.searchOrdersFilters(ofc);
+    }
+
+    @Override
+    public List<Customer> searchCustomer() throws DataException {
+        return customerRepo.findAll();
+    }
+
+    @Override
+    public List<Customer> findCustomerByOrderNum(Integer limite) throws DataException {
+        return customerRepo.findByMaxOrders(limite);
+    }
+
+    @Override
+    public List<Employee> findEmployeeByOrderNum(Integer limite) throws DataException {
+        return employeeRepo.findByMaxOrders(limite);
     }
 }
