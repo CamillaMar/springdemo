@@ -33,12 +33,17 @@ public class ProductRestController {
 //            return ResponseEntity.ok(ps);
 //    }
     @GetMapping
-    public ResponseEntity<?> findProducts( @RequestParam(required = false) Integer supplierId,
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<?> findProducts( @RequestParam(required = false) Integer topN,
+                                           @RequestParam(required = false) Integer supplierId,
                                            @RequestParam(required = false) Integer categoryId,
                                            @RequestParam(required = false) BigDecimal minPrice,
                                            @RequestParam(required = false) BigDecimal maxPrice,
                                            @RequestParam(required = false) Integer discontinued) throws DataException{
-
+        if(topN != null && topN > 0) {
+            List<ProductRestDto> products = storeService.findMostExpensiveProducts(topN).stream().map(ProductRestDto::toDto).toList();
+            return ResponseEntity.ok(products);
+        }
         ProductFilterCriteria filters = new ProductFilterCriteria(supplierId, categoryId, minPrice, maxPrice, discontinued);
         List<ProductRestDto> products = storeService.searchProduct(filters).stream().map(ProductRestDto::toDto).toList();
         return ResponseEntity.ok(products);

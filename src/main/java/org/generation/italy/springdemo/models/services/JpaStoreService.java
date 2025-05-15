@@ -13,6 +13,7 @@ import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriter
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Limit;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -152,6 +153,12 @@ public class JpaStoreService implements StoreService{
         }catch(PersistenceException pe){
             throw new DataException("Errore nella ricerca del prodotto", pe);
         }
+    }
+
+    @Override
+    public List<Product> findMostExpensiveProducts(Integer topN) {
+        List<Product> products = productRepo.findByOrderByCostDesc(Limit.of(topN));
+        return products;
     }
 
     @Override

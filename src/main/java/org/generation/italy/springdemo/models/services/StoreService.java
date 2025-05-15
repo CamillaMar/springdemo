@@ -27,4 +27,5 @@ public interface StoreService {
     void deleteOrder(Integer orderId);
     boolean updateProduct(Product newProduct, int categoryId, int supplierId) throws DataException, EntityNotFoundException;
     List<Product> searchProduct(ProductFilterCriteria filters) throws DataException;
+    List<Product> findMostExpensiveProducts(Integer topN);
 }

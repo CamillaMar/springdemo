@@ -81,6 +81,12 @@ public class JdbcService implements StoreService{
     }
 
     @Override
+    public List<Product> findMostExpensiveProducts(Integer topN) {
+        return List.of();
+    }
+
+
+    @Override
     public boolean deleteProduct(int id) throws DataException {
         return false;
     }
