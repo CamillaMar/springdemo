@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins="*")
 @RequestMapping("/api/product")
 public class ProductRestController {
     private StoreService storeService;
@@ -33,7 +34,8 @@ public class ProductRestController {
 //            return ResponseEntity.ok(ps);
 //    }
     @GetMapping
-    public ResponseEntity<?> findProducts( @RequestParam(required = false) Integer supplierId,
+    public ResponseEntity<?> findProducts( @RequestParam(required = false) Integer topN,
+                                           @RequestParam(required = false) Integer supplierId,
                                            @RequestParam(required = false) Integer categoryId,
                                            @RequestParam(required = false) BigDecimal minPrice,
                                            @RequestParam(required = false) BigDecimal maxPrice,
