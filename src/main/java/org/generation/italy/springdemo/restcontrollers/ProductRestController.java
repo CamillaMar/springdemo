@@ -35,12 +35,22 @@ public class ProductRestController {
                                     @RequestParam(required = false) Integer categoryId,
                                     @RequestParam(required = false) BigDecimal minPrice,
                                     @RequestParam(required = false) BigDecimal maxPrice,
-                                    @RequestParam(required = false) String orderBy) throws DataException {
-        if(orderBy != null){
-
+                                    @RequestParam(required = false) Boolean orderById,
+                                    @RequestParam(required = false) Boolean orderByName,
+                                    @RequestParam(required = false) Boolean orderByPrice) throws DataException {
+        List<Product> result;
+        if(orderById != null && orderById.equals(true)){
+            result =storeService.findAllOrderByproductId();
+        }else
+        if(orderByName != null && orderByName.equals(true)){
+            result =storeService.findAllOrderByproductName();
+        }else
+        if(orderByPrice != null && orderByPrice.equals(true)){
+            result =storeService.findAllOrderByunitPrice();
+        }else{
+            ProductFilter pf = new ProductFilter(id,name,supplierId,categoryId,minPrice,maxPrice);
+            result = storeService.filterProductsByNameAndSupplierIDAndCategoryIdAndPriceBetween(pf);
         }
-        ProductFilter pf = new ProductFilter(id,name,supplierId,categoryId,minPrice,maxPrice);
-        List<Product> result = storeService.filterProductsByNameAndSupplierIDAndCategoryIdAndPriceBetween(pf);
         List<ProductRestDto> dtoList = ProductRestDto.listToDtoList(result);
         return (dtoList.isEmpty())?ResponseEntity.notFound().build() :ResponseEntity.ok(dtoList);
     }

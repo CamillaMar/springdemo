@@ -22,6 +22,7 @@ public interface StoreService {
     Optional<Order> findOrderById (int id);
     boolean deleteProduct(int id) throws DataException;
     List<Product> filterProductsByNameAndSupplierIDAndCategoryIdAndPriceBetween(ProductFilter filter) throws DataException;
-    List<Product> findAllOrderby(String orderrer);
-
+    List<Product> findAllOrderByproductId();
+    List<Product> findAllOrderByproductName();
+    List<Product> findAllOrderByunitPrice();
 }

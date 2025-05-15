@@ -8,6 +8,7 @@ import org.generation.italy.springdemo.models.repositories.*;
 import org.generation.italy.springdemo.restdtos.ProductFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -138,8 +139,18 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    public List<Product> findAllOrderby(String orderrer) {
+    public List<Product> findAllOrderByproductId() {
+        return productRepo.findAllByOrderByProductIdDesc();
+    }
 
+    @Override
+    public List<Product> findAllOrderByproductName() {
+        return productRepo.findAllByOrderByProductNameDesc();
+    }
+
+    @Override
+    public List<Product> findAllOrderByunitPrice() {
+        return productRepo.findAllByOrderByUnitPriceDesc();
     }
 
 
