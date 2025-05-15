@@ -34,6 +34,9 @@ public class JpaProductRepositoryCustomImpl implements JpaProductRepositoryCusto
         if(filters.getCategoryId() != null){
             queryFilters.add(criteriaBuilder.equal(root.get("category").get("categoryId"), filters.getCategoryId()));
         }
+        if(filters.getCategoryId() != null){
+            queryFilters.add(criteriaBuilder.equal(root.get("category").get("categoryName"), filters.getCategoryName()));
+        }
         if(filters.getMinPrice() != null){
             queryFilters.add(criteriaBuilder.greaterThanOrEqualTo(root.get("cost"), filters.getMinPrice()));
         }

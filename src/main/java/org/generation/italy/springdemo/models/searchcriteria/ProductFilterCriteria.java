@@ -9,13 +9,15 @@ public class ProductFilterCriteria {
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
     private Integer discontinued;
+    private String categoryName;
 
-    public ProductFilterCriteria(Integer supplierId, Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, Integer discontinued) {
+    public ProductFilterCriteria(Integer supplierId, Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, Integer discontinued, String categoryName) {
         this.supplierId = supplierId;
         this.categoryId = categoryId;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
         this.discontinued = discontinued;
+        this.categoryName = categoryName;
     }
 
     // /--GETTER--/
@@ -37,5 +39,9 @@ public class ProductFilterCriteria {
 
     public Integer getDiscontinued() {
         return discontinued;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
     }
 }

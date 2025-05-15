@@ -37,13 +37,16 @@ public class ProductRestController {
     public ResponseEntity<?> findProducts( @RequestParam(required = false) Integer topN,
                                            @RequestParam(required = false) Integer supplierId,
                                            @RequestParam(required = false) Integer categoryId,
+                                           @RequestParam(required = false) String categoryName,
                                            @RequestParam(required = false) BigDecimal minPrice,
                                            @RequestParam(required = false) BigDecimal maxPrice,
                                            @RequestParam(required = false) Integer discontinued) throws DataException{
         if(topN != null){
-            return null;//caricarci la lista dei topN prodotti più costosi
+            List<Product> productsExpensive = storeService.findProductOrderedByCostDesc(topN); //caricarci la lista dei topN prodotti più costosi
+            List<ProductRestDto> productsExpensiveDto = productsExpensive.stream().map(ProductRestDto::toDto).toList();
+            return ResponseEntity.ok(productsExpensiveDto);
         } else {
-            ProductFilterCriteria filters = new ProductFilterCriteria(supplierId, categoryId, minPrice, maxPrice, discontinued);
+            ProductFilterCriteria filters = new ProductFilterCriteria(supplierId, categoryId, minPrice, maxPrice, discontinued, categoryName);
             List<ProductRestDto> products = storeService.searchProduct(filters).stream().map(ProductRestDto::toDto).toList();
             return ResponseEntity.ok(products);
         }
@@ -98,4 +101,7 @@ public class ProductRestController {
         storeService.updateProduct(p, categoryId, supplierId);
         return ResponseEntity.ok().build();
     }
+
+
+
 }

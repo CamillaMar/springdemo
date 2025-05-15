@@ -1,7 +1,9 @@
 package org.generation.italy.springdemo.models.repositories;
 
 import org.generation.italy.springdemo.models.dtos.ProductSummary;
+import org.generation.italy.springdemo.models.entities.Category;
 import org.generation.italy.springdemo.models.entities.Product;
+import org.springframework.data.domain.Limit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -48,4 +50,8 @@ public interface JpaProductRepository extends JpaRepository<Product,Integer>, Jp
     @Modifying
     @Query("UPDATE Product p SET p.discontinued = 1 WHERE p.cost < :amount")
     int discontinueProductsUnder(@Param("amount") BigDecimal amount);
+
+    //scrivere un metodo che ordini i prodotti per avere come primi i più costosi
+    List<Product> findByOrderByCostDesc(Limit limit);
+
 }
