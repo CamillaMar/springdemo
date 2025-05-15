@@ -34,7 +34,7 @@ public class CriteriaProductRepositoryImpl implements CriteriaProductRepository{
         if(filters.getSupplierId() != null){
             Predicate supplierIdPredicate = builder.equal(supplierJoin.get("supplierId"), filters.getSupplierId());
             predicates.add(supplierIdPredicate);
-            // predicates.add(builder.equal(root.get("supplier").get("supplierId"), supplierId));
+            // predicates.add(builder.equal(root.get("supplier").get("supplierId"), filter.getSupplierId()));
         }
 
         if(filters.getCategoryId() != null){

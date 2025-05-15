@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/product")
 public class ProductRestController {
     private StoreService storeService;
@@ -27,12 +28,17 @@ public class ProductRestController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllProducts(@RequestParam(required = false) Integer supplierId,
+    public ResponseEntity<?> getAllProducts(@RequestParam(required = false) Integer topN,
+                                            @RequestParam(required = false) Integer supplierId,
                                             @RequestParam(required = false) Integer categoryId,
                                             @RequestParam(required = false) BigDecimal minPrice,
                                             @RequestParam(required = false) BigDecimal maxPrice,
                                             @RequestParam(required = false) String productName,
                                             @RequestParam(required = false) Integer discontinued) throws DataException{
+
+        if(topN != null){
+            //calcola i tot prodotti più costosi e li ritorni
+        }
 
         ProductFilterCriteria filters = new ProductFilterCriteria(supplierId, categoryId, minPrice, maxPrice, productName, discontinued);
         List<ProductRestDto> productDtos = storeService.searchProducts(filters)

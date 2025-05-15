@@ -6,6 +6,7 @@ import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException
 import org.generation.italy.springdemo.models.searchCriteria.ProductFilterCriteria;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,4 +28,5 @@ public interface StoreService {
     boolean deleteProduct(int id) throws DataException;
     boolean updateProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException;
     List<Product> searchProducts(ProductFilterCriteria filters) throws DataException;
+    List<Employee> searchEmployee() throws DataException;
 }

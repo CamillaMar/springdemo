@@ -98,4 +98,9 @@ public class JdbcService implements StoreService {
     public List<Product> searchProducts(ProductFilterCriteria filters) throws DataException {
         return List.of();
     }
+
+    @Override
+    public List<Employee> searchEmployee() throws DataException {
+        return List.of();
+    }
 }
