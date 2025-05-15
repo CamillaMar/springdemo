@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface JpaCustomerRepository extends JpaRepository<Customer, Integer> {
+public interface JpaCustomerRepository extends JpaRepository<Customer, Integer> , JpaCustomerRepositoryCustom{
     List<Customer> findAllByOrderByCompanyNameDesc();
 
     @Query("SELECT c FROM Customer c ORDER BY c.companyName DESC")

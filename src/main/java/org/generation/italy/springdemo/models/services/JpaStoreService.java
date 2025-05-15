@@ -2,13 +2,11 @@ package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
 import org.generation.italy.springdemo.models.dtos.SelectListElement;
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Order;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
+import org.generation.italy.springdemo.models.searchcriteria.CustomerFilterCriteria;
 import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,6 +150,20 @@ public class JpaStoreService implements StoreService{
         }catch(PersistenceException pe){
             throw new DataException("Errore nella ricerca del prodotto", pe);
         }
+    }
+
+    @Override
+    public List<Customer> searchCustomers(CustomerFilterCriteria filters) throws DataException {
+        try{
+            return customerRepo.searchCustomers(filters);
+        }catch(PersistenceException pe){
+            throw new DataException("Errore nella ricerca del prodotto", pe);
+        }
+    }
+
+    @Override
+    public List<Employee> findAllEmployees() {
+        return List.of();
     }
 
     @Override
