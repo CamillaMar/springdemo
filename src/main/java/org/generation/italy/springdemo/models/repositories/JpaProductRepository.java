@@ -46,6 +46,8 @@ public interface JpaProductRepository extends JpaRepository<Product,Integer>, Jp
     @Modifying
     @Query("UPDATE Product p SET p.discontinued = 1 WHERE p.unitPrice < :amount")
     int discontinueProductsUnder(@Param("amount") BigDecimal amount);
+
     @Query("SELECT p FROM Product p ORDER BY unitPrice DESC LIMIT :topN")
     List<Product> findByOrderByUnitPriceDesc(@Param("topN") Integer topN);
+
 }
