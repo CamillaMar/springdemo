@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 public interface JpaOrderRepository extends JpaRepository<Order, Integer>, CriteriaOrderRepository {
@@ -21,4 +22,8 @@ public interface JpaOrderRepository extends JpaRepository<Order, Integer>, Crite
     List<Order> findByManagerId(@Param("empid") int empId);
 
     List<Order> findByCustomerCustId(Integer custId);
+
+
+
+
 }

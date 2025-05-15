@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 @Service
 @Profile("jdbc")
-public class JdbcService implements StoreService{
+public abstract class JdbcService implements StoreService{
     @Override
     public Optional<Product> findProductById(int id) throws DataException {
         return Optional.empty();
@@ -90,6 +90,16 @@ public class JdbcService implements StoreService{
 
     @Override
     public List<Order> searchOrders(OrderFilterCriteria ofc) throws DataException {
+        return List.of();
+    }
+
+    @Override
+    public List<Customer> findOrderByMostCustomerId(Integer limite) {
+        return List.of();
+    }
+
+    @Override
+    public List<Customer> searchCustomer() {
         return List.of();
     }
 

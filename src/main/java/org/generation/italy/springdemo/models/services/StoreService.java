@@ -6,7 +6,9 @@ import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.searchCriteria.OrderFilterCriteria;
 import org.generation.italy.springdemo.models.searchCriteria.ProductFilterCriteria;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
+import org.springframework.beans.PropertyValues;
 
+import java.awt.print.Pageable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -31,4 +33,7 @@ public interface StoreService {
     List<Employee> searchEmployee() throws DataException;
 
     List<Order> searchOrders(OrderFilterCriteria ofc) throws DataException;
+    List<Customer> findOrderByMostCustomerId(Integer limite);
+
+    List<Customer> searchCustomer();
 }

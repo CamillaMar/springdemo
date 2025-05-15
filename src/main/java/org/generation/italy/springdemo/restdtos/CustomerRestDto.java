@@ -2,6 +2,8 @@ package org.generation.italy.springdemo.restdtos;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
+import org.generation.italy.springdemo.models.entities.Customer;
+import org.generation.italy.springdemo.models.entities.Employee;
 import org.generation.italy.springdemo.models.entities.Order;
 
 import java.util.ArrayList;
@@ -36,6 +38,15 @@ public class CustomerRestDto {
         this.country = country;
         this.phone = phone;
         this.fax = fax;
+    }
+
+    public Customer toCustomer(){
+        Customer c = new Customer(custId, companyName, contactName,contactTitle, address, city, region, postalCode, country, phone, fax);
+        return c;
+    }
+
+    public static CustomerRestDto toDto(Customer c){
+        return new CustomerRestDto(c.getCustId(), c.getCompanyName(), c.getContactName(),c.getContactTitle(), c.getAddress(), c.getCity(), c.getRegion(), c.getPostalCode(), c.getCountry(), c.getPhone(), c.getFax());
     }
 
     @Override

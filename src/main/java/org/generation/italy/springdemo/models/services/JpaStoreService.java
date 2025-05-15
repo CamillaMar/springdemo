@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -169,6 +170,16 @@ public class JpaStoreService implements StoreService{
     @Override
     public List<Order> searchOrders(OrderFilterCriteria ofc) throws DataException {
         return orderRepo.searchOrdersFilters(ofc);
+    }
+
+    @Override
+    public List<Customer> findOrderByMostCustomerId(Integer limite) {
+        return customerRepo.findTopCustomerId(limite);
+    }
+
+    @Override
+    public List<Customer> searchCustomer() {
+        return customerRepo.findAll();
     }
 
     @Override

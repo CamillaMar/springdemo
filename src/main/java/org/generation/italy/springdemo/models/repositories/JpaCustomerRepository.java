@@ -2,6 +2,7 @@ package org.generation.italy.springdemo.models.repositories;
 
 import org.generation.italy.springdemo.models.dtos.SelectListElement;
 import org.generation.italy.springdemo.models.entities.Customer;
+import org.generation.italy.springdemo.models.entities.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +25,13 @@ public interface JpaCustomerRepository extends JpaRepository<Customer, Integer> 
     @Query("SELECT new org.generation.italy.springdemo.models.dtos.SelectListElement(c.custId, c.contactName) FROM Customer c")
     List<SelectListElement> getSelectListCustomers();
 
+    @Query("""
+    SELECT c
+    FROM Customer c
+    JOIN c.custId o 
+    GROUP BY c.custId
+    ORDER BY COUNT(*) DESC
+    LIMIT :limite
+    """)
+    List<Customer> findTopCustomerId(@Param("limite") Integer limite);
 }
