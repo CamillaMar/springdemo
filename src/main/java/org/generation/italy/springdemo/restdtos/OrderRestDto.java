@@ -25,7 +25,7 @@ public class OrderRestDto {
     }
 
     public Order toOrder(){
-        return new Order( orderId,custId,empId,orderDate,freight,shipCountry);
+        return new Order( orderId,null,null,orderDate,freight,shipCountry);
     }
 
     public static OrderRestDto toDto(Order o){

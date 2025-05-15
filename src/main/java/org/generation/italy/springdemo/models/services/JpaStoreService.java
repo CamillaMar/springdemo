@@ -26,16 +26,18 @@ public class JpaStoreService implements StoreService{
     private JpaOrderRepository orderRepo;
     private JpaOrderDetailsRepository orderDetailsRepo;
     private JpaCustomerRepository customerRepo;
+    private JpaEmployeeRepository employeeRepo;
 
     @Autowired
     public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo,
-                           JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo, JpaCustomerRepository customerRepo){
+                           JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo, JpaCustomerRepository customerRepo, JpaEmployeeRepository employeeRepo){
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
         this.orderRepo = orderRepo;
         this.orderDetailsRepo = orderDetailsRepo;
         this.customerRepo = customerRepo;
+        this.employeeRepo = employeeRepo;
     }
 
     @Override
@@ -194,6 +196,11 @@ public class JpaStoreService implements StoreService{
     @Override
     public List<Order> searchOrders(OrderFilterCriteria filters) {
         return orderRepo.searchOrdersFilters(filters);
+    }
+
+    @Override
+    public List<Employee> searchEmployee() {
+        return employeeRepo.findAll();
     }
 
 }

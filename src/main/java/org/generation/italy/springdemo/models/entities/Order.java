@@ -72,7 +72,7 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Order(Integer orderId, Integer custId, Integer empId, LocalDateTime orderDate, BigDecimal freight, String shipCountry) {
+    public Order(Integer orderId, Customer custId, Integer empId, LocalDateTime orderDate, BigDecimal freight, String shipCountry) {
     }
 
     public int getOrderId() {
