@@ -33,5 +33,5 @@ public interface JpaCustomerRepository extends JpaRepository<Customer, Integer> 
     ORDER BY COUNT(*) DESC
     LIMIT :limite
     """)
-    List<Customer> findTopCustomerId(@Param("limite") Integer limite);
+    List<Customer> findByMaxOrders(@Param("limite") Integer limite);
 }

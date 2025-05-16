@@ -33,5 +33,5 @@ public interface StoreService {
     List<Customer> searchCustomer();
     List<Employee> findEmployeeByOrderLimit(Integer limite);
     Optional<Employee> findEmployeeById(int id) throws DataException;
-    boolean updateEmployee(Employee e, int mgrId) throws DataException, EntityNotFoundException;
+    Employee updateEmployee(Employee e, int mgrId) throws DataException, EntityNotFoundException;
 }

@@ -36,6 +36,16 @@ public class EmployeeRestController {
         return ResponseEntity.ok(employees);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getEmployeeById(@PathVariable Integer id) throws DataException{
+        Optional<Employee> oe = storeService.findEmployeeById(id);
+        if(oe.isPresent()){
+            var employeeDto = EmployeeRestDto.toDto(oe.get());
+            return ResponseEntity.ok(employeeDto);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEmployee(@PathVariable int id, @RequestBody EmployeeRestDto dto) throws DataException, EntityNotFoundException {
         if(id != dto.getEmpId()){
@@ -47,21 +57,9 @@ public class EmployeeRestController {
         }
         Employee e = dto.toEmployee();
 
-        boolean updated = storeService.updateEmployee(e, dto.getMgrId());
-        if (updated) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        Employee updated = storeService.updateEmployee(e, dto.getMgrId());
+
+        return ResponseEntity.ok(EmployeeRestDto.toDto(updated));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getEmployeeById(@PathVariable Integer id) throws DataException{
-        Optional<Employee> oe = storeService.findEmployeeById(id);
-        if(oe.isPresent()){
-            var employeeDto = EmployeeRestDto.toDto(oe.get());
-            return ResponseEntity.ok(employeeDto);
-        }
-        return ResponseEntity.notFound().build();
-    }
 }

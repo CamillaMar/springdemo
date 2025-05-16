@@ -176,7 +176,7 @@ public class JpaStoreService implements StoreService {
 
     @Override
     public List<Customer> findCustomerByOrderLimit(Integer limite) {
-        return customerRepo.findTopCustomerId(limite);
+        return customerRepo.findByMaxOrders(limite);
     }
 
     @Override
@@ -204,12 +204,33 @@ public class JpaStoreService implements StoreService {
         return employeeRepo.findById(id);
     }
 
+//    @Override
+//    public boolean updateEmployee(Employee e, int mgrId) throws DataException, EntityNotFoundException {
+//        try {
+//            Optional<Employee> oe = employeeRepo.findById(e.getEmpId());
+//            if(oe.isEmpty()){
+//                return false;
+//            }
+//
+//            Optional<Employee> om = employeeRepo.findById(mgrId);
+//            Employee m = om.orElseThrow(()->new EntityNotFoundException(Employee.class, mgrId));
+//
+//            e.setManager(m);
+//
+//            employeeRepo.save(e);
+//
+//            return true;
+//        } catch (PersistenceException pe) {
+//            throw new DataException("errore nella modifica di un prodotto", pe);
+//        }
+//    }
     @Override
-    public boolean updateEmployee(Employee e, int mgrId) throws DataException, EntityNotFoundException {
+    @Transactional
+    public Employee updateEmployee(Employee e, int mgrId) throws DataException, EntityNotFoundException {
         try {
             Optional<Employee> oe = employeeRepo.findById(e.getEmpId());
             if(oe.isEmpty()){
-                return false;
+                throw new DataException("Errore: employee non trovato");
             }
 
             Optional<Employee> om = employeeRepo.findById(mgrId);
@@ -217,13 +238,12 @@ public class JpaStoreService implements StoreService {
 
             e.setManager(m);
 
-            employeeRepo.save(e);
-
-            return true;
+            return employeeRepo.save(e);
         } catch (PersistenceException pe) {
-            throw new DataException("errore nella modifica di un prodotto", pe);
+            throw new DataException("errore nella modifica di un employee", pe);
         }
     }
+
 }
 
 
