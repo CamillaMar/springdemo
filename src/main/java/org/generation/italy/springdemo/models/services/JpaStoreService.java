@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -219,5 +218,30 @@ public class JpaStoreService implements StoreService{
     @Override
     public List<Employee> findEmployeeByOrderNum(Integer limite) throws DataException {
         return employeeRepo.findByMaxOrders(limite);
+    }
+
+    @Override
+    public Optional<Employee> findEmployeeById(int id) {
+        return employeeRepo.findById(id);
+    }
+
+
+    @Override
+    public Employee updateEmployee(Employee e, int mgrId) throws DataException, EntityNotFoundException {
+        try {
+            Optional<Employee> oe = employeeRepo.findById(e.getEmpId());
+            if(oe.isEmpty()){
+                throw new DataException("errore employee non trovato");
+            }
+
+            Optional<Employee> om = employeeRepo.findById(mgrId);
+            Employee m = om.orElseThrow(()->new EntityNotFoundException(Employee.class, mgrId));
+
+            e.setManager(m);
+
+            return employeeRepo.save(e);
+        } catch (PersistenceException pe) {
+            throw new DataException("errore nella modifica di un employee", pe);
+        }
     }
 }

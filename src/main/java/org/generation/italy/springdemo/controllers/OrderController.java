@@ -5,6 +5,7 @@ import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.services.StoreService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
+@CrossOrigin(origins = "*")
 public class OrderController {
     private StoreService storeService;
 

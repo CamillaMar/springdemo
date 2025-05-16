@@ -6,7 +6,6 @@ import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException
 import org.generation.italy.springdemo.models.searchCriteria.OrderFilterCriteria;
 import org.generation.italy.springdemo.models.searchCriteria.ProductFilterCriteria;
 
-import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,4 +32,6 @@ public interface StoreService {
     List<Customer> searchCustomer() throws DataException;
     List<Customer> findCustomerByOrderNum(Integer limite) throws DataException;
     List<Employee> findEmployeeByOrderNum(Integer limite) throws DataException;
+    Optional<Employee> findEmployeeById(int id);
+    Employee updateEmployee(Employee e, int mgrId) throws DataException, EntityNotFoundException;
 }

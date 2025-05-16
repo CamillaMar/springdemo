@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @Profile ("jdbc")
-public class JdbcService implements StoreService {
+public abstract class JdbcService implements StoreService {
     @Override
     public Optional<Product> findProductById(int id) throws DataException {
         return Optional.empty();
@@ -124,4 +124,11 @@ public class JdbcService implements StoreService {
     public List<Employee> findEmployeeByOrderNum(Integer limite) throws DataException {
         return List.of();
     }
+
+    @Override
+    public Optional<Employee> findEmployeeById(int id) {
+        return Optional.empty();
+    }
+
+
 }
