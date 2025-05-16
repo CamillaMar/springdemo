@@ -1,21 +1,21 @@
 package org.generation.italy.springdemo.restdtos;
 
 public class CustomerOrderDto {
-    private Long custId;
+    private Integer custId;
     private Long orderCount;
 
     public CustomerOrderDto(){}
 
-    public CustomerOrderDto(Long custId, Long orderCount) {
+    public CustomerOrderDto(Integer custId, Long orderCount) {
         this.custId = custId;
         this.orderCount = orderCount;
     }
 
-    public Long getCustId() {
+    public Integer getCustId() {
         return custId;
     }
 
-    public void setCustId(Long custId) {
+    public void setCustId(Integer custId) {
         this.custId = custId;
     }
 
