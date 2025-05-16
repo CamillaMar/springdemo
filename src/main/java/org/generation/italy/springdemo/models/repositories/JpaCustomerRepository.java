@@ -28,7 +28,7 @@ public interface JpaCustomerRepository extends JpaRepository<Customer, Integer> 
     @Query("""
     SELECT c
     FROM Customer c
-    JOIN c.custId o 
+    JOIN c.orders o
     GROUP BY c.custId
     ORDER BY COUNT(*) DESC
     LIMIT :limite
