@@ -24,6 +24,6 @@ public class CategoryRestController {
     @GetMapping
     public ResponseEntity<?> findCategories() throws DataException {
        List<CategoryRestDto> listCategory = storeService.findAll().stream().map(CategoryRestDto::toDto).toList();
-        return ResponseEntity.ok(listCategory);
+       return ResponseEntity.ok(listCategory);
     }
 }
