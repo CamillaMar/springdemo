@@ -31,4 +31,6 @@ public interface StoreService {
     List<Category> findAll() throws DataException;
     Customer findCustomerWithMaxOrders() throws DataException;
     Employee findEmployeeByCustOrders() throws DataException;
+    public Optional<Employee> findEmployeeById(int id);
+    public boolean updateEmployee(Employee e, int managerId) throws EntityNotFoundException;
 }

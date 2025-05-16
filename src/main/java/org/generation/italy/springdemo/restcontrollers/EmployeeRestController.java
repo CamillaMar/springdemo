@@ -4,6 +4,7 @@ import jakarta.persistence.PostUpdate;
 import jakarta.websocket.server.PathParam;
 import org.generation.italy.springdemo.models.entities.Employee;
 import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.services.StoreService;
 import org.generation.italy.springdemo.restdtos.EmployeeRestDto;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
@@ -33,7 +34,18 @@ public class EmployeeRestController {
         return ResponseEntity.ok(EmployeeRestDto.toDto(e));
     }
 
-
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateEmployee(@PathVariable int id, @RequestBody EmployeeRestDto empRestDto) throws EntityNotFoundException {
+        if(id != empRestDto.getEmpId()){
+            return ResponseEntity.badRequest().body("I due id non corrispondono");
+        }
+        Optional<Employee> emp = storeService.findEmployeeById(id);
+        if(emp.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        storeService.updateEmployee(empRestDto.toEmployee(), empRestDto.getManagerEmpId());
+        return ResponseEntity.ok("bravo hai cambiato");
+    }
 //    @GetMapping
 //    public ResponseEntity<?> getAllEmployees(){
 //        List<EmployeeRestDto> eList = storeService.findAllEmployee().stream().map(EmployeeRestDto::toDto).toList();
@@ -57,10 +69,7 @@ public class EmployeeRestController {
 //        return ResponseEntity.ok(EmployeeRestDto.toDto(storeService.findEmployeeById(e.getEmpId())));
 //    }
 
-//    @PutMapping("/update")
-//    public ResponseEntity<EmployeeRestDto> updateEmployee(@RequestBody EmployeeRestDto dto){
-//        return ResponseEntity.ok(EmployeeRestDto.toDto(storeService.updateEmployee(dto)));
-//    }
+
 //
 //    @DeleteMapping("/delete/{id}")
 //    public ResponseEntity<?> deleteEmployee(@PathVariable("id") int id) throws DataException {

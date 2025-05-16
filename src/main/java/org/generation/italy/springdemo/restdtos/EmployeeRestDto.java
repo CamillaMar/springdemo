@@ -75,6 +75,11 @@ public class EmployeeRestDto {
                 e.getLastName());
     }
 
+    public Employee toEmployee(){
+        Employee e = new Employee(null,phone, country,postalCode,region,city,address,
+                    hireDate,birthDate,titleOfCourtesy,title,firstName,lastName,empId);
+        return e;
+    }
 
     public int getEmpId() {
         return empId;

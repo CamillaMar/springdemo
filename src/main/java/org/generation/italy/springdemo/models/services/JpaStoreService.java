@@ -183,6 +183,7 @@ public class JpaStoreService implements StoreService{
         return false;
     }
 
+    @Transactional
     @Override
     public Customer findCustomerWithMaxOrders() throws DataException{
         Optional<CustomerOrderDto> optionalDto = orderRepo.countOrdersByCustomer().stream().findFirst();
@@ -192,7 +193,7 @@ public class JpaStoreService implements StoreService{
         Customer c = customerRepo.findById(optionalDto.get().getCustId().intValue()).get();
         return c;
     }
-
+    @Transactional
     public Employee findEmployeeByCustOrders() throws DataException{
         Optional<EmployeeOrderDto> optionalDto = orderRepo.countOrdersByEmployee().stream().findFirst();
         if(optionalDto.isEmpty()){
@@ -200,5 +201,17 @@ public class JpaStoreService implements StoreService{
         }
         Employee e = employeeRepository.findById(optionalDto.get().getEmpId().intValue()).get();
         return e;
+    }
+    public Optional<Employee> findEmployeeById(int id){
+        return employeeRepository.findById(id);
+    }
+
+    @Transactional
+    public boolean updateEmployee(Employee e, int managerId) throws EntityNotFoundException{
+        Optional<Employee> manager = employeeRepository.findById(managerId);
+        Employee mngr = manager.orElseThrow(()-> new EntityNotFoundException(Employee.class, managerId));
+        e.setManager(mngr);
+        employeeRepository.save(e);
+        return true;
     }
 }
