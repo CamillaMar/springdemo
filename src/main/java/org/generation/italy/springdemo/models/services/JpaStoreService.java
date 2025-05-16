@@ -163,11 +163,14 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    public List<Product> findByCategory(int categoryId) {
+    @Transactional
+    public List<Product> findByCategory(int categoryId) throws EntityNotFoundException {
         List<Product> products = productRepo.findByCategoryCategoryId(categoryId);
-        if((!products.isEmpty() && products.stream().mapToDouble(p -> p.getCost().doubleValue()).sum() > 200) || products.size() <= 3){
-            Supplier supplier = supplierRepo.findById(1).get();
-            Category category = categoryRepo.findById(categoryId).get();
+        boolean isSumLower = (!products.isEmpty()) && products.stream().mapToDouble(p -> p.getCost().doubleValue()).sum() > 200;
+        if(isSumLower || products.size() <= 3){
+            Supplier supplier = supplierRepo.findById(1).orElseThrow(()-> new EntityNotFoundException(Category.class, 1));
+            Category category = categoryRepo.findById(categoryId).orElseThrow(()-> new EntityNotFoundException(Category.class, categoryId));
+
             Product p = productRepo.save(new Product(
                     0,
                     "Standard_Product",

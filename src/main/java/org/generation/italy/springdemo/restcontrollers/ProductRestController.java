@@ -5,6 +5,7 @@ import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.services.StoreService;
 import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
+import org.generation.italy.springdemo.restdtos.CategoryRequestDto;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -103,8 +104,8 @@ public class ProductRestController {
     }
     @PostMapping("/category")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<?> findByCategory(@RequestParam int categoryId) throws DataException{
-        List<ProductRestDto> products = storeService.findByCategory(categoryId).stream().map(ProductRestDto::toDto).toList();
+    public ResponseEntity<?> findByCategory(@RequestBody CategoryRequestDto request) throws DataException, EntityNotFoundException {
+        List<ProductRestDto> products = storeService.findByCategory(request.categoryId()).stream().map(ProductRestDto::toDto).toList();
         return ResponseEntity.ok(products);
     }
 }
