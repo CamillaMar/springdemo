@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @Service
 @Profile("jpa")
-public class JpaStoreService implements StoreService{
+public class JpaStoreService implements StoreService {
     private JpaProductRepository productRepo;
     private JpaCategoryRepository categoryRepo;
     private JpaSupplierRepository supplierRepo;
@@ -42,6 +42,7 @@ public class JpaStoreService implements StoreService{
         this.customerRepo = customerRepo;
         this.orderRepo = orderRepo;
         this.orderDetailsRepo = orderDetailsRepo;
+        this.employeeRepo = employeeRepo;
     }
 
     @Override
@@ -55,19 +56,29 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
+    public List<Category> findAllCategories() {
+        return categoryRepo.findAll();
+    }
+
+    @Override
+    public List<Supplier> findAllSuppliers() {
+        return supplierRepo.findAll();
+    }
+
+    @Override
     public List<Product> findByProductNameContains(String name) throws DataException {
-        try{
+        try {
             return productRepo.findByProductNameContains(name);
-        }catch(PersistenceException pe) {
+        } catch (PersistenceException pe) {
             throw new DataException(pe.getMessage(), pe);
         }
     }
 
     @Override
     public List<Product> findProductsByDiscontinued(int discontinued) throws DataException {
-        try{
+        try {
             return productRepo.findByDiscontinued(discontinued);
-        }catch(PersistenceException pe) {
+        } catch (PersistenceException pe) {
             throw new DataException(pe.getMessage(), pe);
         }
     }
@@ -82,12 +93,12 @@ public class JpaStoreService implements StoreService{
     public Product saveProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException {
         try {
             Optional<Supplier> os = supplierRepo.findById(supplierId);
-            if(os.isEmpty()){
+            if (os.isEmpty()) {
                 throw new EntityNotFoundException(Supplier.class, supplierId);
             }
             Supplier s = os.get();
             Optional<Category> oc = categoryRepo.findById(categoryId);
-            Category c = oc.orElseThrow(()-> new EntityNotFoundException(Category.class, categoryId));
+            Category c = oc.orElseThrow(() -> new EntityNotFoundException(Category.class, categoryId));
             p.setSupplier(s);
             p.setCategory(c);
             productRepo.save(p);
@@ -98,18 +109,56 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    public List<Category> findAllCategories() {
-        return categoryRepo.findAll();
+    @Transactional
+    public boolean updateProduct(Product newProduct, int categoryId, int supplierId) throws DataException, EntityNotFoundException {
+        try {
+            Optional<Product> op = productRepo.findById(newProduct.getProductId());
+            if (op.isEmpty()) {
+                return false;
+            }
+
+            Supplier s = supplierRepo.findById(supplierId).orElseThrow(() -> new EntityNotFoundException(Supplier.class, supplierId));
+            Category c = categoryRepo.findById(categoryId).orElseThrow(() -> new EntityNotFoundException(Category.class, categoryId));
+
+            newProduct.setSupplier(s);
+            newProduct.setCategory(c);
+
+            productRepo.save(newProduct);
+
+            return true;
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella modifica di un prodotto", pe);
+        }
     }
 
     @Override
-    public List<Supplier> findAllSuppliers() {
-        return supplierRepo.findAll();
+    public List<Product> searchProduct(ProductFilterCriteria filters) throws DataException {
+        try {
+            return productRepo.searchProducts(filters);
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella ricerca del prodotto", pe);
+        }
     }
 
     @Override
-    public List<SelectListElement> getSelectListCustomers() {
-        return customerRepo.getSelectListCustomers();
+    @Transactional
+    public boolean deleteProduct(int id) throws DataException {
+        Optional<Product> op = productRepo.findById(id);
+        if (op.isPresent()) {
+            productRepo.delete(op.get());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<Product> orderByUnitPrice(Integer topN) {
+        return productRepo.findByOrderByUnitPriceDesc(topN);
+    }
+
+    @Override
+    public List<Order> searchOrders(OrderFilterCriteria ofc) throws DataException {
+        return orderRepo.searchOrdersFilters(ofc);
     }
 
     @Override
@@ -126,55 +175,13 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    @Transactional
-    public boolean updateProduct(Product newProduct, int categoryId, int supplierId) throws DataException, EntityNotFoundException {
-        try {
-            Optional<Product> op = productRepo.findById(newProduct.getProductId());
-            if(op.isEmpty()){
-                return false;
-            }
-
-            Supplier s = supplierRepo.findById(supplierId).orElseThrow(()-> new EntityNotFoundException(Supplier.class, supplierId));
-            Category c = categoryRepo.findById(categoryId).orElseThrow(()-> new EntityNotFoundException(Category.class, categoryId));
-
-            newProduct.setSupplier(s);
-            newProduct.setCategory(c);
-
-            productRepo.save(newProduct);
-
-            return true;
-        } catch (PersistenceException pe) {
-            throw new DataException("Errore nella modifica di un prodotto", pe);
-        }
-    }
-
-    @Override
-    public List<Product> searchProduct(ProductFilterCriteria filters) throws DataException{
-        try{
-            return productRepo.searchProducts(filters);
-        }catch(PersistenceException pe){
-            throw new DataException("Errore nella ricerca del prodotto", pe);
-        }
-    }
-
-    @Override
-    public List<Product> orderByUnitPrice(Integer topN) {
-        return productRepo.findByOrderByUnitPriceDesc(topN);
-    }
-
-    @Override
-    public List<Employee> searchEmployee() throws DataException {
-        return employeeRepo.findAll();
-    }
-
-    @Override
-    public List<Order> searchOrders(OrderFilterCriteria ofc) throws DataException {
-        return orderRepo.searchOrdersFilters(ofc);
-    }
-
-    @Override
-    public List<Customer> findOrderByMostCustomerId(Integer limite) {
+    public List<Customer> findCustomerByOrderLimit(Integer limite) {
         return customerRepo.findTopCustomerId(limite);
+    }
+
+    @Override
+    public List<SelectListElement> getSelectListCustomers() {
+        return customerRepo.getSelectListCustomers();
     }
 
     @Override
@@ -183,14 +190,42 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    @Transactional
-    public boolean deleteProduct(int id) throws DataException {
-        Optional<Product> op = productRepo.findById(id);
-        if(op.isPresent()) {
-            productRepo.delete(op.get());
+    public List<Employee> searchEmployee() throws DataException {
+        return employeeRepo.findAll();
+    }
+
+    @Override
+    public List<Employee> findEmployeeByOrderLimit(Integer limite) {
+        return employeeRepo.findByMaxOrders(limite);
+    }
+
+    @Override
+    public Optional<Employee> findEmployeeById(int id) throws DataException {
+        return employeeRepo.findById(id);
+    }
+
+    @Override
+    public boolean updateEmployee(Employee e, int mgrId) throws DataException, EntityNotFoundException {
+        try {
+            Optional<Employee> oe = employeeRepo.findById(e.getEmpId());
+            if(oe.isEmpty()){
+                return false;
+            }
+
+            Optional<Employee> om = employeeRepo.findById(mgrId);
+            Employee m = om.orElseThrow(()->new EntityNotFoundException(Employee.class, mgrId));
+
+            e.setManager(m);
+
+            employeeRepo.save(e);
+
             return true;
+        } catch (PersistenceException pe) {
+            throw new DataException("errore nella modifica di un prodotto", pe);
         }
-        return false;
     }
 }
+
+
+
 

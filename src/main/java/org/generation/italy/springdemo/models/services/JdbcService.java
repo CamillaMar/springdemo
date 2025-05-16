@@ -94,7 +94,7 @@ public abstract class JdbcService implements StoreService{
     }
 
     @Override
-    public List<Customer> findOrderByMostCustomerId(Integer limite) {
+    public List<Customer> findCustomerByOrderLimit(Integer limite) {
         return List.of();
     }
 

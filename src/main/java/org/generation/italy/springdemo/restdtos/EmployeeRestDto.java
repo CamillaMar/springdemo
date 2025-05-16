@@ -69,7 +69,8 @@ public class EmployeeRestDto {
     }
 
     public static EmployeeRestDto toDto(Employee e){
-        return new EmployeeRestDto(e.getEmpId(), e.getLastName(), e.getFirstName(), e.getTitle(), e.getTitleOfCourtesy(), e.getBirthDate(), e.getHireDate(), e.getAddress(), e.getCity(), e.getRegion(), e.getPostalCode(), e.getCountry(), e.getPhone(), e.getManager().getEmpId());
+        int mgrId = (e.getManager() != null) ? e.getManager().getEmpId() : 0;
+        return new EmployeeRestDto(e.getEmpId(), e.getLastName(), e.getFirstName(), e.getTitle(), e.getTitleOfCourtesy(), e.getBirthDate(), e.getHireDate(), e.getAddress(), e.getCity(), e.getRegion(), e.getPostalCode(), e.getCountry(), e.getPhone(), mgrId);
     }
 
     public int getEmpId() {

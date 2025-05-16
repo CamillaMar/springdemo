@@ -81,6 +81,7 @@ public class ProductRestController {
                 .toUri();
         return ResponseEntity.created(location).body(saved);
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable int id, @RequestBody ProductRestDto newProduct) throws DataException, EntityNotFoundException {
         if(id != newProduct.getProductId()){
