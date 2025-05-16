@@ -2,15 +2,13 @@ package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
 import org.generation.italy.springdemo.models.dtos.SelectListElement;
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Order;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
 import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 
+import org.generation.italy.springdemo.restdtos.CustomerOrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Limit;
@@ -180,5 +178,15 @@ public class JpaStoreService implements StoreService{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Customer findCustomerWithMaxOrders() throws DataException{
+        Optional<CustomerOrderDto> optionalDto = orderRepo.countOrdersByCustomer().stream().findFirst();
+        if(optionalDto.isEmpty()){
+            throw new DataException("Non è stato creato nessun customer con ordini");
+        }
+        Customer c = customerRepo.findById(optionalDto.get().getCustId().intValue()).get();
+        return c;
     }
 }

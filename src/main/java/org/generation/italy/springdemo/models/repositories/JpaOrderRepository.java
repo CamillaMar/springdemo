@@ -1,6 +1,7 @@
 package org.generation.italy.springdemo.models.repositories;
 
 import org.generation.italy.springdemo.models.entities.Order;
+import org.generation.italy.springdemo.restdtos.CustomerOrderDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,4 +21,12 @@ public interface JpaOrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findByManagerId(@Param("empid") int empId);
 
     List<Order> findByCustomerCustId(Integer custId);
+
+    @Query("""
+            SELECT new org.generation.italy.springdemo.restdtos.CustomerOrderDto(o.customer.custId, COUNT(o))
+            FROM Order o
+            GROUP BY o.customer.custId
+            ORDER BY COUNT(o) DESC
+            """)
+    List<CustomerOrderDto> countOrdersByCustomer();
 }

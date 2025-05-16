@@ -1,10 +1,7 @@
 package org.generation.italy.springdemo.models.services;
 
 import org.generation.italy.springdemo.models.dtos.SelectListElement;
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Order;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
@@ -31,4 +28,5 @@ public interface StoreService {
     List<Product> findProductOrderedByCostDesc(Integer topN) throws DataException;
     List<Product> findCategoryCategoryName(String categoryName) throws DataException;
     List<Category> findAll() throws DataException;
+    Customer findCustomerWithMaxOrders() throws DataException;
 }
