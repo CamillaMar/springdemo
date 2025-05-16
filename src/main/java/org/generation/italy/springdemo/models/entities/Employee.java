@@ -51,24 +51,24 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(Employee manager, String phone,
-                    String country, String postalCode, String region, String city,
-                    String address, LocalDateTime hireDate, LocalDateTime birthDate,
-                    String titleOfCourtesy, String title, String firstName, String lastName, int empId) {
-        this.manager = manager;
-        this.phone = phone;
-        this.country = country;
-        this.postalCode = postalCode;
-        this.region = region;
-        this.city = city;
-        this.address = address;
-        this.hireDate = hireDate;
-        this.birthDate = birthDate;
-        this.titleOfCourtesy = titleOfCourtesy;
-        this.title = title;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Employee(int empId, String lastName, String firstName, String title,
+                    String titleOfCourtesy, LocalDateTime birthDate, LocalDateTime hireDate,
+                    String address, String city, String region, String postalCode,
+                    String country, String phone, Employee manager) {
         this.empId = empId;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.title = title;
+        this.titleOfCourtesy = titleOfCourtesy;
+        this.birthDate = birthDate;
+        this.hireDate = hireDate;
+        this.address = address;
+        this.city = city;
+        this.region = region;
+        this.postalCode = postalCode;
+        this.country = country;
+        this.phone = phone;
+        this.manager = manager;
     }
 
     public int getEmpId() {
@@ -81,6 +81,9 @@ public class Employee {
 
     public Employee getManager() {
         return manager;
+    }
+    public void setManager(Employee manager) {
+        this.manager = manager;
     }
 
     public String getPhone() {

@@ -57,4 +57,12 @@ public interface JpaProductRepository extends JpaRepository<Product, Integer>, J
             WHERE p.unitPrice < :amount
             """)
     int discontinueProductsUnder(@Param("amount") BigDecimal amount);
+
+    @Query("""
+            SELECT p
+            FROM Product p
+            ORDER BY p.unitPrice DESC
+            LIMIT :numberOfProducts
+            """)
+    List<Product> findMostExpensiveProducts(@Param("numberOfProducts") Integer numberOfProducts);
 }

@@ -28,4 +28,21 @@ public interface JpaCustomerRepository extends JpaRepository<Customer, Integer> 
             )
             """)
     List<Customer> findAllCustomersWithOrders();
+
+    @Query("""
+            SELECT c
+            FROM Customer c
+            WHERE (
+                SELECT COUNT(o)
+                FROM Order o
+                WHERE o.customer.custId = c.custId
+            ) = (
+                SELECT COUNT(o)
+                FROM Order o
+                GROUP BY o.customer.custId
+                ORDER BY COUNT(o) DESC
+                LIMIT 1
+            )
+            """)
+    List<Customer> findAllCustomersWithMostOrders();
 }

@@ -7,7 +7,6 @@ import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException
 import org.generation.italy.springdemo.models.repositories.*;
 import org.generation.italy.springdemo.models.repositories.product.JpaProductRepository;
 import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,16 +23,22 @@ public class JpaStoreService implements StoreService{
     private JpaCustomerRepository customerRepo;
     private JpaOrderRepository orderRepo;
     private JpaOrderDetailsRepository orderDetailsRepo;
+    private JpaEmployeeRepository employeeRepo;
 
-    @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo,
-                           JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo) {
+    public JpaStoreService(JpaProductRepository productRepo,
+                           JpaCategoryRepository categoryRepo,
+                           JpaSupplierRepository supplierRepo,
+                           JpaCustomerRepository customerRepo,
+                           JpaOrderRepository orderRepo,
+                           JpaOrderDetailsRepository orderDetailsRepo,
+                           JpaEmployeeRepository employeeRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
         this.customerRepo = customerRepo;
         this.orderRepo = orderRepo;
         this.orderDetailsRepo = orderDetailsRepo;
+        this.employeeRepo = employeeRepo;
     }
 
     @Override
@@ -204,7 +209,6 @@ public class JpaStoreService implements StoreService{
             throw new DataException("Errore nella ricerca dei prodotti", pe);
         }
     }
-
 //    @Override
 //    public List<Product> searchProducts(ProductFilterCriteria filters) throws DataException {
 //        try {
@@ -218,4 +222,86 @@ public class JpaStoreService implements StoreService{
 //            throw new DataException("Errore nella ricerca dei prodotti", pe);
 //        }
 //    }
+
+    @Override
+    public List<Product> findMostExpensiveProducts(Integer numberOfProducts) throws DataException {
+        try {
+            return productRepo.findMostExpensiveProducts(numberOfProducts);
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella ricerca dei prodotti più costosi", pe);
+        }
+    }
+
+    @Override
+    public List<Category> findAllCategories() throws DataException{
+        try {
+            return categoryRepo.findAll();
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella ricerca di tutte le categorie", pe);
+        }
+    }
+
+    @Override
+    public List<Employee> findAllEmployeesWithMostOrders() throws DataException {
+        try {
+            return employeeRepo.findAllEmployeesWithMostOrders();
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella ricerca dell'employee con più ordini", pe);
+        }
+    }
+
+    @Override
+    public List<Employee> findAllEmployees() throws DataException {
+        try {
+            return employeeRepo.findAll();
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella ricerca di tutti gli employees", pe);
+        }
+    }
+
+    @Override
+    public Optional<Employee> findEmployeeById(int id) throws DataException {
+        try {
+            return employeeRepo.findById(id);
+        } catch (PersistenceException pe) {
+            throw new DataException(String.format("Errore nella ricerca dell'employee con l'id %d", id), pe);
+        }
+    }
+
+    @Override
+    public boolean updateEmployee(Employee e, int managerId) throws DataException, EntityNotFoundException {
+        try {
+            Optional<Employee> oe = employeeRepo.findById(e.getEmpId());
+            if (oe.isEmpty()) {
+                return false;
+            }
+
+            Optional<Employee> opManager = employeeRepo.findById(managerId);
+            Employee manager = opManager.orElseThrow(() -> new EntityNotFoundException(Employee.class, managerId));
+
+            e.setManager(manager);
+            employeeRepo.save(e);
+            return true;
+        } catch (PersistenceException pe) {
+            throw new DataException(String.format("Errore nell'aggiornamento dell'employee con id %d", e.getEmpId()), pe);
+        }
+    }
+
+    @Override
+    public List<Customer> findAllCustomers() throws DataException {
+        try {
+            return customerRepo.findAll();
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella ricerca di tutti i customers", pe);
+        }
+    }
+
+    @Override
+    public List<Customer> findAllCustomersWithMostOrders() throws DataException {
+        try {
+            return customerRepo.findAllCustomersWithMostOrders();
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella ricerca di tutti i customers con più ordini");
+        }
+    }
 }

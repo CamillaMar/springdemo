@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface JpaEmployeeRepository extends JpaRepository<Employee, Integer> {
     List<Employee> findByTitleIs(String title);
@@ -25,4 +26,21 @@ public interface JpaEmployeeRepository extends JpaRepository<Employee, Integer> 
              )
              """)
     List<Employee> findNoOrdersEmployees();
+
+    @Query("""
+            SELECT e
+            FROM Employee e
+            WHERE (
+                SELECT COUNT(o)
+                FROM Order o
+                WHERE o.employee.empId = e.empId
+            ) = (
+                SELECT COUNT(o)
+                FROM Order o
+                GROUP BY o.employee.empId
+                ORDER BY COUNT(o) DESC
+                LIMIT 1
+            )
+            """)
+    List<Employee> findAllEmployeesWithMostOrders();
 }

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/products")
 public class ProductRestController {
     private StoreService storeService;
@@ -25,17 +26,25 @@ public class ProductRestController {
     public ProductRestController(StoreService storeService) {
         this.storeService = storeService;
     }
-
+    
     @GetMapping
-    public ResponseEntity<List<ProductRestDto>> getAllProducts(@RequestParam(required = false) Integer categoryId,
+    public ResponseEntity<List<ProductRestDto>> getAllProducts(@RequestParam(required = false) Integer topN,
+                                                               @RequestParam(required = false) Integer categoryId,
                                                                @RequestParam(required = false) Integer supplierId,
                                                                @RequestParam(required = false) BigDecimal minPrice,
                                                                @RequestParam(required = false) BigDecimal maxPrice) throws DataException {
-        var filters = new ProductFilterCriteria(categoryId, supplierId, minPrice, maxPrice);
-        var productDtos = storeService.searchProducts(filters)
-                .stream()
-                .map(ProductRestDto::toDto)
-                .toList();
+        List<ProductRestDto> productDtos = null;
+
+        if (topN != null) {
+           productDtos = storeService.findMostExpensiveProducts(topN).stream()
+                   .map(ProductRestDto::toDto)
+                   .toList();
+        } else {
+            var filters = new ProductFilterCriteria(categoryId, supplierId, minPrice, maxPrice);
+            productDtos = storeService.searchProducts(filters).stream()
+                    .map(ProductRestDto::toDto)
+                    .toList();
+        }
 
         return ResponseEntity.ok(productDtos);
     }
