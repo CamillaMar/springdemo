@@ -102,10 +102,8 @@ public class ProductRestController {
         storeService.updateProduct(p, categoryId, supplierId);
         return ResponseEntity.ok().build();
     }
-    @PostMapping("/category")
-    @CrossOrigin(origins = "*")
-    public ResponseEntity<?> findByCategory(@RequestBody CategoryRequestDto request) throws DataException, EntityNotFoundException {
-        List<ProductRestDto> products = storeService.findByCategory(request.categoryId()).stream().map(ProductRestDto::toDto).toList();
-        return ResponseEntity.ok(products);
-    }
+
+//    @PatchMapping
+//    @CrossOrigin(origins = "*")
+//    public ResponseEntity<void>
 }
