@@ -2,6 +2,7 @@ package org.generation.italy.springdemo.models.repositories;
 
 import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.restdtos.CustomerOrderDto;
+import org.generation.italy.springdemo.restdtos.EmployeeOrderDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,4 +30,12 @@ public interface JpaOrderRepository extends JpaRepository<Order, Integer> {
             ORDER BY COUNT(o) DESC
             """)
     List<CustomerOrderDto> countOrdersByCustomer();
+
+    @Query("""
+            SELECT new org.generation.italy.springdemo.restdtos.EmployeeOrderDto(o.employee.empId, COUNT(o))
+            FROM Order o
+            GROUP BY o.employee.empId
+            ORDER BY COUNT(o) DESC
+            """)
+    List<EmployeeOrderDto> countOrdersByEmployee();
 }

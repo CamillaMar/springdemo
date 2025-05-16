@@ -5,6 +5,7 @@ import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
+import org.generation.italy.springdemo.restdtos.EmployeeRestDto;
 
 import javax.xml.crypto.Data;
 import java.util.List;
@@ -29,4 +30,5 @@ public interface StoreService {
     List<Product> findCategoryCategoryName(String categoryName) throws DataException;
     List<Category> findAll() throws DataException;
     Customer findCustomerWithMaxOrders() throws DataException;
+    Employee findEmployeeByCustOrders() throws DataException;
 }

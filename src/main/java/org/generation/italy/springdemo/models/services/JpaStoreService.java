@@ -9,6 +9,7 @@ import org.generation.italy.springdemo.models.repositories.*;
 import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 
 import org.generation.italy.springdemo.restdtos.CustomerOrderDto;
+import org.generation.italy.springdemo.restdtos.EmployeeOrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Limit;
@@ -29,15 +30,17 @@ public class JpaStoreService implements StoreService{
     private JpaCustomerRepository customerRepo;
     private JpaOrderRepository orderRepo;
     private JpaOrderDetailsRepository orderDetailsRepo;
+    private JpaEmployeeRepository employeeRepository;
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo, JpaEmployeeRepository employeeRepository) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
         this.customerRepo = customerRepo;
         this.orderRepo = orderRepo;
         this.orderDetailsRepo = orderDetailsRepo;
+        this.employeeRepository = employeeRepository;
     }
 
     @Override
@@ -184,9 +187,18 @@ public class JpaStoreService implements StoreService{
     public Customer findCustomerWithMaxOrders() throws DataException{
         Optional<CustomerOrderDto> optionalDto = orderRepo.countOrdersByCustomer().stream().findFirst();
         if(optionalDto.isEmpty()){
-            throw new DataException("Non è stato creato nessun customer con ordini");
+            throw new DataException("Non è stato trovato nessun customer con ordini");
         }
         Customer c = customerRepo.findById(optionalDto.get().getCustId().intValue()).get();
         return c;
+    }
+
+    public Employee findEmployeeByCustOrders() throws DataException{
+        Optional<EmployeeOrderDto> optionalDto = orderRepo.countOrdersByEmployee().stream().findFirst();
+        if(optionalDto.isEmpty()){
+            throw new DataException("Non è stato trovato nessun employee con ordini");
+        }
+        Employee e = employeeRepository.findById(optionalDto.get().getEmpId().intValue()).get();
+        return e;
     }
 }
