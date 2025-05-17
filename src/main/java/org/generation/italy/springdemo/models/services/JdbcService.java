@@ -1,10 +1,7 @@
 package org.generation.italy.springdemo.models.services;
 
 import org.generation.italy.springdemo.models.dtos.SelectListElement;
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Order;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
@@ -83,6 +80,31 @@ public class JdbcService implements StoreService{
     @Override
     public List<Product> findMostExpensiveProducts(Integer topN) {
         return List.of();
+    }
+
+    @Override
+    public Optional<Customer> findCustomerById(int id) throws DataException {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Customer> findCustomerByMostOrders() {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Employee> findEmployeeByMostOrders() {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Employee> findEmployeeById(int empId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean updateEmployee(Employee e, int managerId, List<Order> orders) {
+        return false;
     }
 
     @Override

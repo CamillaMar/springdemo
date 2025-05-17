@@ -1,41 +1,48 @@
 package org.generation.italy.springdemo.restcontrollers;
 
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Product;
+import org.generation.italy.springdemo.models.entities.Customer;
+import org.generation.italy.springdemo.models.entities.Employee;
+import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
-import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 import org.generation.italy.springdemo.models.services.StoreService;
-import org.generation.italy.springdemo.restdtos.CategoryRestDto;
-import org.generation.italy.springdemo.restdtos.ProductRestDto;
+import org.generation.italy.springdemo.restdtos.CustomerRestDto;
+import org.generation.italy.springdemo.restdtos.EmployeeRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.math.BigDecimal;
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/category")
-public class CategoryRestController {
+@RequestMapping("/api/employee")
+public class EmployeeRestController {
     private StoreService storeService;
 
     @Autowired
-    public CategoryRestController(StoreService storeService){
+    public EmployeeRestController(StoreService storeService){
         this.storeService = storeService;
     }
 
-    @GetMapping("/{id}")
+//    @GetMapping("/{id}")
+//    @CrossOrigin(origins = "*")
+//    public ResponseEntity<?> findById(@PathVariable int id) throws DataException {
+//        Optional<Customer> c = storeService.findCustomerById(id);
+//        if (c.isPresent()) {
+//            CustomerRestDto customerDto = CustomerRestDto.toDto(c.get());
+//            return ResponseEntity.ok(customerDto);
+//        }
+//        return ResponseEntity.notFound().build();
+//    }
+
+    @GetMapping("/findByMostOrders")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<?> findById(@PathVariable int id) throws DataException {
-        Optional<Category> c = storeService.findCategoryById(id);
-        if (c.isPresent()) {
-            CategoryRestDto categoryDto = CategoryRestDto.toDto(c.get());
-            return ResponseEntity.ok(categoryDto);
+    public ResponseEntity<?> findByMostOrders() throws DataException {
+        Optional<Employee> e = storeService.findEmployeeByMostOrders();
+        if (e.isPresent()) {
+            EmployeeRestDto employeeDto = EmployeeRestDto.toDto(e.get());
+            return ResponseEntity.ok(employeeDto);
         }
         return ResponseEntity.notFound().build();
     }
@@ -81,22 +88,23 @@ public class CategoryRestController {
 //                .toUri();
 //        return ResponseEntity.created(location).body(saved);
 //    }
-//    @PutMapping("/{id}")
-//    public ResponseEntity<?> updateCategory(@PathVariable int id, @RequestBody ProductRestDto newProduct) throws DataException, EntityNotFoundException {
-//        if(id != newProduct.getProductId()){
-//            return ResponseEntity.badRequest().body("l'id del path de del dto non corrispondono");
-//        }
-//
-//        Optional<Product> op = storeService.findProductById(newProduct.getProductId());
-//        if(op.isEmpty()){
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        Product p = newProduct.toProduct();
-//        int categoryId = newProduct.getCategoryId();
-//        int supplierId = newProduct.getSupplierId();
-//
-//        storeService.updateProduct(p, categoryId, supplierId);
-//        return ResponseEntity.ok().build();
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateEmployee(@PathVariable int id, @RequestBody EmployeeRestDto newEmployee) throws DataException, EntityNotFoundException {
+        if(id != newEmployee.getEmpId()){
+            return ResponseEntity.badRequest().body("l'id del path de del dto non corrispondono");
+        }
+
+        Optional<Employee> oe = storeService.findEmployeeById(newEmployee.getEmpId());
+        if(oe.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        Employee e = newEmployee.toEmployee();
+        int managerId = newEmployee.getManagerId();
+        List<Order> orders = oe.get().getOrders();
+
+        storeService.updateEmployee(e, managerId, orders);
+        return ResponseEntity.ok().build();
+    }
 }
+

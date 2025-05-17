@@ -2,10 +2,7 @@ package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
 import org.generation.italy.springdemo.models.dtos.SelectListElement;
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Order;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
@@ -14,6 +11,7 @@ import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriter
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Limit;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -32,15 +30,16 @@ public class JpaStoreService implements StoreService{
     private JpaCustomerRepository customerRepo;
     private JpaOrderRepository orderRepo;
     private JpaOrderDetailsRepository orderDetailsRepo;
+    private JpaEmployeeRepository employeeRepo;
 
-    @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo, JpaEmployeeRepository employeeRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
         this.customerRepo = customerRepo;
         this.orderRepo = orderRepo;
         this.orderDetailsRepo = orderDetailsRepo;
+        this.employeeRepo = employeeRepo;
     }
 
     @Override
@@ -157,9 +156,57 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    public List<Product> findMostExpensiveProducts(Integer topN) {
+    public List<Product> findMostExpensiveProducts(Integer topN) throws DataException {
         List<Product> products = productRepo.findByOrderByCostDesc(Limit.of(topN));
         return products;
+    }
+
+    @Override
+    public Optional<Customer> findCustomerById(int id) throws DataException {
+        return customerRepo.findById(id);
+    }
+
+    @Override
+    public Optional<Customer> findCustomerByMostOrders() throws DataException {
+        List<Customer> customers = customerRepo.findCustomerByMostOrders(PageRequest.of(0, 1));
+        if (customers.isEmpty()){
+            return Optional.empty();
+        }
+        return Optional.of(customers.getFirst());
+    }
+
+    @Override
+    public Optional<Employee> findEmployeeByMostOrders() throws DataException{
+        List<Employee> employees = employeeRepo.findEmployeeByMostOrders(PageRequest.of(0, 1));
+        if (employees.isEmpty()){
+            return Optional.empty();
+        }
+        return Optional.of(employees.getFirst());
+    }
+
+    @Override
+    public Optional<Employee> findEmployeeById(int empId) throws DataException{
+        return employeeRepo.findById(empId);
+    }
+
+    @Override
+    public boolean updateEmployee(Employee newEmployee, int managerId, List<Order> orders) throws DataException, EntityNotFoundException {
+        try {
+            Optional<Employee> oe = employeeRepo.findById(newEmployee.getEmpId());
+            if(oe.isEmpty()){
+                return false;
+            }
+
+            Employee manager = employeeRepo.findById(managerId).orElseThrow(()-> new EntityNotFoundException(Employee.class, managerId));
+
+            newEmployee.setManager(manager);
+
+            employeeRepo.save(newEmployee);
+
+            return true;
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella modifica di un employee", pe);
+        }
     }
 
     @Override

@@ -1,10 +1,7 @@
 package org.generation.italy.springdemo.models.services;
 
 import org.generation.italy.springdemo.models.dtos.SelectListElement;
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Order;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
@@ -27,5 +24,14 @@ public interface StoreService {
     void deleteOrder(Integer orderId);
     boolean updateProduct(Product newProduct, int categoryId, int supplierId) throws DataException, EntityNotFoundException;
     List<Product> searchProduct(ProductFilterCriteria filters) throws DataException;
-    List<Product> findMostExpensiveProducts(Integer topN);
+    List<Product> findMostExpensiveProducts(Integer topN) throws DataException;
+    Optional<Customer> findCustomerById(int id) throws DataException;
+
+    Optional<Customer> findCustomerByMostOrders() throws DataException;
+
+    Optional<Employee> findEmployeeByMostOrders() throws DataException;
+
+    Optional<Employee> findEmployeeById(int empId) throws DataException;
+
+    boolean updateEmployee(Employee e, int managerId, List<Order> orders) throws DataException, EntityNotFoundException;
 }

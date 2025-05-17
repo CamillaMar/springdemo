@@ -1,41 +1,43 @@
 package org.generation.italy.springdemo.restcontrollers;
 
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Product;
+import org.generation.italy.springdemo.models.entities.Customer;
 import org.generation.italy.springdemo.models.exceptions.DataException;
-import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
-import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 import org.generation.italy.springdemo.models.services.StoreService;
-import org.generation.italy.springdemo.restdtos.CategoryRestDto;
-import org.generation.italy.springdemo.restdtos.ProductRestDto;
+import org.generation.italy.springdemo.restdtos.CustomerRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.math.BigDecimal;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/category")
-public class CategoryRestController {
+@RequestMapping("/api/customer")
+public class CustomerRestController {
     private StoreService storeService;
 
     @Autowired
-    public CategoryRestController(StoreService storeService){
+    public CustomerRestController(StoreService storeService){
         this.storeService = storeService;
     }
 
     @GetMapping("/{id}")
     @CrossOrigin(origins = "*")
     public ResponseEntity<?> findById(@PathVariable int id) throws DataException {
-        Optional<Category> c = storeService.findCategoryById(id);
+        Optional<Customer> c = storeService.findCustomerById(id);
         if (c.isPresent()) {
-            CategoryRestDto categoryDto = CategoryRestDto.toDto(c.get());
-            return ResponseEntity.ok(categoryDto);
+            CustomerRestDto customerDto = CustomerRestDto.toDto(c.get());
+            return ResponseEntity.ok(customerDto);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/findByMostOrders")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<?> findByMostOrders() throws DataException {
+        Optional<Customer> c = storeService.findCustomerByMostOrders();
+        if (c.isPresent()) {
+            CustomerRestDto customerDto = CustomerRestDto.toDto(c.get());
+            return ResponseEntity.ok(customerDto);
         }
         return ResponseEntity.notFound().build();
     }

@@ -1,11 +1,15 @@
 package org.generation.italy.springdemo.models.repositories;
 
+import org.generation.italy.springdemo.models.entities.Customer;
 import org.generation.italy.springdemo.models.entities.Employee;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface JpaEmployeeRepository extends JpaRepository<Employee, Integer> {
     List<Employee> findByTitleIs(String title);
@@ -27,4 +31,11 @@ public interface JpaEmployeeRepository extends JpaRepository<Employee, Integer> 
                 )
             """)
     List<Employee> findNoOrdersEmployees();
+
+    @Query("""
+        SELECT e
+        FROM Employee e
+        ORDER BY SIZE(e.orders) DESC
+    """)
+    List<Employee> findEmployeeByMostOrders(Pageable pageable);
 }
