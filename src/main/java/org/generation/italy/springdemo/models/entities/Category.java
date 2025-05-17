@@ -23,10 +23,15 @@ public class Category {
 
     public Category() {
     }
-
     public Category(String categoryName, String description) {
         this.categoryName = categoryName;
         this.description = description;
+    }
+    public Category(int id, String categoryName, String description, List<Product> products) {
+        this.categoryId = id;
+        this.categoryName = categoryName;
+        this.description = description;
+        this.products = products;
     }
 
     public List<Product> getProducts() {

@@ -73,6 +73,7 @@ public class ProductRestController {
     }
 
     @PostMapping
+    @CrossOrigin(origins = "*")
     public ResponseEntity<ProductRestDto> createProduct(@RequestBody ProductRestDto dto) throws DataException, EntityNotFoundException {
         Product p = dto.toProduct();
         storeService.saveProduct(p, dto.getSupplierId(), dto.getCategoryId());
