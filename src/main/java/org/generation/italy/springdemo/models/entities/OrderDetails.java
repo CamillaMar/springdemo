@@ -62,4 +62,5 @@ public class OrderDetails {
     public BigDecimal getDiscount() {
         return discount;
     }
+
 }

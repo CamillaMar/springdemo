@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -214,4 +215,11 @@ public class JpaStoreService implements StoreService{
         employeeRepository.save(e);
         return true;
     }
+
+    @Override
+    public List<OrderDetails> findOrderDetailsByUnitPrice(BigDecimal unitPrice) throws DataException {
+        return orderDetailsRepo.findByUnitPrice(unitPrice);
+    }
+
+
 }

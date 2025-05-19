@@ -25,7 +25,6 @@ public class CustomerRestController {
         this.storeService = storeService;
     }
 
-
     @GetMapping("/most-orders")
     public ResponseEntity<?> findCustomerWithMaxOrders() throws DataException {
         Customer cMaxOrders =  storeService.findCustomerWithMaxOrders();

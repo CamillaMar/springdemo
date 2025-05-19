@@ -5,9 +5,8 @@ import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
-import org.generation.italy.springdemo.restdtos.EmployeeRestDto;
 
-import javax.xml.crypto.Data;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +30,7 @@ public interface StoreService {
     List<Category> findAll() throws DataException;
     Customer findCustomerWithMaxOrders() throws DataException;
     Employee findEmployeeByCustOrders() throws DataException;
-    public Optional<Employee> findEmployeeById(int id);
-    public boolean updateEmployee(Employee e, int managerId) throws EntityNotFoundException;
+    Optional<Employee> findEmployeeById(int id);
+    boolean updateEmployee(Employee e, int managerId) throws EntityNotFoundException;
+    List<OrderDetails> findOrderDetailsByUnitPrice(BigDecimal unitPrice) throws DataException;
 }
