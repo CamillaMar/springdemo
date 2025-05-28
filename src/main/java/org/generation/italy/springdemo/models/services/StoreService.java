@@ -24,5 +24,11 @@ public interface StoreService {
     boolean deleteProduct(int id) throws DataException;
     Product updateProduct(Product p, int supplierID, int categoryId) throws DataException;
     List<Product> searchProducts(Integer categoryId, Integer supplierId, BigDecimal minPrice, BigDecimal maxPrice) throws DataException;
+    List<Student> findAllStudents() throws DataException;
+    Optional<Student> findStudentById(int id) throws DataException;
+    boolean deleteStudent(int id) throws DataException;
 
+    Student updateStudent(Student st);
+
+    void saveStudent(Student s);
 }
