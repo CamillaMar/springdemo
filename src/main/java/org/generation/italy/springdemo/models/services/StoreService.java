@@ -4,7 +4,6 @@ import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.searchCriteria.OrderFilterCriteria;
-import org.springframework.beans.PropertyValues;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -51,6 +50,11 @@ public interface StoreService {
 
     List<Student> findAllStudent() throws DataException;
 
-    Optional <Student> findStudentByIs(int id) throws DataException;
+    Optional <Student> findStudentById(int id) throws DataException;
+
     boolean deleteStudent(int id) throws DataException;
+
+    Student saveStudent(Student s, int id) throws DataException, EntityNotFoundException;
+
+    boolean updateStudent(Student s, int id) throws DataException, EntityNotFoundException;
 }

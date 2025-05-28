@@ -213,8 +213,8 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    public Optional<Student> findStudentByIs(int id) throws DataException {
-        return Optional.empty();
+    public Optional<Student> findStudentById(int id) throws DataException {
+        return studentRepo.findById(id);
     }
 
     @Override
@@ -227,4 +227,31 @@ public class JpaStoreService implements StoreService{
         return false;
     }
 
+    @Override
+    public Student saveStudent(Student s, int id) throws DataException, EntityNotFoundException {
+        try {
+            Optional<Student> os = studentRepo.findById(id);
+            if(os.isEmpty()){
+                throw new EntityNotFoundException(Student.class, id);
+            }
+            studentRepo.save(s);
+            return s;
+        } catch (PersistenceException pe) {
+            throw new DataException("errore nella creazione di un nuovo studente", pe);
+        }
+    }
+
+    @Override
+    public boolean updateStudent(Student s, int id) throws DataException, EntityNotFoundException {
+        try {
+            Optional<Student> os = studentRepo.findById(s.getId());
+            if(os.isEmpty()){
+                return false;
+            }
+            studentRepo.save(s);
+            return true;
+        } catch (PersistenceException pe) {
+            throw new DataException("errore nella modifica dello studente", pe);
+        }
+    }
 }

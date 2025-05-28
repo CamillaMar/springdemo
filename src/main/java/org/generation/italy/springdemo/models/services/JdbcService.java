@@ -112,12 +112,22 @@ public class JdbcService implements StoreService{
     }
 
     @Override
-    public Optional<Student> findStudentByIs(int id) throws DataException {
+    public Optional<Student> findStudentById(int id) throws DataException {
         return Optional.empty();
     }
 
     @Override
     public boolean deleteStudent(int id) throws DataException {
+        return false;
+    }
+
+    @Override
+    public Student saveStudent(Student s, int id) throws DataException, EntityNotFoundException {
+        return null;
+    }
+
+    @Override
+    public boolean updateStudent(Student s, int id) throws DataException, EntityNotFoundException {
         return false;
     }
 }
