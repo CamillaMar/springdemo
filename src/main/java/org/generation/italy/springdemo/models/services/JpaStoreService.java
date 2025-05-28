@@ -9,8 +9,6 @@ import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.repositories.*;
-import org.generation.italy.springdemo.restdtos.ProductRestDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -28,14 +26,18 @@ public class JpaStoreService implements StoreService{
     private JpaCustomerRepository customerRepo;
     private JpaOrderRepository orderRepo;
     private EntityManager em;
+    private JpaStudentRepository studentRepo;
 
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, EntityManager em) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo,
+                           JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo,
+                           JpaOrderRepository orderRepo, EntityManager em, JpaStudentRepository studentRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
         this.customerRepo = customerRepo;
         this.orderRepo = orderRepo;
         this.em = em;
+        this.studentRepo = studentRepo;
     }
 
     @Override
@@ -180,6 +182,37 @@ public class JpaStoreService implements StoreService{
         TypedQuery<Product> typedQuery = em.createQuery(criteriaQuery);
         // SELECT p FROM Product p WHERE categoryId = 2 AND minPrice >= 10
         return typedQuery.getResultList();
+    }
+
+    @Override
+    public List<Student> findAllStudents() throws DataException {
+        return studentRepo.findAll();
+    }
+
+    @Override
+    public Optional<Student> findStudentById(int id) throws DataException {
+        return studentRepo.findById(id);
+    }
+
+    @Override
+    public boolean deleteStudent(int id) throws DataException {
+        Optional<Student> os = studentRepo.findById(id);
+        if (os.isPresent()) {
+            studentRepo.delete(os.get());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Student updateStudent(Student st) {
+        studentRepo.save(st);
+        return st;
+    }
+
+    @Override
+    public void saveStudent(Student s) {
+        studentRepo.save(s);
     }
 
 }

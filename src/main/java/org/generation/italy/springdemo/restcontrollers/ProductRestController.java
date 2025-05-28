@@ -84,8 +84,6 @@ public class ProductRestController {
         storeService.updateProduct(p, productRestDto.getSupplierId(), productRestDto.getCategoryId());
         return ResponseEntity.ok(ProductRestDto.toDto(p));
 
-
-
     }
 
 
