@@ -1,10 +1,7 @@
 package org.generation.italy.springdemo.models.services;
 
 import org.generation.italy.springdemo.models.dtos.SelectListElement;
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Order;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
@@ -78,6 +75,21 @@ public class JdbcService implements StoreService{
     @Override
     public List<Product> searchProduct(ProductFilterCriteria filters) {
         return List.of();
+    }
+
+    @Override
+    public List<Student> findAllStudents() throws DataException {
+        return List.of();
+    }
+
+    @Override
+    public Optional<Student> findStudentById(int id) throws DataException {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean deleteStudent(int id) throws DataException {
+        return false;
     }
 
     @Override

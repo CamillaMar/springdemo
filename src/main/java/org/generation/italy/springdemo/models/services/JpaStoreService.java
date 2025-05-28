@@ -2,10 +2,7 @@ package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
 import org.generation.italy.springdemo.models.dtos.SelectListElement;
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Order;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
@@ -30,15 +27,20 @@ public class JpaStoreService implements StoreService{
     private JpaCustomerRepository customerRepo;
     private JpaOrderRepository orderRepo;
     private JpaOrderDetailsRepository orderDetailsRepo;
+    private JpaStudentRepository studentRepo;
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo,
+                           JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo,
+                           JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo,
+                           JpaStudentRepository studentRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
         this.customerRepo = customerRepo;
         this.orderRepo = orderRepo;
         this.orderDetailsRepo = orderDetailsRepo;
+        this.studentRepo = studentRepo;
     }
 
     @Override
@@ -154,6 +156,7 @@ public class JpaStoreService implements StoreService{
         }
     }
 
+
     @Override
     @Transactional
     public boolean deleteProduct(int id) throws DataException {
@@ -164,4 +167,25 @@ public class JpaStoreService implements StoreService{
         }
         return false;
     }
+
+    @Override
+    public List<Student> findAllStudents() throws DataException {
+        return studentRepo.findAll();
+    }
+
+    @Override
+    public Optional<Student> findStudentById(int id) throws DataException {
+        return studentRepo.findById(id);
+    }
+
+    @Override
+    public boolean deleteStudent(int id) throws DataException {
+        Optional<Student> os = studentRepo.findById(id);
+        if(os.isPresent()) {
+            studentRepo.delete(os.get());
+            return true;
+        }
+        return false;
+    }
+
 }
