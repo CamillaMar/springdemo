@@ -1,12 +1,10 @@
 package org.generation.italy.springdemo.models.services;
 
-import org.generation.italy.springdemo.models.dtos.SelectListElement;
 import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
-import org.generation.italy.springdemo.models.searchcriteria.CustomerFilterCriteria;
-import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
-import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
+import org.generation.italy.springdemo.restdtos.ProductRestDto;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,15 +14,15 @@ public interface StoreService {
     List<Product> findByProductNameContains(String name) throws DataException;
     List<Product> findProductsByDiscontinued(int discontinued) throws DataException;
     List<Product> findAllProducts() throws DataException;
-    Product saveProduct(Product p, int supplierId, int categoryId) throws DataException, EntityNotFoundException;
-    List<Category> findAllCategories() throws DataException;
-    List<Supplier> findAllSuppliers() throws DataException;
+    Product saveProduct(Product p, int supplierId, int categoryId) throws DataException;
+    List<Category> findAllCategories();
+    List<Supplier> findAllSuppliers();
+    List<Customer> findAllCustomers();
+    List<Order> findByCustId(int custId);
+    void deleteOrderById(Integer id);
+    Optional<Order> findOrderById (int id) ;
     boolean deleteProduct(int id) throws DataException;
-    List<SelectListElement> getSelectListCustomers();
-    List<Order> findOrdersByCustomer(Integer CustId);
-    void deleteOrder(Integer orderId);
-    boolean updateProduct(Product newProduct, int categoryId, int supplierId) throws DataException, EntityNotFoundException;
-    List<Product> searchProduct(ProductFilterCriteria filters) throws DataException;
-    List<Customer> searchCustomers(CustomerFilterCriteria filters) throws DataException;
-    List<Employee> findAllEmployees();
+    Product updateProduct(Product p, int supplierID, int categoryId) throws DataException;
+    List<Product> searchProducts(Integer categoryId, Integer supplierId, BigDecimal minPrice, BigDecimal maxPrice) throws DataException;
+
 }
