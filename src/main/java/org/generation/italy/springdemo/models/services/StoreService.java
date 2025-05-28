@@ -40,4 +40,11 @@ public interface StoreService {
     List<Customer> findAllCustomersWithOrders() throws DataException;
     List<Customer> findAllCustomers() throws DataException;
     List<Customer> findAllCustomersWithMostOrders() throws DataException;
+
+    // Student
+    List<Student> findAllStudents() throws DataException;
+    Optional<Student> findStudentById(int id) throws DataException;
+    boolean deleteStudentById(int id) throws DataException, EntityNotFoundException;
+    Student saveStudent(Student s) throws DataException;
+    boolean updateStudent(Student s) throws DataException, EntityNotFoundException;
 }

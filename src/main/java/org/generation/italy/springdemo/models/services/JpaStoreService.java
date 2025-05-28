@@ -24,6 +24,7 @@ public class JpaStoreService implements StoreService{
     private JpaOrderRepository orderRepo;
     private JpaOrderDetailsRepository orderDetailsRepo;
     private JpaEmployeeRepository employeeRepo;
+    private JpaStudentRepository studentRepo;
 
     public JpaStoreService(JpaProductRepository productRepo,
                            JpaCategoryRepository categoryRepo,
@@ -31,7 +32,8 @@ public class JpaStoreService implements StoreService{
                            JpaCustomerRepository customerRepo,
                            JpaOrderRepository orderRepo,
                            JpaOrderDetailsRepository orderDetailsRepo,
-                           JpaEmployeeRepository employeeRepo) {
+                           JpaEmployeeRepository employeeRepo,
+                           JpaStudentRepository studentRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
@@ -39,6 +41,7 @@ public class JpaStoreService implements StoreService{
         this.orderRepo = orderRepo;
         this.orderDetailsRepo = orderDetailsRepo;
         this.employeeRepo = employeeRepo;
+        this.studentRepo = studentRepo;
     }
 
     @Override
@@ -302,6 +305,62 @@ public class JpaStoreService implements StoreService{
             return customerRepo.findAllCustomersWithMostOrders();
         } catch (PersistenceException pe) {
             throw new DataException("Errore nella ricerca di tutti i customers con più ordini");
+        }
+    }
+
+    @Override
+    public List<Student> findAllStudents() throws DataException {
+        try {
+            return studentRepo.findAll();
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella ricerca di tutti gli studenti", pe);
+        }
+    }
+
+    @Override
+    public Optional<Student> findStudentById(int id) throws DataException {
+        try {
+            return studentRepo.findById(id);
+        } catch (PersistenceException pe) {
+            throw new DataException(String.format("Errore nella ricerca dello studente con id %d", id), pe);
+        }
+    }
+
+    @Override
+    public boolean deleteStudentById(int id) throws DataException, EntityNotFoundException {
+        try {
+            Optional<Student> os = studentRepo.findById(id);
+            if (os.isEmpty()) {
+                return false;
+            }
+            studentRepo.delete(os.get());
+            return true;
+        } catch (PersistenceException pe) {
+            throw new DataException(String.format("Errore nella cancellazione dello studente con id %d", id), pe);
+        }
+    }
+
+    @Override
+    public Student saveStudent(Student s) throws DataException {
+        try {
+            studentRepo.save(s);
+            return s;
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella creazione dello studente", pe);
+        }
+    }
+
+    @Override
+    public boolean updateStudent(Student s) throws DataException, EntityNotFoundException {
+        try {
+            Optional<Student> os = studentRepo.findById(s.getStudentId());
+            if (os.isEmpty()) {
+                return false;
+            }
+            studentRepo.save(s);
+            return true;
+        } catch (PersistenceException pe) {
+            throw new DataException(String.format("Errore nell'aggiornamento dello studente con id %d", s.getStudentId()), pe);
         }
     }
 }

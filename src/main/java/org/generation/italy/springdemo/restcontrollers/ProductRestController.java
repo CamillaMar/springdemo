@@ -34,7 +34,6 @@ public class ProductRestController {
                                                                @RequestParam(required = false) BigDecimal minPrice,
                                                                @RequestParam(required = false) BigDecimal maxPrice) throws DataException {
         List<ProductRestDto> productDtos = null;
-
         if (topN != null) {
            productDtos = storeService.findMostExpensiveProducts(topN).stream()
                    .map(ProductRestDto::toDto)
@@ -45,7 +44,6 @@ public class ProductRestController {
                     .map(ProductRestDto::toDto)
                     .toList();
         }
-
         return ResponseEntity.ok(productDtos);
     }
 

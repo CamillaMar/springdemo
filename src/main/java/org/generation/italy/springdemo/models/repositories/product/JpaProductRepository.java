@@ -21,7 +21,7 @@ public interface JpaProductRepository extends JpaRepository<Product, Integer>, J
 
     // List<Product> findByCategoryCategoryName(String name);
     @Query("""
-            SELECT p 
+            SELECT p
             FROM Product p JOIN p.category c
             WHERE c.categoryName = :name
             """)

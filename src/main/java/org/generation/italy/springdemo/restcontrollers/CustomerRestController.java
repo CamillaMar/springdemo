@@ -3,7 +3,6 @@ package org.generation.italy.springdemo.restcontrollers;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.services.StoreService;
 import org.generation.italy.springdemo.restdtos.CustomerRestDto;
-import org.generation.italy.springdemo.restdtos.EmployeeRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
