@@ -1,6 +1,5 @@
 package org.generation.italy.springdemo.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -13,17 +12,23 @@ public class Supplier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "supplierid")
     private int supplierId;
+
     @Column(name = "companyname")
     private String companyName;
+
     @Column(name = "contactname")
     private String contactName;
+
     @Column(name = "contacttitle")
     private String contactTitle;
+
     private String address;
     private String city;
     private String region;
+
     @Column(name = "postalcode")
     private String postalCode;
+
     private String country;
     private String phone;
     private String fax;

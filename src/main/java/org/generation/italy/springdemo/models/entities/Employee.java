@@ -2,7 +2,6 @@ package org.generation.italy.springdemo.models.entities;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,24 +13,34 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "empid")
     private int empId;
+
     @Column(name = "lastname")
     private String lastName;
+
     @Column(name = "firstname")
     private String firstName;
+
     private String title;
+
     @Column(name = "titleofcourtesy")
     private String titleOfCourtesy;
+
     @Column(name = "birthdate")
     private LocalDateTime birthDate;
+
     @Column(name = "hiredate")
     private LocalDateTime hireDate;
+
     private String address;
     private String city;
     private String region;
+
     @Column(name = "postalcode")
     private String postalCode;
+
     private String country;
     private String phone;
+
     @ManyToOne
     @JoinColumn( name = "mgrid")
     private Employee manager;
