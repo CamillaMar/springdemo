@@ -27,10 +27,13 @@ public class JpaStoreService implements StoreService{
     private JpaOrderDetailsRepository orderDetailsRepo;
     private JpaCustomerRepository customerRepo;
     private JpaEmployeeRepository employeeRepo;
+    private JpaStudentRepository studentRepo;
 
     @Autowired
     public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo,
-                           JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo, JpaCustomerRepository customerRepo, JpaEmployeeRepository employeeRepo){
+                           JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo,
+                           JpaCustomerRepository customerRepo, JpaEmployeeRepository employeeRepo,
+                           JpaStudentRepository studentRepo){
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
@@ -38,6 +41,7 @@ public class JpaStoreService implements StoreService{
         this.orderDetailsRepo = orderDetailsRepo;
         this.customerRepo = customerRepo;
         this.employeeRepo = employeeRepo;
+        this.studentRepo = studentRepo;
     }
 
     @Override
@@ -201,6 +205,26 @@ public class JpaStoreService implements StoreService{
     @Override
     public List<Employee> searchEmployee() {
         return employeeRepo.findAll();
+    }
+
+    @Override
+    public List<Student> findAllStudent() throws DataException {
+        return studentRepo.findAll();
+    }
+
+    @Override
+    public Optional<Student> findStudentByIs(int id) throws DataException {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean deleteStudent(int id) throws DataException {
+        Optional<Student> st = studentRepo.findById(id);
+        if(st.isPresent()){
+            studentRepo.delete(st.get());
+            return true;
+        }
+        return false;
     }
 
 }

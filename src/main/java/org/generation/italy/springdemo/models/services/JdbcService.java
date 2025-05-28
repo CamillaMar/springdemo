@@ -100,4 +100,24 @@ public class JdbcService implements StoreService{
     public List<Order> searchOrders(OrderFilterCriteria filters) {
         return List.of();
     }
+
+    @Override
+    public List<Employee> searchEmployee() {
+        return List.of();
+    }
+
+    @Override
+    public List<Student> findAllStudent() throws DataException {
+        return List.of();
+    }
+
+    @Override
+    public Optional<Student> findStudentByIs(int id) throws DataException {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean deleteStudent(int id) throws DataException {
+        return false;
+    }
 }
