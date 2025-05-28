@@ -1,16 +1,10 @@
 package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Customer;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
-import org.generation.italy.springdemo.models.repositories.CustomProductRepository;
-import org.generation.italy.springdemo.models.repositories.JpaCategoryRepository;
-import org.generation.italy.springdemo.models.repositories.JpaProductRepository;
-import org.generation.italy.springdemo.models.repositories.JpaSupplierRepository;
+import org.generation.italy.springdemo.models.repositories.*;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -28,16 +22,19 @@ public class JpaStoreService implements StoreService{
     private JpaCategoryRepository categoryRepo;
     private JpaSupplierRepository supplierRepo;
     private CustomProductRepository customProductRepository;
+    private JpaStudentRepository studentRepo;
 
     @Autowired
     public JpaStoreService(JpaProductRepository productRepo,
                            JpaCategoryRepository categoryRepo,
                            JpaSupplierRepository supplierRepo,
-                           CustomProductRepository customProductRepository) {
+                           CustomProductRepository customProductRepository,
+                           JpaStudentRepository studentRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
         this.customProductRepository=customProductRepository;
+        this.studentRepo=studentRepo;
     }
 
     @Override
@@ -137,4 +134,25 @@ public class JpaStoreService implements StoreService{
         categoryRepo.delete(category);
         return true;
     }
+
+    @Override
+    public List<Student> findAllStudents() throws DataException {
+        return studentRepo.findAll();
+    }
+
+    @Override
+    public Optional<Student> findStudentById(int id) throws DataException {
+        return studentRepo.findById(id);
+    }
+
+    @Override
+    public boolean deleteStudent(int id) throws DataException {
+        Optional<Student> os = studentRepo.findById(id);
+        if(os.isPresent()) {
+            studentRepo.delete(os.get());
+            return true;
+        }
+        return false;
+    }
+
 }

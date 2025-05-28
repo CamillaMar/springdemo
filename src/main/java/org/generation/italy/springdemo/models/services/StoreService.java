@@ -1,9 +1,6 @@
 package org.generation.italy.springdemo.models.services;
 
-import org.generation.italy.springdemo.models.entities.Category;
-import org.generation.italy.springdemo.models.entities.Customer;
-import org.generation.italy.springdemo.models.entities.Product;
-import org.generation.italy.springdemo.models.entities.Supplier;
+import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
@@ -26,4 +23,7 @@ public interface StoreService {
     List<Product> searchAllProducts(Integer supplierId, Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice ) throws DataException;
     Category saveCategory(Category category) throws DataException;
     boolean deleteCategory(Category category) throws DataException;
+    List<Student> findAllStudents() throws DataException;
+    Optional<Student> findStudentById(int id) throws DataException;
+    boolean deleteStudent(int id) throws DataException;
 }
