@@ -67,7 +67,7 @@ public class StudentRestController {
         return ResponseEntity.created(location).body(saved);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateStudent(@PathVariable int id, @RequestBody StudentRestDto dto) throws DataException, EntityNotFoundException{
         if(id != dto.getId()){
             return ResponseEntity.badRequest().body("L'id del path non corrisponde all'id del dto");
