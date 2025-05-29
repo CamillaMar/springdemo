@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
-@Table(name = "todo")
+@Table(name = "todos")
 public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -34,7 +34,7 @@ public class TodoRestController {
         return ResponseEntity.ok(todos);
     }
 
-    @GetMapping("{/id}")
+    @GetMapping("/{id}")
     @CrossOrigin(origins = "*")
     public ResponseEntity<?> findById(@PathVariable int id) throws DataException {
        var response = storeService.findTodoById(id);
