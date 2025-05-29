@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +33,8 @@ public class JpaStoreService implements StoreService{
     private JpaOrderRepository orderRepo;
     private JpaOrderDetailsRepository orderDetailsRepo;
     private JpaEmployeeRepository employeeRepo;
+    private JpaTodoRepository todoRepo;
+
 
     public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo, JpaEmployeeRepository employeeRepo) {
         this.productRepo = productRepo;
@@ -208,6 +212,54 @@ public class JpaStoreService implements StoreService{
             throw new DataException("Errore nella modifica di un employee", pe);
         }
     }
+
+    @Override
+    public Optional<Todo> findTodoById(int id) throws DataException {
+        return todoRepo.findById(id);
+    }
+
+    @Override
+    public List<Todo> findAllTodos() throws DataException {
+        return todoRepo.findAll();
+    }
+
+    @Override
+    public boolean deleteTodo(int id) throws DataException, EntityNotFoundException {
+        Optional<Todo> ot = todoRepo.findById(id);
+        if(ot.isPresent()) {
+            todoRepo.delete(ot.get());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    @Transactional
+    public Todo saveTodo(Todo t) throws DataException {
+        t.setCreationDate(LocalDate.now());
+        return todoRepo.save(t);
+    }
+
+    @Override
+    public boolean updateTodo(Todo newTodo) throws DataException, EntityNotFoundException {
+        try {
+            Optional<Todo> ot = todoRepo.findById(newTodo.getTodoId());
+            if(ot.isEmpty()){
+                return false;
+            }
+            Todo oldTodo = ot.get();
+            newTodo.setCreationDate(oldTodo.getCreationDate());
+            newTodo.setCompletionDate(oldTodo.getCompletionDate());
+            if(newTodo.isComplete() && oldTodo.getCompletionDate() == null) {
+                newTodo.setCompletionDate(LocalDate.now());
+            }
+            todoRepo.save(newTodo);
+            return true;
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella modifica di un todo", pe);
+        }
+    }
+
 
     @Override
     @Transactional

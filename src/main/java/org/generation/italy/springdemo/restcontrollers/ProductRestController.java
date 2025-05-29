@@ -103,8 +103,4 @@ public class ProductRestController {
         storeService.updateProduct(p, categoryId, supplierId);
         return ResponseEntity.ok().build();
     }
-
-//    @PatchMapping
-//    @CrossOrigin(origins = "*")
-//    public ResponseEntity<void>
 }

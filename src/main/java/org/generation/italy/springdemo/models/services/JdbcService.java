@@ -108,6 +108,31 @@ public class JdbcService implements StoreService{
     }
 
     @Override
+    public Optional<Todo> findTodoById(int id) throws DataException {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Todo> findAllTodos() throws DataException {
+        return List.of();
+    }
+
+    @Override
+    public boolean deleteTodo(int id) throws DataException, EntityNotFoundException {
+        return false;
+    }
+
+    @Override
+    public Todo saveTodo(Todo t) throws DataException {
+        return null;
+    }
+
+    @Override
+    public boolean updateTodo(Todo todo) throws DataException, EntityNotFoundException {
+        return false;
+    }
+
+    @Override
     public boolean deleteProduct(int id) throws DataException {
         return false;
     }

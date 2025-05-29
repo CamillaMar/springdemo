@@ -6,6 +6,7 @@ import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,4 +35,14 @@ public interface StoreService {
     Optional<Employee> findEmployeeById(int empId) throws DataException;
 
     boolean updateEmployee(Employee e, int managerId, List<Order> orders) throws DataException, EntityNotFoundException;
+
+    Optional<Todo> findTodoById(int id) throws DataException;
+
+    List<Todo> findAllTodos() throws DataException;
+
+    boolean deleteTodo(int id) throws DataException, EntityNotFoundException;
+
+    Todo saveTodo(Todo t) throws DataException;
+
+    boolean updateTodo(Todo todo) throws DataException, EntityNotFoundException;
 }
