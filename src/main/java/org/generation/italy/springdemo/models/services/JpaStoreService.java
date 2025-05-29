@@ -9,6 +9,7 @@ import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.entities.Order;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.repositories.*;
+import org.generation.italy.springdemo.models.searchcriteria.CustomerFilterCriteria;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -213,6 +214,16 @@ public class JpaStoreService implements StoreService{
     @Override
     public void saveStudent(Student s) {
         studentRepo.save(s);
+    }
+
+    @Override
+    public Object searchCustomers(CustomerFilterCriteria filters) {
+        return null;
+    }
+
+    @Override
+    public List<Employee> findAllEmployees() {
+        return List.of();
     }
 
 }

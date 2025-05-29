@@ -31,10 +31,10 @@ public class CustomerRestController {
         CustomerFilterCriteria filters = new CustomerFilterCriteria(custId, companyName, contactName, contactTitle, city,
                                             region, country);
 
-        var filteredCustomers = storeService.searchCustomers(filters);
-        var dtos = filteredCustomers.stream().map(CustomerRestDto::toDto).toList();
+//        var filteredCustomers = storeService.searchCustomers(filters);
+//        var dtos = filteredCustomers.stream().map(CustomerRestDto::toDto).toList();
 
-        return ResponseEntity.ok(dtos);
+        return ResponseEntity.ok("culo");
     }
 
 }

@@ -2,6 +2,7 @@ package org.generation.italy.springdemo.models.services;
 
 import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.models.searchcriteria.CustomerFilterCriteria;
 import org.generation.italy.springdemo.restdtos.ProductRestDto;
 
 import java.math.BigDecimal;
@@ -31,4 +32,8 @@ public interface StoreService {
     Student updateStudent(Student st);
 
     void saveStudent(Student s);
+
+    Object searchCustomers(CustomerFilterCriteria filters);
+
+    List<Employee> findAllEmployees();
 }
