@@ -11,7 +11,11 @@ import org.generation.italy.springdemo.models.repositories.specifications.Produc
 import org.generation.italy.springdemo.models.searchCriteria.OrderFilterCriteria;
 import org.generation.italy.springdemo.models.searchCriteria.ProductFilterCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +32,12 @@ public class JpaStoreService implements StoreService{
     private JpaOrderDetailsRepository orderDetailsRepo;
     private JpaCustomerRepository customerRepo;
     private JpaEmployeeRepository employeeRepo;
+    private JpaStudentRepository studentRepo;
 
     @Autowired
     public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo,
                            JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo, JpaCustomerRepository customerRepo,
-                            JpaEmployeeRepository employeeRepo){
+                            JpaEmployeeRepository employeeRepo, JpaStudentRepository studentRepo){
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
@@ -40,6 +45,7 @@ public class JpaStoreService implements StoreService{
         this.orderDetailsRepo = orderDetailsRepo;
         this.customerRepo = customerRepo;
         this.employeeRepo = employeeRepo;
+        this.studentRepo = studentRepo;
     }
 
     @Override
@@ -204,6 +210,16 @@ public class JpaStoreService implements StoreService{
     public List<Order> searchOrders(OrderFilterCriteria ofc) throws DataException {
         return orderRepo.searchOrdersFilters(ofc);
     }
+    @Override
+    public List<Product> findAllProductsOrderByUnitPrice(Integer topN) {
+        return productRepo.findAllOrderByUnitPriceDesc(topN);
+    }
+
+//    public Page<Product> findPageProductsOrderByUnitPrice(Integer topN) { ????
+//        // return productRepo.findAllOrderByUnitPriceDesc(topN);
+//        Pageable pageRequest = PageRequest.of(0, topN);
+//        return productRepo.findAllOrderByUnitPriceDesc(topN);
+//    }
 
     @Override
     public List<Customer> searchCustomer() throws DataException {
@@ -213,6 +229,11 @@ public class JpaStoreService implements StoreService{
     @Override
     public List<Customer> findCustomerByOrderNum(Integer limite) throws DataException {
         return customerRepo.findByMaxOrders(limite);
+    }
+
+    @Override
+    public List<Customer> findCustomerByMostOrders() throws DataException {
+        return customerRepo.findCustomerByMostOrders(PageRequest.of(0, 1));
     }
 
     @Override
@@ -244,4 +265,50 @@ public class JpaStoreService implements StoreService{
             throw new DataException("errore nella modifica di un employee", pe);
         }
     }
+
+    @Override
+    public List<Student> findAllStudents() throws DataException {
+        return studentRepo.findAll();
+    }
+
+    @Override
+    public Optional<Student> findStudentById(int id) throws DataException {
+        return studentRepo.findById(id);
+    }
+
+    @Override
+    public boolean deleteStudent(int id) throws DataException {
+        Optional<Student> os = studentRepo.findById(id);
+        if(os.isPresent()){
+            studentRepo.delete(os.get());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Student saveStudent(Student s) throws DataException, EntityNotFoundException {
+        try {
+            studentRepo.save(s);
+            return s;
+        } catch (PersistenceException pe) {
+            throw new DataException("errore nella creazione di un nuovo studente", pe);
+        }
+    }
+
+    @Override
+    public boolean updateStudent(Student s) throws DataException, EntityNotFoundException {
+        try{
+            Optional<Student> os = studentRepo.findById(s.getId());
+            if(os.isEmpty()){
+                throw new DataException("errore studente non trovato");
+            }
+            studentRepo.save(s);
+
+            return true;
+        } catch (PersistenceException pe) {
+            throw new DataException("errore nella modifica di uno studente", pe);
+        }
+    }
+
 }

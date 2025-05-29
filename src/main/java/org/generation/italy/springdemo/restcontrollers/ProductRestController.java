@@ -34,18 +34,19 @@ public class ProductRestController {
                                             @RequestParam(required = false) BigDecimal minPrice,
                                             @RequestParam(required = false) BigDecimal maxPrice,
                                             @RequestParam(required = false) String productName,
-                                            @RequestParam(required = false) Integer discontinued) throws DataException{
+                                            @RequestParam(required = false) Integer discontinued) throws DataException {
 
-        if(topN != null){
-            //calcola i tot prodotti più costosi e li ritorni
+        if (topN != null) {
+            List<ProductRestDto> products1 = storeService.findAllProductsOrderByUnitPrice(topN).stream().map(ProductRestDto::toDto).toList();
+            return ResponseEntity.ok(products1);
+        } else {
+            ProductFilterCriteria filters = new ProductFilterCriteria(supplierId, categoryId, minPrice, maxPrice, productName, discontinued);
+            List<ProductRestDto> productDtos = storeService.searchProducts(filters)
+                    .stream().map(ProductRestDto::toDto).toList();
+            //  List<ProductRestDto> productDtos = storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
+            //  return ResponseEntity.status(200).body(productDtos);
+            return ResponseEntity.ok(productDtos);
         }
-
-        ProductFilterCriteria filters = new ProductFilterCriteria(supplierId, categoryId, minPrice, maxPrice, productName, discontinued);
-        List<ProductRestDto> productDtos = storeService.searchProducts(filters)
-                .stream().map(ProductRestDto::toDto).toList();
-        //  List<ProductRestDto> productDtos = storeService.findAllProducts().stream().map(ProductRestDto::toDto).toList();
-        //  return ResponseEntity.status(200).body(productDtos);
-        return ResponseEntity.ok(productDtos);
     }
 
     @GetMapping("/name/{name}")

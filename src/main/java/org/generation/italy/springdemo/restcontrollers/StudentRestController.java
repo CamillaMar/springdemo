@@ -1,0 +1,88 @@
+package org.generation.italy.springdemo.restcontrollers;
+
+import org.generation.italy.springdemo.models.entities.Product;
+import org.generation.italy.springdemo.models.entities.Student;
+import org.generation.italy.springdemo.models.exceptions.DataException;
+import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
+import org.generation.italy.springdemo.models.services.StoreService;
+import org.generation.italy.springdemo.restdtos.ProductRestDto;
+import org.generation.italy.springdemo.restdtos.StudentRestDto;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@CrossOrigin(origins = "*")
+@RequestMapping("/api/students")
+public class StudentRestController {
+    private StoreService storeService;
+
+    public StudentRestController(StoreService storeService) {
+        this.storeService = storeService;
+    }
+
+    @GetMapping
+    public ResponseEntity<?> searchStudents() throws DataException {
+        List<StudentRestDto> studentDtos = storeService.findAllStudents().stream().map(StudentRestDto::toDto).toList();
+        return ResponseEntity.ok(studentDtos);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable int id) throws DataException {
+        Optional<Student> os = storeService.findStudentById(id);
+        if(os.isEmpty()){
+            return ResponseEntity.notFound().build();
+        } else {
+            StudentRestDto studentDto = StudentRestDto.toDto(os.get());
+            return ResponseEntity.ok(studentDto);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteStudent(@PathVariable int id) throws DataException {
+        boolean deleted = storeService.deleteStudent(id);
+        if(!deleted){
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<StudentRestDto> createStudent(@RequestBody StudentRestDto dto) throws DataException, EntityNotFoundException {
+        Student s = dto.toStudent();
+        storeService.saveStudent(s);
+        StudentRestDto saved = StudentRestDto.toDto(s);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(saved.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(saved);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateStudent(@PathVariable int id, @RequestBody StudentRestDto dto) throws DataException, EntityNotFoundException {
+        if(dto.getId() != id){
+            return ResponseEntity.badRequest().body("L'id del path non corrisponde all'id del dto");
+        }
+        Optional<Student> os = storeService.findStudentById(id);
+        if(os.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        Student s = dto.toStudent();
+
+
+        boolean updated = storeService.updateStudent(s);
+        if (updated) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+}

@@ -22,6 +22,7 @@ public class CustomerRestController {
 
     @GetMapping
     public ResponseEntity<?> findCustomer(@RequestParam(required = false) Integer limite) throws DataException {
+        // return CustomerRestDto.toDto(storeService.findCustomerByMostOrders().getFirst());
         if(limite != null){
             List<CustomerRestDto> customersOrders = storeService.findCustomerByOrderNum(limite).stream().map(CustomerRestDto::toDto).toList();
             return ResponseEntity.ok(customersOrders);

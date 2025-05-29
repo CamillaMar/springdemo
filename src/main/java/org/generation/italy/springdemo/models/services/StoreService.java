@@ -34,4 +34,11 @@ public interface StoreService {
     List<Employee> findEmployeeByOrderNum(Integer limite) throws DataException;
     Optional<Employee> findEmployeeById(int id);
     Employee updateEmployee(Employee e, int mgrId) throws DataException, EntityNotFoundException;
+    List<Product> findAllProductsOrderByUnitPrice(Integer topN);
+    List<Customer> findCustomerByMostOrders() throws DataException;
+    List<Student> findAllStudents() throws DataException;
+    Optional<Student> findStudentById(int id) throws DataException;
+    boolean deleteStudent(int id) throws DataException;
+    Student saveStudent(Student s) throws DataException, EntityNotFoundException;
+    boolean updateStudent(Student s)throws DataException, EntityNotFoundException;
 }

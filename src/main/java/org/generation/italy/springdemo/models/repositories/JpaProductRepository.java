@@ -27,10 +27,10 @@ public interface JpaProductRepository extends JpaRepository<Product,Integer>, Cr
     List<ProductSummary> getProductSummaries();
 
     @Query("""
-            SELECT p 
-            FROM Product p 
+            SELECT p
+            FROM Product p
             WHERE p.productId NOT IN (
-                SELECT od.product.productId 
+                SELECT od.product.productId
                 FROM OrderDetails od
             )
             """)
@@ -39,4 +39,7 @@ public interface JpaProductRepository extends JpaRepository<Product,Integer>, Cr
     @Modifying
     @Query("UPDATE Product p SET p.discontinued = 1 WHERE p.unitPrice < :amount")
     int discontinueProductsUnder(@Param("amount") BigDecimal amount);
+
+    @Query("SELECT p FROM Product p ORDER BY unitPrice DESC LIMIT :topN")
+    List<Product> findAllOrderByUnitPriceDesc(@Param("topN") Integer topN);
 }

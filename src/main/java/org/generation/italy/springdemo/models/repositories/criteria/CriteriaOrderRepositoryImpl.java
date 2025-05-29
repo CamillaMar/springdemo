@@ -42,7 +42,7 @@ public class CriteriaOrderRepositoryImpl implements CriteriaOrderRepository{
                 LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
 
                 predicates.add(cb.between(root.get("orderDate"), startOfDay, endOfDay));
-            }
+        }
         if(filters.getFreight() != null){
             predicates.add(cb.equal(root.get("freight"), filters.getFreight()));
         }

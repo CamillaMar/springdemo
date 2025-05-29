@@ -1,6 +1,7 @@
 package org.generation.italy.springdemo.models.repositories;
 
 import org.generation.italy.springdemo.models.entities.Customer;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +27,11 @@ public interface JpaCustomerRepository extends JpaRepository<Customer, Integer> 
     LIMIT :limite
     """)
     List<Customer> findByMaxOrders(@Param("limite") Integer limite);
+
+    @Query("""
+    SELECT c
+    FROM Customer c
+    ORDER BY SIZE(c.orders) DESC
+    """)
+    List<Customer> findCustomerByMostOrders(Pageable page);
 }
