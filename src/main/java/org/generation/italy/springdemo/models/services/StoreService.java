@@ -54,7 +54,7 @@ public interface StoreService {
 
     boolean deleteStudent(int id) throws DataException;
 
-    Student saveStudent(Student s, int id) throws DataException, EntityNotFoundException;
+    Student saveStudent(Student s) throws DataException, EntityNotFoundException;
 
     boolean updateStudent(Student s, int id) throws DataException, EntityNotFoundException;
 }

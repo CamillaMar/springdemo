@@ -228,18 +228,15 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
-    public Student saveStudent(Student s, int id) throws DataException, EntityNotFoundException {
+    public Student saveStudent(Student s) throws DataException {
         try {
-            Optional<Student> os = studentRepo.findById(id);
-            if(os.isEmpty()){
-                throw new EntityNotFoundException(Student.class, id);
-            }
             studentRepo.save(s);
             return s;
         } catch (PersistenceException pe) {
-            throw new DataException("errore nella creazione di un nuovo studente", pe);
+            throw new DataException("Errore nella creazione dello studente", pe);
         }
     }
+
 
     @Override
     public boolean updateStudent(Student s, int id) throws DataException, EntityNotFoundException {

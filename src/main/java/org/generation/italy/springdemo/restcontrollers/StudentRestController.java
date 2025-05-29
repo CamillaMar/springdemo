@@ -56,8 +56,9 @@ public class StudentRestController {
     @PostMapping
     public ResponseEntity<StudentRestDto> createStudent(@RequestBody StudentRestDto dto) throws DataException, EntityNotFoundException {
         Student s = dto.toStudent();
-        storeService.saveStudent(s, s.getId());
+        storeService.saveStudent(s);
         StudentRestDto saved = StudentRestDto.toDto(s);
+
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

@@ -122,7 +122,7 @@ public class JdbcService implements StoreService{
     }
 
     @Override
-    public Student saveStudent(Student s, int id) throws DataException, EntityNotFoundException {
+    public Student saveStudent(Student s) throws DataException, EntityNotFoundException {
         return null;
     }
 
