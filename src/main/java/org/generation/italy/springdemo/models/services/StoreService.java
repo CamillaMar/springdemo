@@ -24,7 +24,11 @@ public interface StoreService {
     void deleteOrder(Integer orderId);
     boolean updateProduct(Product newProduct, int categoryId, int supplierId) throws DataException, EntityNotFoundException;
     List<Product> searchProduct(ProductFilterCriteria filters) throws DataException;
+
+
     List<Student> findAllStudents() throws DataException;
     Optional<Student> findStudentById(int id) throws DataException;
     boolean deleteStudent(int id) throws DataException;
+    boolean updateStudent(Student newStudent) throws DataException, EntityNotFoundException;
+    Student saveStudent(Student s) throws DataException, EntityNotFoundException;
 }
