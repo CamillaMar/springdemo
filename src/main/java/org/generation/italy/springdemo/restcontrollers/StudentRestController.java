@@ -60,7 +60,7 @@ public class StudentRestController {
         if (id != stDto.getId()){
             return ResponseEntity.badRequest().body("Id risorsa e id del dto non corrispondono");
         }
-        Student st = stDto.toStudent();
+        Student st = stDto.toStudent(id);
         storeService.updateStudent(st);
         return ResponseEntity.ok(StudentRestDto.toDto(st));
     }
