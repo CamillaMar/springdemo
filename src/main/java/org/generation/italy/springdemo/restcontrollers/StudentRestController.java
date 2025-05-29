@@ -52,7 +52,7 @@ public class StudentRestController {
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(savedStudent.getStudentId())
+                .buildAndExpand(savedStudent.getId())
                 .toUri();
 
         return ResponseEntity.ok(savedStudent);
@@ -60,7 +60,7 @@ public class StudentRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<StudentRestDto> updateStudent(@PathVariable int id, @RequestBody StudentRestDto dto) throws DataException, EntityNotFoundException {
-        if (dto.getStudentId() != id) {
+        if (dto.getId() != id) {
             return ResponseEntity.badRequest().build();
         }
 

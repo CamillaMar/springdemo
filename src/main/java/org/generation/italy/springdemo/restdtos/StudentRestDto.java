@@ -2,43 +2,43 @@ package org.generation.italy.springdemo.restdtos;
 
 import org.generation.italy.springdemo.models.entities.Student;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class StudentRestDto {
-    private int studentId;
-    private String firstname;
+    private int id;
+    private String name;
     private String lastname;
     private String gender;
-    private Date birthdate;
+    private LocalDate birthDate;
     private String favoriteLanguage;
 
     public StudentRestDto() {
     }
 
-    public StudentRestDto(int studentId, String firstname, String lastname,
-                   String gender, Date birthdate, String favoriteLanguage) {
-        this.studentId = studentId;
-        this.firstname = firstname;
+    public StudentRestDto(int id, String name, String lastname,
+                          String gender, LocalDate birthDate, String favoriteLanguage) {
+        this.id = id;
+        this.name = name;
         this.lastname = lastname;
         this.gender = gender;
-        this.birthdate = birthdate;
+        this.birthDate = birthDate;
         this.favoriteLanguage = favoriteLanguage;
     }
 
     public static StudentRestDto toDto(Student s) {
-        return new StudentRestDto(s.getStudentId(), s.getFirstname(), s.getLastname(), s.getGender(), s.getBirthdate(), s.getFavoriteLanguage());
+        return new StudentRestDto(s.getId(), s.getName(), s.getLastname(), s.getGender(), s.getBirthdate(), s.getFavoriteLanguage());
     }
 
     public Student toStudent() {
-        return new Student(studentId, firstname, lastname, gender, birthdate, favoriteLanguage);
+        return new Student(id, name, lastname, gender, birthDate, favoriteLanguage);
     }
 
-    public int getStudentId() {
-        return studentId;
+    public int getId() {
+        return id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getName() {
+        return name;
     }
 
     public String getLastname() {
@@ -49,8 +49,8 @@ public class StudentRestDto {
         return gender;
     }
 
-    public Date getBirthdate() {
-        return birthdate;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
     public String getFavoriteLanguage() {

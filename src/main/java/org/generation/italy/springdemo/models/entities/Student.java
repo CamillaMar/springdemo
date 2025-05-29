@@ -2,43 +2,41 @@ package org.generation.italy.springdemo.models.entities;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "students")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "studentid")
-    private int studentId;
-
-    private String firstname;
+    private int id;
+    private String name;
     private String lastname;
     private String gender;
-    private Date birthdate;
+    private LocalDate birthdate;
 
-    @Column(name = "favoritelanguage")
+    @Column(name = "favorite_language")
     private String favoriteLanguage;
 
     public Student() {
     }
 
-    public Student(int studentId, String firstname, String lastname,
-                   String gender, Date birthdate, String favoriteLanguage) {
-        this.studentId = studentId;
-        this.firstname = firstname;
+    public Student(int id, String name, String lastname,
+                   String gender, LocalDate birthdate, String favoriteLanguage) {
+        this.id = id;
+        this.name = name;
         this.lastname = lastname;
         this.gender = gender;
         this.birthdate = birthdate;
         this.favoriteLanguage = favoriteLanguage;
     }
 
-    public int getStudentId() {
-        return studentId;
+    public int getId() {
+        return id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getName() {
+        return name;
     }
 
     public String getLastname() {
@@ -49,7 +47,7 @@ public class Student {
         return gender;
     }
 
-    public Date getBirthdate() {
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
