@@ -15,6 +15,9 @@ public class StudentRestDto {
     public Student toStudent(){
         return new Student(null, name, lastname, gender, birthDate, favoriteLanguage);
     }
+    public Student toStudent(int id){
+        return new Student(id, name, lastname, gender, birthDate, favoriteLanguage);
+    }
 
     public static StudentRestDto toDto(Student st){
         return new StudentRestDto(st.getId(), st.getName(), st.getLastname(), st.getGender(), st.getBirthDate(),st.getFavoriteLanguage());
