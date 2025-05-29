@@ -27,4 +27,6 @@ public interface StoreService {
     List<Student> findAllStudents() throws DataException;
     Optional<Student> findStudentById(int id) throws DataException;
     boolean deleteStudent(int id) throws DataException;
+    Student saveStudent(Student s) throws DataException;
+    boolean updateStudent(Student s) throws DataException, EntityNotFoundException;
 }
