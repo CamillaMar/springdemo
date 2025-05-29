@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<form th:action="@{/find-order}" method="get">
+  <div>
+    <label for="custId">Customer</label>
+    <select id="custId" name="custId">
+      <option th:each="element : ${selectList}" th:value="${element.id}" th:text="${element.description}"> Alberto Angela</option>
+    </select>
+  </div>
+  <button type="submit">select</button>
+</form>
+</body>
+</html>

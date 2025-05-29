@@ -1,17 +1,20 @@
 package org.generation.italy.springdemo.models.services;
 
 import jakarta.persistence.PersistenceException;
+import org.generation.italy.springdemo.models.dtos.SelectListElement;
 import org.generation.italy.springdemo.models.entities.*;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.repositories.*;
-import org.generation.italy.springdemo.restdtos.ProductRestDto;
+import org.generation.italy.springdemo.models.searchcriteria.ProductFilterCriteria;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -21,20 +24,23 @@ public class JpaStoreService implements StoreService{
     private JpaProductRepository productRepo;
     private JpaCategoryRepository categoryRepo;
     private JpaSupplierRepository supplierRepo;
-    private CustomProductRepository customProductRepository;
+    private JpaCustomerRepository customerRepo;
+    private JpaOrderRepository orderRepo;
+    private JpaOrderDetailsRepository orderDetailsRepo;
     private JpaStudentRepository studentRepo;
 
     @Autowired
-    public JpaStoreService(JpaProductRepository productRepo,
-                           JpaCategoryRepository categoryRepo,
-                           JpaSupplierRepository supplierRepo,
-                           CustomProductRepository customProductRepository,
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo,
+                           JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo,
+                           JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo,
                            JpaStudentRepository studentRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
-        this.customProductRepository=customProductRepository;
-        this.studentRepo=studentRepo;
+        this.customerRepo = customerRepo;
+        this.orderRepo = orderRepo;
+        this.orderDetailsRepo = orderDetailsRepo;
+        this.studentRepo = studentRepo;
     }
 
     @Override
@@ -101,6 +107,57 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
+    public List<SelectListElement> getSelectListCustomers() {
+        return customerRepo.getSelectListCustomers();
+    }
+
+    @Override
+    public List<Order> findOrdersByCustomer(Integer custId) {
+        List<Order> ordersBy = orderRepo.findByCustomerCustId(custId);
+        return ordersBy;
+    }
+
+    @Override
+    @Transactional
+    public void deleteOrder(Integer orderId) {
+        orderDetailsRepo.deleteOrderDetailsByOrderId(orderId);
+        orderRepo.deleteById(orderId);
+    }
+
+    @Override
+    @Transactional
+    public boolean updateProduct(Product newProduct, int categoryId, int supplierId) throws DataException, EntityNotFoundException {
+        try {
+            Optional<Product> op = productRepo.findById(newProduct.getProductId());
+            if(op.isEmpty()){
+                return false;
+            }
+
+            Supplier s = supplierRepo.findById(supplierId).orElseThrow(()-> new EntityNotFoundException(Supplier.class, supplierId));
+            Category c = categoryRepo.findById(categoryId).orElseThrow(()-> new EntityNotFoundException(Category.class, categoryId));
+
+            newProduct.setSupplier(s);
+            newProduct.setCategory(c);
+
+            productRepo.save(newProduct);
+
+            return true;
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella modifica di un prodotto", pe);
+        }
+    }
+
+    @Override
+    public List<Product> searchProduct(ProductFilterCriteria filters) throws DataException{
+        try{
+            return productRepo.searchProducts(filters);
+        }catch(PersistenceException pe){
+            throw new DataException("Errore nella ricerca del prodotto", pe);
+        }
+    }
+
+
+    @Override
     @Transactional
     public boolean deleteProduct(int id) throws DataException {
         Optional<Product> op = productRepo.findById(id);
@@ -109,30 +166,6 @@ public class JpaStoreService implements StoreService{
             return true;
         }
         return false;
-    }
-
-    @Override
-    public Product updateProduct(Product product, ProductRestDto dto) throws DataException, EntityNotFoundException {
-        product.setProductName(dto.getProductName());
-        product.setCost(dto.getUnitPrice());
-        product.setDiscontinued(dto.isDiscontinued() ? 1:0);
-        return saveProduct(product, dto.getSupplierId(), dto.getCategoryId());
-    }
-
-    @Override
-    public List<Product> searchAllProducts(Integer supplierId, Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice) throws DataException {
-        return customProductRepository.searchAllProducts(supplierId, categoryId, minPrice, maxPrice);
-    }
-
-    @Override
-    public Category saveCategory(Category category) throws DataException {
-        return categoryRepo.save(category);
-    }
-
-    @Override
-    public boolean deleteCategory(Category category) throws DataException {
-        categoryRepo.delete(category);
-        return true;
     }
 
     @Override
@@ -155,4 +188,27 @@ public class JpaStoreService implements StoreService{
         return false;
     }
 
+    @Override
+    public Student saveStudent(Student s) throws DataException {
+        try {
+            studentRepo.save(s);
+            return s;
+        } catch (PersistenceException pe) {
+            throw new DataException("Errore nella creazione dello studente", pe);
+        }
+    }
+
+    @Override
+    public boolean updateStudent(Student s) throws DataException, EntityNotFoundException {
+        try {
+            Optional<Student> os = studentRepo.findById(s.getId());
+            if (os.isEmpty()) {
+                return false;
+            }
+            studentRepo.save(s);
+            return true;
+        } catch (PersistenceException pe) {
+            throw new DataException(String.format("Errore nell'aggiornamento dello studente con id %d", s.getId()), pe);
+        }
+    }
 }

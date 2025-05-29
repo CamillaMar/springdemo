@@ -1,5 +1,6 @@
 package org.generation.italy.springdemo.models.repositories;
 
+import org.generation.italy.springdemo.models.dtos.SelectListElement;
 import org.generation.italy.springdemo.models.entities.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,4 +20,8 @@ public interface JpaCustomerRepository extends JpaRepository<Customer, Integer> 
     @Modifying
     @Query("DELETE FROM Customer c WHERE c.region IS NULL OR c.region = :region")
     int deleteCustomerFromRegion(@Param("region") String region);
+
+    @Query("SELECT new org.generation.italy.springdemo.models.dtos.SelectListElement(c.custId, c.contactName) FROM Customer c")
+    List<SelectListElement> getSelectListCustomers();
+
 }
