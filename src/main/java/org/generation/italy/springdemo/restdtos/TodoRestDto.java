@@ -2,11 +2,10 @@ package org.generation.italy.springdemo.restdtos;
 import org.generation.italy.springdemo.models.entities.Todo;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class TodoRestDto {
 
-    private int todoId;
+    private int id;
     private String title;
     private String description;
     private LocalDate creationDate;
@@ -15,8 +14,8 @@ public class TodoRestDto {
 
     public TodoRestDto(){}
 
-    public TodoRestDto(int todoId, String title, String description, LocalDate creationDate, boolean isComplete, LocalDate completionDate) {
-        this.todoId = todoId;
+    public TodoRestDto(int id, String title, String description, LocalDate creationDate, boolean isComplete, LocalDate completionDate) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.creationDate = creationDate;
@@ -25,19 +24,19 @@ public class TodoRestDto {
     }
 
     public Todo toTodo(){
-        return new Todo(todoId, title, description, creationDate, isComplete, completionDate);
+        return new Todo(id, title, description, creationDate, isComplete, completionDate);
     }
 
     public static TodoRestDto toDto(Todo todo){
         return new TodoRestDto(todo.getTodoId(), todo.getTitle(), todo.getDescription(), todo.getCreationDate(), todo.isComplete(), todo.getCompletionDate());
     }
 
-    public int getTodoId() {
-        return todoId;
+    public int getId() {
+        return id;
     }
 
-    public void setTodoId(int todoId) {
-        this.todoId = todoId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -64,7 +63,7 @@ public class TodoRestDto {
         this.creationDate = creationDate;
     }
 
-    public boolean isComplete() {
+    public boolean getIsComplete() {
         return isComplete;
     }
 

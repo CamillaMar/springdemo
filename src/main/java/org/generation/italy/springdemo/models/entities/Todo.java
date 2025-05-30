@@ -3,7 +3,6 @@ package org.generation.italy.springdemo.models.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "todos")
@@ -77,7 +76,7 @@ public class Todo {
         this.creationDate = creationDate;
     }
 
-    public void setComplete(boolean complete) {
+    public void setIsComplete(boolean complete) {
         isComplete = complete;
     }
 

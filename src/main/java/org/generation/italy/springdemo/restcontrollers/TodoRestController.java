@@ -1,11 +1,9 @@
 package org.generation.italy.springdemo.restcontrollers;
 
-import org.generation.italy.springdemo.models.entities.Product;
 import org.generation.italy.springdemo.models.entities.Todo;
 import org.generation.italy.springdemo.models.exceptions.DataException;
 import org.generation.italy.springdemo.models.exceptions.EntityNotFoundException;
 import org.generation.italy.springdemo.models.services.StoreService;
-import org.generation.italy.springdemo.restdtos.ProductRestDto;
 import org.generation.italy.springdemo.restdtos.TodoRestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +44,7 @@ public class TodoRestController {
     }
 
     @DeleteMapping("/{id}")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<Void> deleteById(@PathVariable int id) throws DataException, EntityNotFoundException {
         boolean deleted = storeService.deleteTodo(id);
         if(deleted){
@@ -64,20 +63,21 @@ public class TodoRestController {
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(saved.getTodoId())
+                .buildAndExpand(saved.getId())
                 .toUri();
         return ResponseEntity.created(location).body(saved);
     }
     @PutMapping("/{id}")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<?> updateProduct(@PathVariable int id, @RequestBody TodoRestDto newTodo) throws DataException, EntityNotFoundException {
-        if(id != newTodo.getTodoId()){
+        if(id != newTodo.getId()){
             return ResponseEntity.badRequest().body("l'id del path de del dto non corrispondono");
         }
         Optional<Todo> ot = storeService.findTodoById(id);
         if(ot.isEmpty()){
             return ResponseEntity.notFound().build();
         }
-        storeService.updateTodo(ot.get());
+        storeService.updateTodo(newTodo.toTodo());
         return ResponseEntity.ok().build();
     }
 }

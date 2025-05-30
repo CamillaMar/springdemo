@@ -36,7 +36,7 @@ public class JpaStoreService implements StoreService{
     private JpaTodoRepository todoRepo;
 
 
-    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo, JpaEmployeeRepository employeeRepo) {
+    public JpaStoreService(JpaProductRepository productRepo, JpaCategoryRepository categoryRepo, JpaSupplierRepository supplierRepo, JpaCustomerRepository customerRepo, JpaOrderRepository orderRepo, JpaOrderDetailsRepository orderDetailsRepo, JpaEmployeeRepository employeeRepo, JpaTodoRepository todoRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.supplierRepo = supplierRepo;
@@ -44,6 +44,7 @@ public class JpaStoreService implements StoreService{
         this.orderRepo = orderRepo;
         this.orderDetailsRepo = orderDetailsRepo;
         this.employeeRepo = employeeRepo;
+        this.todoRepo = todoRepo;
     }
 
     @Override
@@ -194,6 +195,7 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
+    @Transactional
     public boolean updateEmployee(Employee newEmployee, int managerId, List<Order> orders) throws DataException, EntityNotFoundException {
         try {
             Optional<Employee> oe = employeeRepo.findById(newEmployee.getEmpId());
@@ -224,6 +226,7 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
+    @Transactional
     public boolean deleteTodo(int id) throws DataException, EntityNotFoundException {
         Optional<Todo> ot = todoRepo.findById(id);
         if(ot.isPresent()) {
@@ -241,6 +244,7 @@ public class JpaStoreService implements StoreService{
     }
 
     @Override
+    @Transactional
     public boolean updateTodo(Todo newTodo) throws DataException, EntityNotFoundException {
         try {
             Optional<Todo> ot = todoRepo.findById(newTodo.getTodoId());
